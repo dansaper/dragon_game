@@ -1,7 +1,9 @@
+import { ResourceValueModel, ResourceModel, ResourceTypes, ResourcesModel, GameStateModel } from "./GameStateModels";
+
 export class ResourceValue {
-    value: number;
-    constructor(value: number) {
-        this.value = value;
+    public value: number;
+    constructor(o: ResourceValueModel) {
+        this.value = o.value;
     }
     changeValue(change: number) {
         this.value = this.value + change;
@@ -11,22 +13,30 @@ export class ResourceValue {
     }
 }
 
-export interface Resource {
-    readonly displayName: string
-    value: ResourceValue,
+export class Resource {
+    public readonly displayName: string;
+    public value: ResourceValue;
+    constructor(o: ResourceModel) {
+        this.displayName = o.displayName;
+        this.value = new ResourceValue(o.value);
+    }
 }
 
-export enum ResourceTypes {
-    WYVERN_BONE,
-    WYVERN_HIDE
+export class Resources {
+    public basic: Map<ResourceTypes, Resource>;
+    constructor(o: ResourcesModel) {
+        this.basic = new Map();
+        o.basic.forEach((resource, type) => {
+            this.basic.set(type, new Resource(resource));
+        });
+    }
 }
 
-export interface Resources {
-    basic: Map<ResourceTypes, Resource>
-}
-
-export interface GameState {
-    resources: Resources
+export class GameState {
+    public resources: Resources;
+    constructor(o: GameStateModel) {
+        this.resources = new Resources(o.resources);
+    }
 }
 
 export interface Game {

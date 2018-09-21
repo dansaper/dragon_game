@@ -1,4 +1,5 @@
-import {GameState, ResourceTypes} from "../GameState";
+import {GameState} from "../GameState";
+import { ResourceTypes } from "../GameStateModels";
 
 export class GameWorker {
     tick(state: GameState) {

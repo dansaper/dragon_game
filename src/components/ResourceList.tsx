@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Resources, ResourceTypes, Resource} from "../GameState";
+import {Resources} from "../GameState";
 
 export class ResourceList extends React.Component<Resources, {}> {
     render() {

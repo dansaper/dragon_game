@@ -1,0 +1,34 @@
+html, body {
+    height: 100%;
+}
+
+.game_pane {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.resource_pane {
+    min-width: 200px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.resource_lines {
+    padding: 15px;
+}
+
+.resource_line {
+    display: flex;
+    justify-content: space-around;
+}
+
+.main_content_pane {
+    flex: 1 1 auto;
+    border-style: solid;
+    border-width: 1px;
+    padding: 30px;
+}
+
+

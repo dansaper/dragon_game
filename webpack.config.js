@@ -40,7 +40,7 @@ module.exports = [{
     ...tsArgs
 }, {
     mode: "development",
-    name: "main",
+    name: "main_worker",
     entry: "./src/game_worker/GameWorkerScript.ts",
     output: {
     filename: "worker_bundle.js",

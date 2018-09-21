@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Game} from "../GameState";
+import {Game} from "../game_worker/WorkerGameState";
 import {ResourceList} from "./ResourceList";
 
 export class GamePane extends React.Component<Game, {}> {

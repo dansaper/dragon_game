@@ -1,6 +1,6 @@
-import {GameState} from "../GameState"
+import {GameState} from "./WorkerGameState"
 import {GameWorker} from "./GameWorker";
-import { GameStateModel, ResourceTypes } from "../GameStateModels";
+import { ResourceTypes } from "../GameStateModels";
 
 const ctx: Worker = self as any;
 const worker = new GameWorker();

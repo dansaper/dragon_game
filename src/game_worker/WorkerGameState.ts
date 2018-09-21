@@ -1,6 +1,6 @@
-import { ResourceValueModel, ResourceModel, ResourceTypes, ResourcesModel, GameStateModel } from "./GameStateModels";
+import { ResourceValueModel, ResourceModel, ResourceTypes, ResourcesModel, GameStateModel } from "../GameStateModels";
 
-export class ResourceValue {
+export class ResourceValue implements ResourceValueModel {
     public value: number;
     constructor(o: ResourceValueModel) {
         this.value = o.value;
@@ -13,7 +13,7 @@ export class ResourceValue {
     }
 }
 
-export class Resource {
+export class Resource implements ResourceModel {
     public readonly displayName: string;
     public value: ResourceValue;
     constructor(o: ResourceModel) {
@@ -22,7 +22,7 @@ export class Resource {
     }
 }
 
-export class Resources {
+export class Resources implements ResourcesModel {
     public basic: Map<ResourceTypes, Resource>;
     constructor(o: ResourcesModel) {
         this.basic = new Map();
@@ -32,7 +32,7 @@ export class Resources {
     }
 }
 
-export class GameState {
+export class GameState implements GameStateModel {
     public resources: Resources;
     constructor(o: GameStateModel) {
         this.resources = new Resources(o.resources);

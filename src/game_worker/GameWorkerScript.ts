@@ -1,25 +1,22 @@
-import {GameState} from "./WorkerGameState"
-import {GameWorker} from "./GameWorker";
-import { ResourceTypes } from "../GameStateModels";
+import { ResourceTypes } from "../common/GameStateModels";
+import { GameWorker } from "./GameWorker";
+import { GameState } from "./WorkerGameState";
 
+// We're actually running from a web worker, not a window
 const ctx: Worker = self as any;
+
 const worker = new GameWorker();
 
 let currentState: GameState;
-currentState = new GameState({
-    resources: {
-        basic: new Map([
-            [ResourceTypes.WYVERN_BONE, { value: {value: 0}, displayName: "Wyvern Bone"}],
-            [ResourceTypes.WYVERN_HIDE, { value: {value: 3}, displayName: "Wyvern Hide"}]
-        ])
-    }
-});
+currentState = new GameState(
+  new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]])
+);
 
 startTicking(1000);
 
 function startTicking(time: number) {
-    setInterval(() => {
-        currentState = worker.tick(currentState);
-        ctx.postMessage(currentState);
-    }, time)
+  setInterval(() => {
+    currentState = worker.tick(currentState);
+    ctx.postMessage(currentState);
+  }, time);
 }

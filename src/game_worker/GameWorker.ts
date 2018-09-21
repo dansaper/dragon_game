@@ -1,12 +1,12 @@
-import {GameState} from "./WorkerGameState";
-import { ResourceTypes } from "../GameStateModels";
+import { ResourceTypes } from "../common/GameStateModels";
+import { GameState } from "./WorkerGameState";
 
 export class GameWorker {
-    tick(state: GameState): GameState {
-        const hide = state.resources.basic.get(ResourceTypes.WYVERN_HIDE);
-        if (hide) {
-            hide.value.changeValue(1);
-        }
-        return state;
+  public tick(state: GameState): GameState {
+    const hide = state.resources.get(ResourceTypes.WYVERN_HIDE);
+    if (hide !== undefined) {
+      state.resources.set(ResourceTypes.WYVERN_HIDE, hide + 1);
     }
+    return state;
+  }
 }

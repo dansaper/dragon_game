@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Slay dragons - get loot",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "./node_modules/.bin/tslint --project '.'",
+    "build": "npm run lint && ./node_modules/.bin/webpack"
   },
   "author": "Daniel Saper",
   "private": true,

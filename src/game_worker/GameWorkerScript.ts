@@ -12,6 +12,12 @@ currentState = new GameState(
   new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]])
 );
 
+ctx.onmessage = (ev: MessageEvent) => {
+  currentState = worker.handleEvents(currentState, ev.data);
+  ctx.postMessage(currentState);
+};
+
+ctx.postMessage(currentState);
 startTicking(1000);
 
 function startTicking(time: number) {

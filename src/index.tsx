@@ -1,12 +1,10 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { IGameStateModel } from "./common/GameStateModels";
-import { ClientGame } from "./game_client/ClientGame";
-import { GamePane } from "./game_client/components/GamePane";
+import { EmptyModel, IGameState } from "./common/GameStateModels";
+import { GameClient } from "./game_client/GameClient";
 
 const worker = new Worker("./dist/worker_bundle.js");
+const game = new GameClient(worker, EmptyModel);
 worker.onmessage = e => {
-  const model: IGameStateModel = e.data as IGameStateModel;
-  const game = new ClientGame(worker, model.resources);
-  ReactDOM.render(<GamePane game={game} />, document.getElementById("game"));
+  const model: IGameState = e.data as IGameState;
+  game.gameState = model;
+  game.rerender();
 };

@@ -1,34 +1,64 @@
-html, body {
-    height: 100%;
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.game_menu {
+  height: auto;
+  width: 100%;
 }
 
 .game_pane {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
 }
 
 .resource_pane {
-    min-width: 200px;
-    border-style: solid;
-    border-width: 1px;
+  min-width: 100px;
+  max-width: 200px;
+  border-style: solid;
+  border-width: 1px;
 }
 
 .resource_lines {
-    padding: 15px;
+  padding: 15px;
 }
 
 .resource_line {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .main_content_pane {
-    flex: 1 1 auto;
-    border-style: solid;
-    border-width: 1px;
-    padding: 30px;
+  flex: 1 1 auto;
+  border-style: solid;
+  border-width: 1px;
+  padding: 30px;
 }
 
+.detailed_info_toggle_bar_toggle {
+  border-style: solid;
+  border-width: 1px;
+  width: 10px;
+}
+.detailed_info_toggle_bar_toggle.detailed_info_panel_open_indicator::before {
+  content: ">";
+}
+.detailed_info_toggle_bar_toggle.detailed_info_panel_closed_indicator::before {
+  content: "<";
+}
 
+.detailed_info_panel {
+  transition: width 0.5s linear;
+}
+.detailed_info_panel.detailed_info_panel_open_indicator {
+  border-style: solid;
+  border-width: 1px;
+  width: 400px;
+}
+.detailed_info_panel.detailed_info_panel_closed_indicator {
+  width: 0;
+}

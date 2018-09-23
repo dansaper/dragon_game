@@ -6,6 +6,10 @@ export enum ResourceTypes {
 export type Resource = number;
 export type Resources = Map<ResourceTypes, Resource>;
 
-export interface IGameStateModel {
+export interface IGameState {
   resources: Resources;
 }
+
+export const EmptyModel = {
+  resources: new Map<ResourceTypes, Resource>()
+};

@@ -8,7 +8,9 @@
     "prettier": "./node_modules/.bin/prettier -l \"src/**\" \"test/**\"",
     "lint": "npm run tslint && npm run prettier",
     "sass": "./node_modules/.bin/sass src/styles/base.scss dist/styles.css",
-    "build": "npm run lint && npm run sass && ./node_modules/.bin/webpack",
+    "pack": "./node_modules/.bin/webpack",
+    "build": "npm run lint && npm run sass && npm run pack",
+    "quick": "npm run sass && npm run pack",
     "cleanBuild": "rm -rf ./dist && npm run build"
   },
   "author": "Daniel Saper",

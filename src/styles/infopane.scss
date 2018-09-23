@@ -2,11 +2,13 @@
 
 .detailed_info_toggle_bar_toggle {
   border-left: $main-border;
-  border-right: $main-border;
   width: 10px;
   padding: 3px;
   &::before {
     display: block;
+  }
+  &:hover {
+    background-color: lightgray;
   }
   &.detailed_info_panel_open_indicator::before {
     content: ">";
@@ -17,11 +19,24 @@
 }
 
 .detailed_info_panel {
-  transition: width 0.5s linear;
+  transition: width 0.25s linear;
   &.detailed_info_panel_open_indicator {
-    width: 400px;
+    border-left: $main-border;
+    width: 300px;
   }
   &.detailed_info_panel_closed_indicator {
+    overflow: hidden;
     width: 0;
   }
+}
+
+.detailed-info-body {
+  padding: 12px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

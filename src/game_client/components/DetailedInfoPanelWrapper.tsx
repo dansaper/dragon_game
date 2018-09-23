@@ -1,26 +1,15 @@
 import * as React from "react";
 import { DetailedInfo } from "../DetailedInfo";
+import { DetailedInfoPanelContent } from "./DetailedInfoPanelContent";
 
-export interface IDetailedInfoPanelWrapper {
+interface IDetailedInfoPanelWrapper {
   isPanelOpen: boolean;
   togglePanel: () => void;
   info: DetailedInfo | undefined;
 }
 
-export class DetailedInfoPanelWrapper extends React.Component<IDetailedInfoPanelWrapper, {}> {
+export class DetailedInfoPanelWrapper extends React.PureComponent<IDetailedInfoPanelWrapper, {}> {
   public render() {
-    let panelContent: JSX.Element;
-    if (this.props.info !== undefined) {
-      panelContent = (
-        <>
-          <h2>{this.props.info.title}</h2>
-          <div>{this.props.info.content}</div>
-        </>
-      );
-    } else {
-      panelContent = <div>Nothing selected!</div>;
-    }
-
     const indicatorClass = this.props.isPanelOpen
       ? "detailed_info_panel_open_indicator"
       : "detailed_info_panel_closed_indicator";
@@ -31,7 +20,9 @@ export class DetailedInfoPanelWrapper extends React.Component<IDetailedInfoPanel
           onClick={() => this.props.togglePanel()}
           className={`detailed_info_toggle_bar_toggle ${indicatorClass}`}
         />
-        <div className={`detailed_info_panel ${indicatorClass}`}>{panelContent}</div>
+        <div className={`detailed_info_panel ${indicatorClass}`}>
+          <DetailedInfoPanelContent info={this.props.info} />
+        </div>
       </>
     );
   }

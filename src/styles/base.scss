@@ -10,9 +10,11 @@ body {
   height: auto;
   width: 100%;
   padding: 3px;
+  box-sizing: border-box;
 }
 
 .game_pane {
+  box-sizing: border-box;
   padding: 3px;
   border-top: $main-border;
   border-bottom: $main-border;

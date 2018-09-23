@@ -1,0 +1,27 @@
+@import "common.scss";
+
+.detailed_info_toggle_bar_toggle {
+  border-left: $main-border;
+  border-right: $main-border;
+  width: 10px;
+  padding: 3px;
+  &::before {
+    display: block;
+  }
+  &.detailed_info_panel_open_indicator::before {
+    content: ">";
+  }
+  &.detailed_info_panel_closed_indicator::before {
+    content: "<";
+  }
+}
+
+.detailed_info_panel {
+  transition: width 0.5s linear;
+  &.detailed_info_panel_open_indicator {
+    width: 400px;
+  }
+  &.detailed_info_panel_closed_indicator {
+    width: 0;
+  }
+}

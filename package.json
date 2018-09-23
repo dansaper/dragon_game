@@ -7,7 +7,9 @@
     "tslint": "./node_modules/.bin/tslint --project '.'",
     "prettier": "./node_modules/.bin/prettier -l \"src/**\" \"test/**\"",
     "lint": "npm run tslint && npm run prettier",
-    "build": "npm run lint && ./node_modules/.bin/webpack"
+    "sass": "./node_modules/.bin/sass src/styles/base.scss dist/styles.css",
+    "build": "npm run lint && npm run sass && ./node_modules/.bin/webpack",
+    "cleanBuild": "rm -rf ./dist && npm run build"
   },
   "author": "Daniel Saper",
   "private": true,
@@ -23,6 +25,7 @@
     "awesome-typescript-loader": "^5.2.1",
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
+    "sass": "^1.14.0",
     "source-map-loader": "^0.2.4",
     "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",

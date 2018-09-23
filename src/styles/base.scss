@@ -1,0 +1,42 @@
+@import "common.scss";
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.game_menu {
+  height: auto;
+  width: 100%;
+  padding: 3px;
+}
+
+.game_pane {
+  padding: 3px;
+  border-top: $main-border;
+  border-bottom: $main-border;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.resource_pane {
+  border-right: $main-border;
+  width: 200px;
+}
+.resource_lines {
+  padding: 15px;
+}
+.resource_line {
+  display: flex;
+  justify-content: space-around;
+}
+
+.main_content_pane {
+  flex: 1 1 auto;
+  padding: 30px;
+}
+
+@import "infopane.scss";

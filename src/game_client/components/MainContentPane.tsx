@@ -5,6 +5,7 @@ import { IClientEvent } from "../ClientEvents";
 import { DetailedInfoKeys } from "../DetailedInfo";
 import { IClientState } from "../GameClient";
 import { ButtonWithInfo } from "./common/ButtonWithInfo";
+import { GameMap } from "./GameMap";
 
 interface IMainContentPane {
   clientState: IClientState;
@@ -13,7 +14,7 @@ interface IMainContentPane {
   sendClientEvents: (e: IClientEvent[]) => void;
 }
 
-export class MainContentPane extends React.Component<IMainContentPane, {}> {
+export class MainContentPane extends React.PureComponent<IMainContentPane, {}> {
   constructor(props: IMainContentPane) {
     super(props);
     this.increment = this.increment.bind(this);
@@ -21,11 +22,14 @@ export class MainContentPane extends React.Component<IMainContentPane, {}> {
 
   public render() {
     return (
-      <ButtonWithInfo
-        onClick={this.increment}
-        title="Super Button"
-        infoKey={DetailedInfoKeys.DEFAULT_INFO}
-      />
+      <div>
+        <ButtonWithInfo
+          onClick={this.increment}
+          title="Super Button"
+          infoKey={DetailedInfoKeys.DEFAULT_INFO}
+        />
+        <GameMap onSelectValidTile={() => {}} ownedTiles={[]} canPurchaseTile={() => {}} />
+      </div>
     );
   }
 

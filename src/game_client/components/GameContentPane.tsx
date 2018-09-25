@@ -15,6 +15,11 @@ interface IGameContentPane {
 }
 
 export class GameContentPane extends React.PureComponent<IGameContentPane, {}> {
+  constructor(props: IGameContentPane) {
+    super(props);
+    this.togglePanel = this.togglePanel.bind(this);
+  }
+
   public render() {
     return (
       <div className="game_content_pane">
@@ -40,5 +45,9 @@ export class GameContentPane extends React.PureComponent<IGameContentPane, {}> {
         />
       </div>
     );
+  }
+
+  private togglePanel() {
+    this.props.sendClientEvents([ClientEvent(ClientActions.DETAILED_INFO_PANEL_TOGGLE)]);
   }
 }

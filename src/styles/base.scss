@@ -6,6 +6,32 @@ body {
   margin: 0;
 }
 
+#main-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#game {
+  flex: 1 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#footer {
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+
+  .footer-item {
+    + .footer-item {
+      border-left: $main-border;
+    }
+    padding: 0px 6px;
+  }
+}
+
 .game_menu {
   height: auto;
   width: 100%;
@@ -13,15 +39,15 @@ body {
   box-sizing: border-box;
 }
 
-.game_pane {
+.game_content_pane {
   box-sizing: border-box;
-  padding: 3px;
   border-top: $main-border;
   border-bottom: $main-border;
+  width: 100%;
+  flex: 1 1 auto;
+
   display: flex;
   flex-direction: row;
-  height: 100%;
-  width: 100%;
 }
 
 .resource_pane {

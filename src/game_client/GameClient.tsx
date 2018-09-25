@@ -13,13 +13,13 @@ export interface IClientState {
 }
 
 export class GameClient {
-  public readonly clientState: IClientState;
+  public clientState: IClientState;
 
   constructor(private worker: Worker, public gameState: IGameState) {
-    this.clientState = {
+    this.clientState = Object.freeze({
       isDetailedInfoVisible: false,
       isPaused: false
-    };
+    });
   }
 
   public sendGameEvents(events: IGameEvent[]) {
@@ -27,19 +27,23 @@ export class GameClient {
   }
 
   public sendClientEvents(events: IClientEvent[]) {
+    const updates: Partial<IClientState> = {};
     events.forEach(event => {
       switch (event.action) {
         case ClientActions.PAUSE:
-          this.clientState.isPaused = true;
+          updates.isPaused = true;
           break;
         case ClientActions.UNPAUSE:
-          this.clientState.isPaused = false;
+          updates.isPaused = false;
           break;
         case ClientActions.DETAILED_INFO_PANEL_TOGGLE:
-          this.clientState.isDetailedInfoVisible = !this.clientState.isDetailedInfoVisible;
+          updates.isDetailedInfoVisible = !this.clientState.isDetailedInfoVisible;
           break;
       }
     });
+    this.clientState = Object.freeze(Object.assign({}, this.clientState, updates));
+
+    // Rerender so that we update immediately
     this.rerender();
   }
 

@@ -19,13 +19,13 @@
 }
 
 .detailed_info_panel {
+  overflow: hidden;
   transition: width 0.25s linear;
   &.detailed_info_panel_open_indicator {
     border-left: $main-border;
     width: 300px;
   }
   &.detailed_info_panel_closed_indicator {
-    overflow: hidden;
     width: 0;
   }
 }

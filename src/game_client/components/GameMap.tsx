@@ -17,6 +17,11 @@ interface IGameMapOffset {
   y: number;
 }
 
+interface IDraggingInfo {
+  isDragging: boolean;
+  offset: IGameMapOffset;
+}
+
 interface IGameMap {
   onSelectValidTile: (tile: IGameMapPoint) => void;
   ownedTiles: IGameMapPoint[];
@@ -29,8 +34,16 @@ interface IGameMapState {
 
 export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   private ctx?: CanvasRenderingContext2D;
+  private draggingInfo: IDraggingInfo;
   constructor(props: IGameMap) {
     super(props);
+    this.draggingInfo = {
+      isDragging: false,
+      offset: {
+        x: 0,
+        y: 0
+      }
+    };
     this.state = {
       persistentOffset: {
         x: 0,
@@ -88,5 +101,35 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
     this.ctx.stroke();
 
     return offset;
+  }
+
+  private handleMouseDown(e: React.SyntheticEvent) {
+    this.draggingInfo.isDragging = true;
+  }
+
+  private handleMouseOut(e: React.SyntheticEvent) {
+    this.endDragging();
+  }
+
+  private handleMouseUp(e: React.SyntheticEvent) {
+    if (
+      this.draggingInfo.isDragging &&
+      (this.draggingInfo.offset.x > 2 || this.draggingInfo.offset.y > 2)
+    ) {
+      this.endDragging();
+    } else {
+      this.draggingInfo.isDragging = false;
+      //TODO: Handle attempted purchase
+    }
+  }
+
+  private endDragging() {
+    this.draggingInfo.isDragging = false;
+    this.setState({
+      persistentOffset: {
+        x: this.draggingInfo.offset.x,
+        y: this.draggingInfo.offset.y
+      }
+    });
   }
 }

@@ -13,8 +13,8 @@ export class GameMenu extends React.PureComponent<IGameMenu, {}> {
       <div className="game_menu">
         <PauseButton
           isPaused={this.props.isPaused}
-          pause={() => this.props.onPause()}
-          unpause={() => this.props.onUnpause()}
+          pause={this.props.onPause}
+          unpause={this.props.onUnpause}
         />
       </div>
     );

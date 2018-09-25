@@ -10,9 +10,11 @@ export class ResourceList extends React.PureComponent<IResouceListModel, {}> {
   public render() {
     return (
       <ul className="resource_lines">
-        {Array.from(this.props.resources.entries()).map(([resourceType, resource]) => {
-          return <ResourceLine key={resourceType} name={resourceType} value={resource} />;
-        })}
+        {Array.from(this.props.resources.entries())
+          .sort()
+          .map(([resourceType, resource]) => {
+            return <ResourceLine key={resourceType} name={resourceType} value={resource} />;
+          })}
       </ul>
     );
   }

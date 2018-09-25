@@ -25,13 +25,14 @@ export class GameContentPane extends React.PureComponent<IGameContentPane, {}> {
           <div>Foo Bar Baz</div>
           <div>Biz Bak Boo</div>
           <MainContentPane
-            sendevent={e => {
-              this.props.sendGameEvents([e]);
-            }}
+            clientState={this.props.clientState}
+            gameState={this.props.gameState}
+            sendGameEvents={this.props.sendGameEvents}
+            sendClientEvents={this.props.sendClientEvents}
           />
         </div>
         <DetailedInfoPanelWrapper
-          info={this.props.clientState.currentDetailedInfo}
+          info={this.props.clientState.currentDetailedInfoKey}
           isPanelOpen={this.props.clientState.isDetailedInfoVisible}
           togglePanel={() => {
             this.props.sendClientEvents([ClientEvent(ClientActions.DETAILED_INFO_PANEL_TOGGLE)]);

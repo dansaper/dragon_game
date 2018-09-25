@@ -19,3 +19,10 @@ export const DefaultInfo = new DetailedInfo(
     </div>
   )
 );
+
+export enum DetailedInfoKeys {
+  DEFAULT_INFO
+}
+
+export const DetailedInfoKeysMap: Map<DetailedInfoKeys, DetailedInfo> = new Map();
+DetailedInfoKeysMap.set(DetailedInfoKeys.DEFAULT_INFO, DefaultInfo);

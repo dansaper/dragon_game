@@ -1,17 +1,26 @@
 import * as React from "react";
-import { DetailedInfo } from "../DetailedInfo";
+import { DetailedInfo, DetailedInfoKeys, DetailedInfoKeysMap } from "../DetailedInfo";
 
-export class DetailedInfoPanelContent extends React.PureComponent<
-  { info: DetailedInfo | undefined },
-  {}
-> {
+interface IDetailedInfoPanelContent {
+  info?: DetailedInfoKeys;
+}
+
+export class DetailedInfoPanelContent extends React.PureComponent<IDetailedInfoPanelContent, {}> {
+  private detailedInfo?: DetailedInfo;
+  constructor(props: IDetailedInfoPanelContent) {
+    super(props);
+    if (props.info !== undefined) {
+      this.detailedInfo = DetailedInfoKeysMap.get(props.info);
+    }
+  }
+
   public render() {
     let content: JSX.Element;
-    if (this.props.info !== undefined) {
+    if (this.detailedInfo !== undefined) {
       content = (
         <>
-          <h2>{this.props.info.title}</h2>
-          <div>{this.props.info.content}</div>
+          <h2>{this.detailedInfo.title}</h2>
+          <div>{this.detailedInfo.content}</div>
         </>
       );
     } else {

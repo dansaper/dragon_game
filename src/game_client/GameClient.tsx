@@ -4,15 +4,22 @@ import { IGameEvent } from "../common/GameEvents";
 import { IGameState } from "../common/GameStateModels";
 import { ClientActions, IClientEvent } from "./ClientEvents";
 import { GamePane } from "./components/GamePane";
-import { DetailedInfo } from "./DetailedInfo";
+import { DetailedInfoKeys } from "./DetailedInfo";
 
 export interface IClientState {
   isPaused: boolean;
   isDetailedInfoVisible: boolean;
-  currentDetailedInfo?: DetailedInfo;
+  currentDetailedInfoKey?: DetailedInfoKeys;
 }
 
-export class GameClient {
+export interface IGameClient {
+  clientState: IClientState;
+  gameState: IGameState;
+  sendGameEvents: (e: IGameEvent[]) => void;
+  sendClientEvents: (e: IClientEvent[]) => void;
+}
+
+export class GameClient implements IGameClient {
   public clientState: IClientState;
 
   constructor(private worker: Worker, public gameState: IGameState) {

@@ -10,19 +10,19 @@ interface IGamePane {
 }
 
 export class GamePane extends React.Component<IGamePane, {}> {
+  constructor(props: IGamePane) {
+    super(props);
+    this.pauseHandler = this.pauseHandler.bind(this);
+    this.unpauseHandler = this.unpauseHandler.bind(this);
+  }
+
   public render() {
     return (
       <>
         <GameMenu
           isPaused={this.props.game.clientState.isPaused}
-          onPause={() => {
-            this.props.game.sendClientEvents([ClientEvent(ClientActions.PAUSE)]);
-            this.props.game.sendGameEvents([GameEvent(GameEventTypes.PAUSE)]);
-          }}
-          onUnpause={() => {
-            this.props.game.sendClientEvents([ClientEvent(ClientActions.UNPAUSE)]);
-            this.props.game.sendGameEvents([GameEvent(GameEventTypes.UNPAUSE)]);
-          }}
+          onPause={this.pauseHandler}
+          onUnpause={this.unpauseHandler}
         />
         <GameContentPane
           clientState={this.props.game.clientState}
@@ -32,5 +32,15 @@ export class GamePane extends React.Component<IGamePane, {}> {
         />
       </>
     );
+  }
+
+  private pauseHandler() {
+    this.props.game.sendGameEvents([GameEvent(GameEventTypes.PAUSE)]);
+    this.props.game.sendClientEvents([ClientEvent(ClientActions.PAUSE)]);
+  }
+
+  private unpauseHandler() {
+    this.props.game.sendGameEvents([GameEvent(GameEventTypes.UNPAUSE)]);
+    this.props.game.sendClientEvents([ClientEvent(ClientActions.UNPAUSE)]);
   }
 }

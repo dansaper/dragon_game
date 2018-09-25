@@ -9,7 +9,7 @@ interface IGamePane {
   game: GameClient;
 }
 
-export class GamePane extends React.PureComponent<IGamePane, {}> {
+export class GamePane extends React.Component<IGamePane, {}> {
   constructor(props: IGamePane) {
     super(props);
     this.pauseHandler = this.pauseHandler.bind(this);
@@ -27,8 +27,8 @@ export class GamePane extends React.PureComponent<IGamePane, {}> {
         <GameContentPane
           clientState={this.props.game.clientState}
           gameState={this.props.game.gameState}
-          sendGameEvents={e => this.props.game.sendGameEvents(e)}
-          sendClientEvents={e => this.props.game.sendClientEvents(e)}
+          sendGameEvents={this.props.game.sendGameEvents}
+          sendClientEvents={this.props.game.sendClientEvents}
         />
       </>
     );

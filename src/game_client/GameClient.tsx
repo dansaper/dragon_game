@@ -27,6 +27,8 @@ export class GameClient implements IGameClient {
       isDetailedInfoVisible: false,
       isPaused: false
     });
+    this.sendGameEvents = this.sendGameEvents.bind(this);
+    this.sendClientEvents = this.sendClientEvents.bind(this);
   }
 
   public sendGameEvents(events: IGameEvent[]) {

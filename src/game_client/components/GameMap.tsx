@@ -52,7 +52,12 @@ interface IGameMapState {
 }
 
 export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
-  private ctx?: CanvasRenderingContext2D;
+  private canvasRef: React.RefObject<HTMLCanvasElement>;
+  private get drawingContext(): CanvasRenderingContext2D {
+    // this.canvasRef.current must be set by React before the context is accessed
+    // We are also not supporting browsers where 2d context is not supported
+    return this.canvasRef.current!.getContext("2d")!;
+  }
   private draggingInfo: IDraggingInfo;
   constructor(props: IGameMap) {
     super(props);
@@ -67,6 +72,8 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
       }
     };
 
+    this.canvasRef = React.createRef<HTMLCanvasElement>();
+
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
@@ -76,7 +83,7 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   public render() {
     return (
       <canvas
-        id="game-map-canvas"
+        ref={this.canvasRef}
         width={MAP_RENDER_X.toString()}
         height={MAP_RENDER_Y.toString()}
         onMouseDown={this.handleMouseDown}
@@ -90,9 +97,9 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   }
 
   public componentDidMount() {
-    const canvas = document.getElementById("game-map-canvas") as HTMLCanvasElement;
-    this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-    this.renderMapWithOffset(this.ctx, this.state.persistentOffset);
+    // this.canvasRef.current will be set by React before this runs
+    // Also not supporting browsers where 2d context is not supported
+    this.renderMapWithOffset(this.drawingContext, this.state.persistentOffset);
   }
 
   private renderMapWithOffset(ctx: CanvasRenderingContext2D, offset: IGameMapOffset) {
@@ -153,7 +160,7 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
         this.draggingInfo.isSignificantDrag = true;
       }
 
-      this.renderMapWithOffset(this.ctx!, mapOffset);
+      this.renderMapWithOffset(this.drawingContext, mapOffset);
     });
   }
 

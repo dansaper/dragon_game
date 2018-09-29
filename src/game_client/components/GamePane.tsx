@@ -1,16 +1,12 @@
 import * as React from "react";
 import { GameEvent, GameEventTypes } from "../../common/GameEvents";
 import { ClientActions, ClientEvent } from "../ClientEvents";
-import { GameClient } from "../GameClient";
+import { IGameClient } from "../GameClient";
 import { GameContentPane } from "./GameContentPane";
 import { GameMenu } from "./GameMenu";
 
-interface IGamePane {
-  game: GameClient;
-}
-
-export class GamePane extends React.Component<IGamePane, {}> {
-  constructor(props: IGamePane) {
+export class GamePane extends React.PureComponent<IGameClient, {}> {
+  constructor(props: IGameClient) {
     super(props);
     this.pauseHandler = this.pauseHandler.bind(this);
     this.unpauseHandler = this.unpauseHandler.bind(this);
@@ -20,27 +16,27 @@ export class GamePane extends React.Component<IGamePane, {}> {
     return (
       <>
         <GameMenu
-          isPaused={this.props.game.clientState.isPaused}
+          isPaused={this.props.clientState.isPaused}
           onPause={this.pauseHandler}
           onUnpause={this.unpauseHandler}
         />
         <GameContentPane
-          clientState={this.props.game.clientState}
-          gameState={this.props.game.gameState}
-          sendGameEvents={this.props.game.sendGameEvents}
-          sendClientEvents={this.props.game.sendClientEvents}
+          clientState={this.props.clientState}
+          gameState={this.props.gameState}
+          sendGameEvents={this.props.sendGameEvents}
+          sendClientEvents={this.props.sendClientEvents}
         />
       </>
     );
   }
 
   private pauseHandler() {
-    this.props.game.sendGameEvents([GameEvent(GameEventTypes.PAUSE)]);
-    this.props.game.sendClientEvents([ClientEvent(ClientActions.PAUSE)]);
+    this.props.sendGameEvents([GameEvent(GameEventTypes.PAUSE)]);
+    this.props.sendClientEvents([ClientEvent(ClientActions.PAUSE)]);
   }
 
   private unpauseHandler() {
-    this.props.game.sendGameEvents([GameEvent(GameEventTypes.UNPAUSE)]);
-    this.props.game.sendClientEvents([ClientEvent(ClientActions.UNPAUSE)]);
+    this.props.sendGameEvents([GameEvent(GameEventTypes.UNPAUSE)]);
+    this.props.sendClientEvents([ClientEvent(ClientActions.UNPAUSE)]);
   }
 }

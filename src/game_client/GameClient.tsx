@@ -57,6 +57,14 @@ export class GameClient implements IGameClient {
   }
 
   public rerender() {
-    ReactDOM.render(<GamePane game={this} />, document.getElementById("game"));
+    ReactDOM.render(
+      <GamePane
+        gameState={this.gameState}
+        clientState={this.clientState}
+        sendGameEvents={this.sendGameEvents}
+        sendClientEvents={this.sendClientEvents}
+      />,
+      document.getElementById("game")
+    );
   }
 }

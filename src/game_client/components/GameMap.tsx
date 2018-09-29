@@ -1,13 +1,26 @@
 import * as React from "react";
 
-const MAP_RENDER_X = "500";
-const MAP_RENDER_Y = "500";
-const GRID_NUM_TILES_X = 30;
-const GRID_NUM_TILES_Y = 30;
-const GRID_TILE_X = 40;
-const GRID_TILE_Y = 40;
+const MAP_RENDER_X = 500;
+const MAP_RENDER_Y = 500;
+const GRID_NUM_TILES_X = 25;
+const GRID_NUM_TILES_Y = 25;
+const GRID_TILE_X = 60;
+const GRID_TILE_Y = 60;
 const GRID_SIZE_X = GRID_NUM_TILES_X * GRID_TILE_X;
 const GRID_SIZE_Y = GRID_NUM_TILES_Y * GRID_TILE_Y;
+const DRAG_THRESHOLD = 3;
+const MAX_OFFSET_X = Math.trunc(MAP_RENDER_X / 2);
+const MAX_OFFSET_Y = Math.trunc(MAP_RENDER_Y / 2);
+const GRID_OFFSET_LIMITS = {
+  x: {
+    min: -(GRID_SIZE_X - MAP_RENDER_X) - MAX_OFFSET_X,
+    max: MAX_OFFSET_X
+  },
+  y: {
+    min: -(GRID_SIZE_Y - MAP_RENDER_Y) - MAX_OFFSET_Y,
+    max: MAX_OFFSET_Y
+  }
+};
 
 export interface IGameMapPoint {
   x: number;
@@ -27,12 +40,11 @@ interface IMouseEventPoint {
 interface IDraggingInfo {
   isDragging: boolean;
   dragStartLocation?: IMouseEventPoint;
+  isSignificantDrag: boolean;
 }
 
 interface IGameMap {
-  onSelectValidTile: (tile: IGameMapPoint) => void;
   ownedTiles: IGameMapPoint[];
-  canPurchaseTile: (tile: IGameMapPoint) => void;
 }
 
 interface IGameMapState {
@@ -45,7 +57,8 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   constructor(props: IGameMap) {
     super(props);
     this.draggingInfo = {
-      isDragging: false
+      isDragging: false,
+      isSignificantDrag: false
     };
     this.state = {
       persistentOffset: {
@@ -64,8 +77,8 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
     return (
       <canvas
         id="game-map-canvas"
-        width={MAP_RENDER_X}
-        height={MAP_RENDER_Y}
+        width={MAP_RENDER_X.toString()}
+        height={MAP_RENDER_Y.toString()}
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}
         onMouseOut={this.handleMouseOut}
@@ -121,24 +134,41 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
         return;
       }
       if (this.draggingInfo.dragStartLocation === undefined) {
-        // We don't have a start location, so Something is wrong - stop dragging
+        // We don't have a start location, so something is seriously wrong - stop dragging
         this.endDragging();
         return;
       }
 
-      const mapOffset = this.calculateTotalDragOffset(
+      const mapOffset = this.calculateSignificantDragOffset(
         this.draggingInfo.dragStartLocation,
         clientX,
         clientY
       );
+
+      // If there was a significant offset (caused by moving) at least once, the drag is significant
+      if (
+        this.state.persistentOffset.x !== mapOffset.x ||
+        this.state.persistentOffset.y !== mapOffset.y
+      ) {
+        this.draggingInfo.isSignificantDrag = true;
+      }
+
       this.renderMapWithOffset(this.ctx!, mapOffset);
     });
   }
 
   private handleMouseOut(e: React.MouseEvent) {
-    if (this.draggingInfo.isDragging && this.draggingInfo.dragStartLocation !== undefined) {
+    if (
+      this.draggingInfo.isDragging &&
+      this.draggingInfo.isSignificantDrag &&
+      this.draggingInfo.dragStartLocation !== undefined
+    ) {
       this.persistDrag(
-        this.calculateTotalDragOffset(this.draggingInfo.dragStartLocation, e.clientX, e.clientY)
+        this.calculateSignificantDragOffset(
+          this.draggingInfo.dragStartLocation,
+          e.clientX,
+          e.clientY
+        )
       );
       this.endDragging();
     } else {
@@ -147,9 +177,17 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   }
 
   private handleMouseUp(e: React.MouseEvent) {
-    if (this.draggingInfo.isDragging && this.draggingInfo.dragStartLocation !== undefined) {
+    if (
+      this.draggingInfo.isDragging &&
+      this.draggingInfo.isSignificantDrag &&
+      this.draggingInfo.dragStartLocation !== undefined
+    ) {
       this.persistDrag(
-        this.calculateTotalDragOffset(this.draggingInfo.dragStartLocation, e.clientX, e.clientY)
+        this.calculateSignificantDragOffset(
+          this.draggingInfo.dragStartLocation,
+          e.clientX,
+          e.clientY
+        )
       );
       this.endDragging();
     } else {
@@ -159,8 +197,10 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   }
 
   private endDragging() {
-    this.draggingInfo.isDragging = false;
-    this.draggingInfo.dragStartLocation = undefined;
+    this.draggingInfo = {
+      isDragging: false,
+      isSignificantDrag: false
+    };
   }
 
   private persistDrag(offset: IGameMapOffset) {
@@ -172,14 +212,41 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
     });
   }
 
-  private calculateTotalDragOffset(
+  private calculateSignificantDragOffset(
     dragStartLocation: IMouseEventPoint,
     clientX: number,
     clientY: number
   ): IGameMapOffset {
-    return {
-      x: this.state.persistentOffset.x + (dragStartLocation.x - clientX),
-      y: this.state.persistentOffset.y + (dragStartLocation.y - clientY)
+    const xDrag = dragStartLocation.x - clientX;
+    const yDrag = dragStartLocation.y - clientY;
+    if (Math.abs(xDrag) <= DRAG_THRESHOLD && Math.abs(yDrag) <= DRAG_THRESHOLD) {
+      return this.state.persistentOffset;
+    }
+
+    return this.limitDragOffsetToBoundary({
+      x: this.state.persistentOffset.x + xDrag,
+      y: this.state.persistentOffset.y + yDrag
+    });
+  }
+
+  private limitDragOffsetToBoundary(offset: IGameMapOffset): IGameMapOffset {
+    const newOffset = {
+      x: offset.x,
+      y: offset.y
     };
+
+    if (offset.x < GRID_OFFSET_LIMITS.x.min) {
+      newOffset.x = GRID_OFFSET_LIMITS.x.min;
+    } else if (offset.x > GRID_OFFSET_LIMITS.x.max) {
+      newOffset.x = GRID_OFFSET_LIMITS.x.max;
+    }
+
+    if (offset.y < GRID_OFFSET_LIMITS.y.min) {
+      newOffset.y = GRID_OFFSET_LIMITS.y.min;
+    } else if (offset.y > GRID_OFFSET_LIMITS.y.max) {
+      newOffset.y = GRID_OFFSET_LIMITS.y.max;
+    }
+
+    return newOffset;
   }
 }

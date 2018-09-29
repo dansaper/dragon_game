@@ -28,7 +28,7 @@ export class MainContentPane extends React.PureComponent<IMainContentPane, {}> {
           title="Super Button"
           infoKey={DetailedInfoKeys.DEFAULT_INFO}
         />
-        <GameMap onSelectValidTile={() => {}} ownedTiles={[]} canPurchaseTile={() => {}} />
+        <GameMap ownedTiles={[]} />
       </div>
     );
   }

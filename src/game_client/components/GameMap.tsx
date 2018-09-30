@@ -97,8 +97,6 @@ export class GameMap extends React.PureComponent<IGameMap, IGameMapState> {
   }
 
   public componentDidMount() {
-    // this.canvasRef.current will be set by React before this runs
-    // Also not supporting browsers where 2d context is not supported
     this.renderMapWithOffset(this.drawingContext, this.state.persistentOffset);
   }
 

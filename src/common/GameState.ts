@@ -6,7 +6,7 @@ export enum ResourceTypes {
 export type Resource = number;
 export type Resources = Map<ResourceTypes, Resource>;
 
-export interface IGameState {
+export interface GameState {
   resources: Resources;
 }
 

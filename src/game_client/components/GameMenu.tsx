@@ -1,13 +1,13 @@
 import * as React from "react";
 import { PauseButton } from "./PauseButton";
 
-interface IGameMenu {
+interface GameMenuProps {
   onPause: () => void;
   onUnpause: () => void;
   isPaused: boolean;
 }
 
-export class GameMenu extends React.PureComponent<IGameMenu, {}> {
+export class GameMenu extends React.PureComponent<GameMenuProps, {}> {
   public render() {
     return (
       <div className="game_menu">

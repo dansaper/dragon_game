@@ -1,13 +1,16 @@
 import * as React from "react";
 import { DetailedInfo, DetailedInfoKeys, DetailedInfoKeysMap } from "../DetailedInfo";
 
-interface IDetailedInfoPanelContent {
+interface DetailedInfoPanelContentProps {
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelContent extends React.PureComponent<IDetailedInfoPanelContent, {}> {
+export class DetailedInfoPanelContent extends React.PureComponent<
+  DetailedInfoPanelContentProps,
+  {}
+> {
   private detailedInfo?: DetailedInfo;
-  constructor(props: IDetailedInfoPanelContent) {
+  constructor(props: DetailedInfoPanelContentProps) {
     super(props);
     if (props.info !== undefined) {
       this.detailedInfo = DetailedInfoKeysMap.get(props.info);

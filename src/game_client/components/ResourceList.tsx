@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Resources } from "../../common/GameStateModels";
+import { Resources } from "../../common/GameState";
 import { ResourceLine } from "./ResourceLine";
 
-export interface IResouceListModel {
+export interface ResouceListProps {
   resources: Resources;
 }
 
-export class ResourceList extends React.PureComponent<IResouceListModel, {}> {
+export class ResourceList extends React.PureComponent<ResouceListProps, {}> {
   public render() {
     return (
       <ul className="resource_lines">

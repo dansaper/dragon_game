@@ -1,21 +1,21 @@
 import * as React from "react";
-import { IGameEvent, ResourceModificationEvent } from "../../common/GameEvents";
-import { IGameState, ResourceTypes } from "../../common/GameStateModels";
+import { GameEvent, ResourceModificationEvent } from "../../common/GameEvents";
+import { GameState, ResourceTypes } from "../../common/GameState";
 import { IClientEvent } from "../ClientEvents";
+import { ClientState } from "../ClientState";
 import { DetailedInfoKeys } from "../DetailedInfo";
-import { IClientState } from "../GameClient";
 import { ButtonWithInfo } from "./common/ButtonWithInfo";
 import { GameMap } from "./GameMap";
 
-interface IMainContentPane {
-  clientState: IClientState;
-  gameState: IGameState;
-  sendGameEvents: (e: IGameEvent[]) => void;
+interface MainContentPaneProps {
+  clientState: ClientState;
+  gameState: GameState;
+  sendGameEvents: (e: GameEvent[]) => void;
   sendClientEvents: (e: IClientEvent[]) => void;
 }
 
-export class MainContentPane extends React.PureComponent<IMainContentPane, {}> {
-  constructor(props: IMainContentPane) {
+export class MainContentPane extends React.PureComponent<MainContentPaneProps, {}> {
+  constructor(props: MainContentPaneProps) {
     super(props);
     this.increment = this.increment.bind(this);
   }

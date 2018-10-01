@@ -2,13 +2,16 @@ import * as React from "react";
 import { DetailedInfoKeys } from "../DetailedInfo";
 import { DetailedInfoPanelContent } from "./DetailedInfoPanelContent";
 
-interface IDetailedInfoPanelWrapper {
+interface DetailedInfoPanelWrapperProps {
   isPanelOpen: boolean;
   togglePanel: () => void;
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelWrapper extends React.PureComponent<IDetailedInfoPanelWrapper, {}> {
+export class DetailedInfoPanelWrapper extends React.PureComponent<
+  DetailedInfoPanelWrapperProps,
+  {}
+> {
   public render() {
     const indicatorClass = this.props.isPanelOpen
       ? "detailed_info_panel_open_indicator"

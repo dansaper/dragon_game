@@ -1,12 +1,12 @@
-import { GameEventTypes, IGameEvent, ResourceModificationEvent } from "../common/GameEvents";
-import { GameState } from "./WorkerGameState";
+import { GameEvent, GameEventTypes, ResourceModificationEvent } from "../common/GameEvents";
+import { WorkerGameState } from "./WorkerGameState";
 
 export class GameWorker {
-  public tick(state: GameState): GameState {
+  public tick(state: WorkerGameState): WorkerGameState {
     return state;
   }
 
-  public handleEvents(state: GameState, events: IGameEvent[]): GameState {
+  public handleEvents(state: WorkerGameState, events: GameEvent[]): WorkerGameState {
     events.forEach(event => {
       switch (event.eventType) {
         case GameEventTypes.MODIFY_RESOURCE: {

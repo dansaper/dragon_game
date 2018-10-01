@@ -1,13 +1,13 @@
 import * as React from "react";
 
-interface IPauseButton {
+interface PauseButtonProps {
   isPaused: boolean;
   pause: () => void;
   unpause: () => void;
 }
 
-export class PauseButton extends React.PureComponent<IPauseButton, {}> {
-  constructor(props: IPauseButton) {
+export class PauseButton extends React.PureComponent<PauseButtonProps, {}> {
+  constructor(props: PauseButtonProps) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }

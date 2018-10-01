@@ -1,22 +1,22 @@
-import { GameEventTypes, IGameEvent } from "../common/GameEvents";
-import { ResourceTypes } from "../common/GameStateModels";
+import { GameEvent, GameEventTypes } from "../common/GameEvents";
+import { ResourceTypes } from "../common/GameState";
 import { GameWorker } from "./GameWorker";
-import { GameState } from "./WorkerGameState";
+import { WorkerGameState } from "./WorkerGameState";
 
 // We're actually running from a web worker, not a window
 const ctx: Worker = self as any;
 
 const worker = new GameWorker();
 
-let currentState: GameState;
-currentState = new GameState(
+let currentState: WorkerGameState;
+currentState = new WorkerGameState(
   new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]])
 );
 
 let paused = false;
 
 ctx.onmessage = (ev: MessageEvent) => {
-  const events = ev.data as IGameEvent[];
+  const events = ev.data as GameEvent[];
   if (events.length === 0) {
     return;
   }

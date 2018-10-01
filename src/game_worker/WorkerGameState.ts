@@ -1,5 +1,5 @@
-import { IGameState, Resources } from "../common/GameStateModels";
+import { GameState, Resources } from "../common/GameState";
 
-export class GameState implements IGameState {
+export class WorkerGameState implements GameState {
   constructor(public resources: Resources) {}
 }

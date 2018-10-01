@@ -1,21 +1,21 @@
 import * as React from "react";
-import { IGameEvent } from "../../common/GameEvents";
-import { IGameState } from "../../common/GameStateModels";
+import { GameEvent } from "../../common/GameEvents";
+import { GameState } from "../../common/GameState";
 import { ClientActions, ClientEvent, IClientEvent } from "../ClientEvents";
-import { IClientState } from "../GameClient";
+import { ClientState } from "../ClientState";
 import { DetailedInfoPanelWrapper } from "./DetailedInfoPanelWrapper";
 import { MainContentPane } from "./MainContentPane";
 import { ResourceList } from "./ResourceList";
 
-interface IGameContentPane {
-  clientState: IClientState;
-  gameState: IGameState;
-  sendGameEvents: (e: IGameEvent[]) => void;
+interface GameContentPaneProps {
+  clientState: ClientState;
+  gameState: GameState;
+  sendGameEvents: (e: GameEvent[]) => void;
   sendClientEvents: (e: IClientEvent[]) => void;
 }
 
-export class GameContentPane extends React.PureComponent<IGameContentPane, {}> {
-  constructor(props: IGameContentPane) {
+export class GameContentPane extends React.PureComponent<GameContentPaneProps, {}> {
+  constructor(props: GameContentPaneProps) {
     super(props);
     this.togglePanel = this.togglePanel.bind(this);
   }

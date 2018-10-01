@@ -1,12 +1,21 @@
 import * as React from "react";
 import { GameEvent, GameEventTypes } from "../../common/GameEvents";
-import { ClientActions, ClientEvent } from "../ClientEvents";
-import { IGameClient } from "../GameClient";
+import { GameState } from "../../common/GameState";
+import { ClientActions, ClientEvent, IClientEvent } from "../ClientEvents";
+import { ClientState } from "../ClientState";
+import { GameClient } from "../GameClient";
 import { GameContentPane } from "./GameContentPane";
 import { GameMenu } from "./GameMenu";
 
-export class GamePane extends React.PureComponent<IGameClient, {}> {
-  constructor(props: IGameClient) {
+interface GamePaneProps {
+  clientState: ClientState;
+  gameState: GameState;
+  sendGameEvents: (e: GameEvent[]) => void;
+  sendClientEvents: (e: IClientEvent[]) => void;
+}
+
+export class GamePane extends React.PureComponent<GamePaneProps, {}> {
+  constructor(props: GameClient) {
     super(props);
     this.pauseHandler = this.pauseHandler.bind(this);
     this.unpauseHandler = this.unpauseHandler.bind(this);

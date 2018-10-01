@@ -1,4 +1,4 @@
-import { ResourceTypes } from "./GameStateModels";
+import { ResourceTypes } from "./GameState";
 
 export enum GameEventTypes {
   PAUSE,
@@ -6,16 +6,16 @@ export enum GameEventTypes {
   MODIFY_RESOURCE
 }
 
-export interface IGameEvent {
+export interface GameEvent {
   eventType: GameEventTypes;
 }
-export function GameEvent(event: GameEventTypes): IGameEvent {
+export function GameEvent(event: GameEventTypes): GameEvent {
   return {
     eventType: event
   };
 }
 
-export class ResourceModificationEvent implements IGameEvent {
+export class ResourceModificationEvent implements GameEvent {
   public readonly eventType = GameEventTypes.MODIFY_RESOURCE;
   constructor(public resourceType: ResourceTypes, public modification: number) {}
 }

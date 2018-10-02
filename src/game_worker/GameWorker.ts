@@ -1,4 +1,4 @@
-import { GameEvent, GameEventTypes, ResourceModificationEvent } from "../common/GameEvents";
+import { GameEvent, GameStateModificationHandlers } from "../common/events/GameEvents";
 import { WorkerGameState } from "./WorkerGameState";
 
 export class GameWorker {
@@ -8,14 +8,9 @@ export class GameWorker {
 
   public handleEvents(state: WorkerGameState, events: GameEvent[]): WorkerGameState {
     events.forEach(event => {
-      switch (event.eventType) {
-        case GameEventTypes.MODIFY_RESOURCE: {
-          const e = event as ResourceModificationEvent;
-          const oldValue = state.resources.get(e.resourceType);
-          if (oldValue !== undefined) {
-            state.resources.set(e.resourceType, oldValue + e.modification);
-          }
-        }
+      const handler = GameStateModificationHandlers.get(event.eventType);
+      if (handler !== undefined) {
+        state = handler(state, event);
       }
     });
     return state;

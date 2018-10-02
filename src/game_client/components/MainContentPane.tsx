@@ -1,9 +1,9 @@
 import * as React from "react";
-import { GameEvent, ResourceModificationEvent } from "../../common/GameEvents";
+import { ClientState } from "../../common/ClientState";
+import { DetailedInfoKeys } from "../../common/DetailedInfo";
+import { GameEvent } from "../../common/events/GameEvents";
+import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
 import { GameState, ResourceTypes } from "../../common/GameState";
-import { IClientEvent } from "../ClientEvents";
-import { ClientState } from "../ClientState";
-import { DetailedInfoKeys } from "../DetailedInfo";
 import { ButtonWithInfo } from "./common/ButtonWithInfo";
 import { GameMap } from "./map/GameMap";
 
@@ -11,7 +11,6 @@ interface MainContentPaneProps {
   clientState: ClientState;
   gameState: GameState;
   sendGameEvents: (e: GameEvent[]) => void;
-  sendClientEvents: (e: IClientEvent[]) => void;
 }
 
 export class MainContentPane extends React.PureComponent<MainContentPaneProps, {}> {
@@ -27,6 +26,7 @@ export class MainContentPane extends React.PureComponent<MainContentPaneProps, {
           onClick={this.increment}
           title="Super Button"
           infoKey={DetailedInfoKeys.DEFAULT_INFO}
+          sendGameEvents={this.props.sendGameEvents}
         />
         <GameMap ownedTiles={[]} />
       </div>

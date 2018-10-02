@@ -1,8 +1,8 @@
 import * as React from "react";
-import { GameEvent } from "../../common/GameEvents";
+import { ClientState } from "../../common/ClientState";
+import { GameEvent } from "../../common/events/GameEvents";
+import { ToggleDetailedInfoPanelEvent } from "../../common/events/ToggleDetailedInfoPanelEvent";
 import { GameState } from "../../common/GameState";
-import { ClientActions, ClientEvent, IClientEvent } from "../ClientEvents";
-import { ClientState } from "../ClientState";
 import { DetailedInfoPanelWrapper } from "./DetailedInfoPanelWrapper";
 import { MainContentPane } from "./MainContentPane";
 import { ResourceList } from "./ResourceList";
@@ -11,13 +11,12 @@ interface GameContentPaneProps {
   clientState: ClientState;
   gameState: GameState;
   sendGameEvents: (e: GameEvent[]) => void;
-  sendClientEvents: (e: IClientEvent[]) => void;
 }
 
 export class GameContentPane extends React.PureComponent<GameContentPaneProps, {}> {
   constructor(props: GameContentPaneProps) {
     super(props);
-    this.togglePanel = this.togglePanel.bind(this);
+    this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
   }
 
   public render() {
@@ -33,21 +32,18 @@ export class GameContentPane extends React.PureComponent<GameContentPaneProps, {
             clientState={this.props.clientState}
             gameState={this.props.gameState}
             sendGameEvents={this.props.sendGameEvents}
-            sendClientEvents={this.props.sendClientEvents}
           />
         </div>
         <DetailedInfoPanelWrapper
+          isPanelOpen={this.props.clientState.isDetailedInfoPanelOpen}
+          togglePanel={this.toggleInfoPanel}
           info={this.props.clientState.currentDetailedInfoKey}
-          isPanelOpen={this.props.clientState.isDetailedInfoVisible}
-          togglePanel={() => {
-            this.props.sendClientEvents([ClientEvent(ClientActions.DETAILED_INFO_PANEL_TOGGLE)]);
-          }}
         />
       </div>
     );
   }
 
-  private togglePanel() {
-    this.props.sendClientEvents([ClientEvent(ClientActions.DETAILED_INFO_PANEL_TOGGLE)]);
+  private toggleInfoPanel() {
+    this.props.sendGameEvents([new ToggleDetailedInfoPanelEvent()]);
   }
 }

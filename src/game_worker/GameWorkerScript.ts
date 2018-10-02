@@ -1,4 +1,4 @@
-import { GameEvent, GameEventTypes } from "../common/GameEvents";
+import { GameEvent, GameEventTypes } from "../common/events/GameEvents";
 import { ResourceTypes } from "../common/GameState";
 import { GameWorker } from "./GameWorker";
 import { WorkerGameState } from "./WorkerGameState";
@@ -24,12 +24,13 @@ ctx.onmessage = (ev: MessageEvent) => {
   // Handle pause and unpause, which affect the worker, not the game worker
   if (paused) {
     // Nothing can happen while paused except for unpausing
-    if (events[0].eventType === GameEventTypes.UNPAUSE) {
+    if (events[0].eventType === GameEventTypes.TOGGLE_PAUSE) {
       paused = false;
     }
     return;
   }
-  if (events[0].eventType === GameEventTypes.PAUSE) {
+  if (events[0].eventType === GameEventTypes.TOGGLE_PAUSE) {
+    // We know we aren't paused, so unpause
     paused = true;
     return;
   }

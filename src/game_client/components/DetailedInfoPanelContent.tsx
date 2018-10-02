@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailedInfo, DetailedInfoKeys, DetailedInfoKeysMap } from "../DetailedInfo";
+import { DetailedInfo, DetailedInfoKeys, DetailedInfoKeysMap } from "../../common/DetailedInfo";
 
 interface DetailedInfoPanelContentProps {
   info?: DetailedInfoKeys;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../DetailedInfo";
+import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { DetailedInfoPanelContent } from "./DetailedInfoPanelContent";
 
 interface DetailedInfoPanelWrapperProps {
@@ -12,6 +12,10 @@ export class DetailedInfoPanelWrapper extends React.PureComponent<
   DetailedInfoPanelWrapperProps,
   {}
 > {
+  public constructor(props: DetailedInfoPanelWrapperProps) {
+    super(props);
+  }
+
   public render() {
     const indicatorClass = this.props.isPanelOpen
       ? "detailed_info_panel_open_indicator"
@@ -20,7 +24,7 @@ export class DetailedInfoPanelWrapper extends React.PureComponent<
     return (
       <>
         <div
-          onClick={() => this.props.togglePanel()}
+          onClick={this.props.togglePanel}
           className={`detailed_info_toggle_bar_toggle ${indicatorClass}`}
         />
         <div className={`detailed_info_panel ${indicatorClass}`}>

@@ -11,6 +11,8 @@ const GRID_SIZE_X = GRID_NUM_TILES_X * GRID_TILE_X;
 const GRID_SIZE_Y = GRID_NUM_TILES_Y * GRID_TILE_Y;
 const MAX_OFFSET_X = Math.trunc(MAP_RENDER_X / 2);
 const MAX_OFFSET_Y = Math.trunc(MAP_RENDER_Y / 2);
+
+// Limits assumes GRID_SIZEs are greater than the render size
 const GRID_OFFSET_LIMITS = {
   x: {
     min: -(GRID_SIZE_X - MAP_RENDER_X) - MAX_OFFSET_X,
@@ -21,6 +23,11 @@ const GRID_OFFSET_LIMITS = {
     max: MAX_OFFSET_Y
   }
 };
+
+// Multiplier to distance covered by drag
+const DRAG_RATE = 1.5;
+// Number of pixels under which a drag does not count as significant
+const DRAG_THRESHOLD = 5;
 
 export interface GameMapTile {
   x: number;
@@ -89,6 +96,7 @@ export class GameMap extends React.PureComponent<GameMapProps, GameMapState> {
   private renderMapWithOffset(ctx: CanvasRenderingContext2D, offset: GameMapOffset) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
+    // Clear assuming  are greater than the render size
     ctx.clearRect(0, 0, GRID_SIZE_X, GRID_SIZE_Y);
     ctx.beginPath();
 
@@ -114,10 +122,14 @@ export class GameMap extends React.PureComponent<GameMapProps, GameMapState> {
 
   private handleMouseDown(e: React.MouseEvent) {
     this.isDragging = true;
-    this.dragHandler = new DragHandler({
-      x: e.clientX,
-      y: e.clientY
-    });
+    this.dragHandler = new DragHandler(
+      {
+        x: e.clientX,
+        y: e.clientY
+      },
+      DRAG_RATE,
+      DRAG_THRESHOLD
+    );
   }
 
   private handleMouseMove(e: React.MouseEvent) {

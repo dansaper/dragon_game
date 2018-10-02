@@ -1,9 +1,3 @@
-// Number of pixels under which a drag does not count as significant
-const DRAG_THRESHOLD = 5;
-
-// Multiplier to distance covered by drag
-const DRAG_RATE = 1.5;
-
 interface Point {
   x: number;
   y: number;
@@ -26,18 +20,22 @@ interface DragBoundries {
 
 export class DragHandler {
   public isSignificantDrag: boolean = false;
+  private dragRate: number;
+  private dragThreshold: number;
 
   private readonly startLocation: Point;
   private currentLocation: Point;
   private get currentOffset(): DragOffset {
     return {
-      x: Math.trunc(DRAG_RATE * (this.startLocation.x - this.currentLocation.x)),
-      y: Math.trunc(DRAG_RATE * (this.startLocation.y - this.currentLocation.y))
+      x: Math.trunc(this.dragRate * (this.currentLocation.x - this.startLocation.x)),
+      y: Math.trunc(this.dragRate * (this.currentLocation.y - this.startLocation.y))
     };
   }
 
-  constructor(startLocation: Point) {
+  constructor(startLocation: Point, dragRate = 1, dragThreshold = 5) {
     this.startLocation = this.currentLocation = startLocation;
+    this.dragRate = dragRate;
+    this.dragThreshold = dragThreshold;
   }
 
   public update(draggedTo: Point) {
@@ -45,8 +43,8 @@ export class DragHandler {
 
     const offset = this.currentOffset;
     if (
-      Math.abs(offset.x) > DRAG_THRESHOLD * DRAG_RATE ||
-      Math.abs(offset.y) > DRAG_THRESHOLD * DRAG_RATE
+      Math.abs(offset.x) > this.dragThreshold * this.dragRate ||
+      Math.abs(offset.y) > this.dragThreshold * this.dragRate
     ) {
       this.isSignificantDrag = true;
     }

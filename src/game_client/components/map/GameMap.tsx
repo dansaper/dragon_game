@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DragHandler } from "../DragHandler";
+import { DragHandler } from "./DragHandler";
 
 const MAP_RENDER_X = 500;
 const MAP_RENDER_Y = 500;

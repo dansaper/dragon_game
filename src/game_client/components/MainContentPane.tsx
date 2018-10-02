@@ -5,7 +5,7 @@ import { IClientEvent } from "../ClientEvents";
 import { ClientState } from "../ClientState";
 import { DetailedInfoKeys } from "../DetailedInfo";
 import { ButtonWithInfo } from "./common/ButtonWithInfo";
-import { GameMap } from "./GameMap";
+import { GameMap } from "./map/GameMap";
 
 interface MainContentPaneProps {
   clientState: ClientState;

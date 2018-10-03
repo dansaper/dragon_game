@@ -4,7 +4,29 @@ $main-border-color: black;
 $main-border: $main-border-width $main-border-style $main-border-color;
 
 .button-with-info {
-  border: 1px solid darkgray;
+  position: relative;
+  width: 100px;
+  height: 60px;
+  padding: 8px;
 
+  border: 1px solid darkgray;
   border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-with-info-text {
+  text-align: center;
+}
+
+.button-info-button {
+  top: 0;
+  right: 0;
+  position: absolute;
+  border-style: solid;
+  border-color: darkgray;
+  border-width: 0px 0px 1px 1px;
+  width: 15px;
+  text-align: center;
 }

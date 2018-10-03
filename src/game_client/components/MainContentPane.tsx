@@ -1,11 +1,9 @@
 import * as React from "react";
 import { ClientState } from "../../common/ClientState";
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { GameEvent } from "../../common/events/GameEvents";
-import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
-import { GameState, ResourceTypes } from "../../common/GameState";
-import { ButtonWithInfo } from "./common/ButtonWithInfo";
-import { GameMap } from "./map/GameMap";
+import { GameState } from "../../common/GameState";
+import { BaseCampTab } from "./BaseCampTab";
+import { GameMapTab } from "./GameMapTab";
 
 interface MainContentPaneProps {
   clientState: ClientState;
@@ -13,27 +11,91 @@ interface MainContentPaneProps {
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class MainContentPane extends React.PureComponent<MainContentPaneProps, {}> {
+enum ContentTabs {
+  BASE_CAMP,
+  GAME_MAP
+}
+interface TabDescriptor {
+  name: string;
+  selector: () => void;
+  isVisible: (state: GameState) => boolean;
+  index: number;
+}
+
+export class MainContentPane extends React.PureComponent<
+  MainContentPaneProps,
+  { selectedTab: ContentTabs }
+> {
+  private tabs: Map<ContentTabs, TabDescriptor>;
+
   constructor(props: MainContentPaneProps) {
     super(props);
-    this.increment = this.increment.bind(this);
+    this.state = {
+      selectedTab: ContentTabs.BASE_CAMP
+    };
+
+    this.tabs = new Map();
+    this.tabs.set(ContentTabs.BASE_CAMP, {
+      name: "Base Camp",
+      selector: this.selectTab.bind(this, ContentTabs.BASE_CAMP),
+      isVisible: () => {
+        return true;
+      },
+      index: 0
+    });
+    this.tabs.set(ContentTabs.GAME_MAP, {
+      name: "Map",
+      selector: this.selectTab.bind(this, ContentTabs.GAME_MAP),
+      isVisible: () => {
+        return true;
+      },
+      index: 1
+    });
   }
 
   public render() {
     return (
-      <div>
-        <ButtonWithInfo
-          onClick={this.increment}
-          title="Super Button"
-          infoKey={DetailedInfoKeys.DEFAULT_INFO}
-          sendGameEvents={this.props.sendGameEvents}
-        />
-        <GameMap ownedTiles={[]} />
+      <div className="main-content-pane">
+        <div className="main-content-pane-tabs">
+          {Array.from(this.tabs.entries())
+            .sort((a, b) => {
+              return a[1].index - b[1].index;
+            })
+            .map(([key, descriptor]) => {
+              let tabClass: string;
+              if (descriptor.isVisible(this.props.gameState)) {
+                tabClass = "main-content-pane-tab-hidden";
+              } else if (this.state.selectedTab === key) {
+                tabClass = "main-content-pane-tab-active";
+              } else {
+                tabClass = "main-content-pane-tab-inactive";
+              }
+
+              return (
+                <div
+                  key={key}
+                  className={`main-content-pane-tab ${tabClass}`}
+                  onClick={descriptor.selector}
+                >
+                  {descriptor.name}
+                </div>
+              );
+            })}
+        </div>
+        <div className="main-content-pane-content">
+          <BaseCampTab
+            gameState={this.props.gameState}
+            sendGameEvents={this.props.sendGameEvents}
+          />
+          <GameMapTab gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
+        </div>
       </div>
     );
   }
 
-  private increment() {
-    this.props.sendGameEvents([new ResourceModificationEvent(ResourceTypes.WYVERN_BONE, 3)]);
+  private selectTab(tab: ContentTabs) {
+    this.setState({
+      selectedTab: tab
+    });
   }
 }

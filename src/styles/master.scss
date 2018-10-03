@@ -1,4 +1,6 @@
 @import "base";
+@import "infopane";
+@import "mainContentPane";
 
 html,
 body {
@@ -62,9 +64,6 @@ body {
   justify-content: space-around;
 }
 
-.main_content_pane {
+.main-content-pane {
   flex: 1 1 auto;
-  padding: 30px;
 }
-
-@import "infopane";

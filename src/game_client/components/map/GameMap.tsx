@@ -76,6 +76,7 @@ export class GameMap extends React.PureComponent<GameMapProps, GameMapState> {
   public render() {
     return (
       <canvas
+        className="game-map"
         ref={this.canvasRef}
         width={MAP_RENDER_X.toString()}
         height={MAP_RENDER_Y.toString()}

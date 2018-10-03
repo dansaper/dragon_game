@@ -25,15 +25,11 @@ export class GameContentPane extends React.PureComponent<GameContentPaneProps, {
         <div className="resource_pane">
           <ResourceList resources={this.props.gameState.resources} />
         </div>
-        <div className="main_content_pane">
-          <div>Foo Bar Baz</div>
-          <div>Biz Bak Boo</div>
-          <MainContentPane
-            clientState={this.props.clientState}
-            gameState={this.props.gameState}
-            sendGameEvents={this.props.sendGameEvents}
-          />
-        </div>
+        <MainContentPane
+          clientState={this.props.clientState}
+          gameState={this.props.gameState}
+          sendGameEvents={this.props.sendGameEvents}
+        />
         <DetailedInfoPanelWrapper
           isPanelOpen={this.props.clientState.isDetailedInfoPanelOpen}
           togglePanel={this.toggleInfoPanel}

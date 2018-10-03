@@ -20,10 +20,8 @@ export class ButtonWithInfo extends React.PureComponent<IButtonWithInfo, {}> {
 
   public render() {
     return (
-      <div className="button-with-info">
-        <div className="button-with-info-text" onClick={this.onClick}>
-          {this.props.title}
-        </div>
+      <div className="button-with-info" onClick={this.onClick}>
+        <div className="button-with-info-text">{this.props.title}</div>
         <div className="button-info-button" onClick={this.selectInfo}>
           i
         </div>
@@ -35,10 +33,11 @@ export class ButtonWithInfo extends React.PureComponent<IButtonWithInfo, {}> {
     this.props.onClick();
   }
 
-  private selectInfo() {
+  private selectInfo(e: React.MouseEvent) {
     this.props.sendGameEvents([
       new UpdateDetailedInfoPanelEvent(DetailedInfoKeys.DEFAULT_INFO),
       new ToggleDetailedInfoPanelEvent(true)
     ]);
+    e.stopPropagation();
   }
 }

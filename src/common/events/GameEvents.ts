@@ -1,8 +1,8 @@
 import { ClientState } from "../ClientState";
 import { GameState } from "../GameState";
 import { ResourceModificationEventHandlers } from "./ResourceModificationEvent";
-import { UpdateDetailedInfoPanelEventHandlers } from "./UpdateDetailedInfoPanelEvent";
 import { ToggleDetailedInfoPanelEventHandlers } from "./ToggleDetailedInfoPanelEvent";
+import { UpdateDetailedInfoPanelEventHandlers } from "./UpdateDetailedInfoPanelEvent";
 
 export enum GameEventTypes {
   TOGGLE_PAUSE,

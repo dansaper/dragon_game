@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailedInfo, DetailedInfoKeys, DetailedInfoKeysMap } from "../../common/DetailedInfo";
+import { DetailedInfoKeys, DetailedInfoKeysMap } from "../../common/DetailedInfo";
 
 interface DetailedInfoPanelContentProps {
   info?: DetailedInfoKeys;
@@ -9,23 +9,20 @@ export class DetailedInfoPanelContent extends React.PureComponent<
   DetailedInfoPanelContentProps,
   {}
 > {
-  private detailedInfo?: DetailedInfo;
-  constructor(props: DetailedInfoPanelContentProps) {
-    super(props);
-    if (props.info !== undefined) {
-      this.detailedInfo = DetailedInfoKeysMap.get(props.info);
-    }
-  }
-
   public render() {
     let content: JSX.Element;
-    if (this.detailedInfo !== undefined) {
-      content = (
-        <>
-          <h2>{this.detailedInfo.title}</h2>
-          <div>{this.detailedInfo.content}</div>
-        </>
-      );
+    if (this.props.info !== undefined) {
+      const detailedInfo = DetailedInfoKeysMap.get(this.props.info);
+      if (detailedInfo !== undefined) {
+        content = (
+          <>
+            <h2>{detailedInfo.title}</h2>
+            <div>{detailedInfo.content}</div>
+          </>
+        );
+      } else {
+        content = <div>Nothing known about this!</div>;
+      }
     } else {
       content = <div>Nothing selected!</div>;
     }

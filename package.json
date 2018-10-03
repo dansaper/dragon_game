@@ -7,7 +7,7 @@
     "tslint": "./node_modules/.bin/tslint --project '.'",
     "prettier": "./node_modules/.bin/prettier -l \"src/**\" \"test/**\"",
     "lint": "npm run tslint && npm run prettier",
-    "sass": "./node_modules/.bin/sass src/styles/base.scss dist/styles.css",
+    "sass": "./node_modules/.bin/sass src/styles/master.scss dist/styles.css",
     "pack": "./node_modules/.bin/webpack",
     "build": "npm run lint && npm run sass && npm run pack && npm run test",
     "quick": "npm run sass && npm run pack",

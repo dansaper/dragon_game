@@ -1,4 +1,4 @@
-@import "common.scss";
+@import "base";
 
 .detailed_info_toggle_bar_toggle {
   border-left: $main-border;
@@ -18,12 +18,14 @@
   }
 }
 
+$panel-width: 300px;
+
 .detailed_info_panel {
   overflow: hidden;
   transition: width 0.25s linear;
   &.detailed_info_panel_open_indicator {
     border-left: $main-border;
-    width: 300px;
+    width: $panel-width;
   }
   &.detailed_info_panel_closed_indicator {
     width: 0;
@@ -32,7 +34,7 @@
 
 .detailed-info-body {
   padding: 12px;
-  width: 100%;
+  width: $panel-width;
   height: 100%;
   box-sizing: border-box;
 

@@ -2,6 +2,20 @@
 @import "gameTab";
 @import "baseCampTab";
 
-.main-content-pane-content {
+.main-content-pane-tabs {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+}
+
+.main-content-pane-content-wrapper {
   padding: 30px;
+}
+
+.main-content-pane-tab-inactive {
+  background-color: lightgray;
+}
+
+.main-content-pane-content-inactive {
+  display: none;
 }

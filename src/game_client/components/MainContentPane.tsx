@@ -19,6 +19,7 @@ interface TabDescriptor {
   name: string;
   selector: () => void;
   isVisible: (state: GameState) => boolean;
+  getContent: () => JSX.Element;
   index: number;
 }
 
@@ -34,63 +35,95 @@ export class MainContentPane extends React.PureComponent<
       selectedTab: ContentTabs.BASE_CAMP
     };
 
-    this.tabs = new Map();
-    this.tabs.set(ContentTabs.BASE_CAMP, {
+    this.tabs = this.initTabs();
+  }
+
+  public render() {
+    const tabEntries = Array.from(this.tabs.entries())
+      .sort((a, b) => {
+        return a[1].index - b[1].index;
+      })
+      .filter(e => e[1].isVisible(this.props.gameState));
+
+    return (
+      <div className="main-content-pane">
+        <div className="main-content-pane-tabs">
+          {tabEntries.map(([key, descriptor]) => {
+            return (
+              <div key={key} className={this.getTabClass(key)} onClick={descriptor.selector}>
+                {descriptor.name}
+              </div>
+            );
+          })}
+        </div>
+        <div className="main-content-pane-content-wrapper">
+          {tabEntries.map(([key, descriptor]) => {
+            return (
+              <div key={key} className={this.getContentClass(key)}>
+                {descriptor.getContent()}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  private getTabClass(key: ContentTabs) {
+    let displayClass;
+    if (this.state.selectedTab === key) {
+      displayClass = "main-content-pane-tab-active";
+    } else {
+      displayClass = "main-content-pane-tab-inactive";
+    }
+
+    return `main-content-pane-tab ${displayClass}`;
+  }
+
+  private getContentClass(key: ContentTabs) {
+    let displayClass;
+    if (this.state.selectedTab === key) {
+      displayClass = "main-content-pane-content-active";
+    } else {
+      displayClass = "main-content-pane-content-inactive";
+    }
+
+    return `main-content-pane-content ${displayClass}`;
+  }
+
+  private initTabs() {
+    const tabs: Map<ContentTabs, TabDescriptor> = new Map();
+    tabs.set(ContentTabs.BASE_CAMP, {
       name: "Base Camp",
       selector: this.selectTab.bind(this, ContentTabs.BASE_CAMP),
       isVisible: () => {
         return true;
       },
+      getContent: () => {
+        return (
+          <BaseCampTab
+            gameState={this.props.gameState}
+            sendGameEvents={this.props.sendGameEvents}
+          />
+        );
+      },
       index: 0
     });
-    this.tabs.set(ContentTabs.GAME_MAP, {
+    tabs.set(ContentTabs.GAME_MAP, {
       name: "Map",
       selector: this.selectTab.bind(this, ContentTabs.GAME_MAP),
       isVisible: () => {
         return true;
       },
+      getContent: () => {
+        return (
+          <GameMapTab gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
+        );
+      },
       index: 1
     });
-  }
 
-  public render() {
-    return (
-      <div className="main-content-pane">
-        <div className="main-content-pane-tabs">
-          {Array.from(this.tabs.entries())
-            .sort((a, b) => {
-              return a[1].index - b[1].index;
-            })
-            .map(([key, descriptor]) => {
-              let tabClass: string;
-              if (descriptor.isVisible(this.props.gameState)) {
-                tabClass = "main-content-pane-tab-hidden";
-              } else if (this.state.selectedTab === key) {
-                tabClass = "main-content-pane-tab-active";
-              } else {
-                tabClass = "main-content-pane-tab-inactive";
-              }
-
-              return (
-                <div
-                  key={key}
-                  className={`main-content-pane-tab ${tabClass}`}
-                  onClick={descriptor.selector}
-                >
-                  {descriptor.name}
-                </div>
-              );
-            })}
-        </div>
-        <div className="main-content-pane-content">
-          <BaseCampTab
-            gameState={this.props.gameState}
-            sendGameEvents={this.props.sendGameEvents}
-          />
-          <GameMapTab gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
-        </div>
-      </div>
-    );
+    return tabs;
   }
 
   private selectTab(tab: ContentTabs) {

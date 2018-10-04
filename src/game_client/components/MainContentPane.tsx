@@ -47,15 +47,15 @@ export class MainContentPane extends React.PureComponent<
 
     return (
       <div className="main-content-pane">
-        <div className="main-content-pane-tabs">
+        <ul className="main-content-pane-tabs">
           {tabEntries.map(([key, descriptor]) => {
             return (
-              <div key={key} className={this.getTabClass(key)} onClick={descriptor.selector}>
+              <li key={key} className={this.getTabClass(key)} onClick={descriptor.selector}>
                 {descriptor.name}
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
         <div className="main-content-pane-content-wrapper">
           {tabEntries.map(([key, descriptor]) => {
             return (

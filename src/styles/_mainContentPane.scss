@@ -2,18 +2,59 @@
 @import "gameTab";
 @import "baseCampTab";
 
-.main-content-pane-tabs {
+$tab-bar-height: 50px;
+
+.main-content-pane {
+  margin: 10px;
   display: flex;
-  justify-content: stretch;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.main-content-pane-tabs {
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
 }
 
-.main-content-pane-content-wrapper {
-  padding: 30px;
+.main-content-pane-tab {
+  display: block;
+  flex: 1 0 auto;
+
+  max-width: 100px;
+  height: $tab-bar-height;
+
+  border: $main-border;
+  border-bottom: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.main-content-pane-tab-active {
+  position: relative;
+  top: 1px;
+  background: white;
 }
 
 .main-content-pane-tab-inactive {
   background-color: lightgray;
+}
+
+.main-content-pane-content-wrapper {
+  flex: 1 1 auto;
+
+  padding: 30px;
+  border: $main-border;
+  border-radius: 0px 30px 30px 30px;
+
+  overflow: scroll;
 }
 
 .main-content-pane-content-inactive {

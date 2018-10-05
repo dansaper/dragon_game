@@ -4,7 +4,7 @@ export class DetailedInfo {
   constructor(public readonly title: string, public readonly content: JSX.Element) {}
 }
 
-export const DefaultInfo = new DetailedInfo(
+const DefaultInfo = new DetailedInfo(
   "Basic info",
   (
     <div>
@@ -21,8 +21,13 @@ export const DefaultInfo = new DetailedInfo(
 );
 
 export enum DetailedInfoKeys {
-  DEFAULT_INFO
+  DEFAULT_INFO,
+  NO_INFO
 }
 
 export const DetailedInfoKeysMap: Map<DetailedInfoKeys, DetailedInfo> = new Map();
 DetailedInfoKeysMap.set(DetailedInfoKeys.DEFAULT_INFO, DefaultInfo);
+DetailedInfoKeysMap.set(
+  DetailedInfoKeys.NO_INFO,
+  new DetailedInfo("Nothing to say about this", <div />)
+);

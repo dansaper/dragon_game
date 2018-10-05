@@ -9,9 +9,10 @@ export class ResourceModificationEvent implements GameEvent {
 export const ResourceModificationEventHandlers: GameStateModificationHandler = {
   gameState: (state: GameState, e: ResourceModificationEvent) => {
     const oldValue = state.resources.get(e.resourceType);
-    if (oldValue !== undefined) {
-      state.resources.set(e.resourceType, oldValue + e.modification);
-    }
+    state.resources.set(
+      e.resourceType,
+      oldValue !== undefined ? oldValue + e.modification : e.modification
+    );
 
     return state;
   }

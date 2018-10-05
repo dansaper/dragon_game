@@ -1,9 +1,8 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { GameEvent } from "../../common/events/GameEvents";
-import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
-import { GameState, ResourceTypes } from "../../common/GameState";
-import { ButtonWithInfo } from "./common/ButtonWithInfo";
+import { GameState } from "../../common/GameState";
+import { PurchaseButtonGameElements } from "../PurchaseButtonElements";
+import { PurchaseButton } from "./common/PurchaseButton";
 
 interface BaseCampTabProps {
   gameState: GameState;
@@ -13,23 +12,17 @@ interface BaseCampTabProps {
 export class BaseCampTab extends React.PureComponent<BaseCampTabProps, {}> {
   constructor(props: BaseCampTabProps) {
     super(props);
-    this.increment = this.increment.bind(this);
   }
 
   public render() {
     return (
       <div>
-        <ButtonWithInfo
-          onClick={this.increment}
-          title="Kill a Wyvern"
-          infoKey={DetailedInfoKeys.DEFAULT_INFO}
+        <PurchaseButton
+          gameState={this.props.gameState}
+          button={PurchaseButtonGameElements.HUNT_BABY_WYVERN_BUTTON}
           sendGameEvents={this.props.sendGameEvents}
         />
       </div>
     );
-  }
-
-  private increment() {
-    this.props.sendGameEvents([new ResourceModificationEvent(ResourceTypes.WYVERN_BONE, 3)]);
   }
 }

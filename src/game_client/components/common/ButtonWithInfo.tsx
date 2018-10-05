@@ -4,24 +4,32 @@ import { GameEvent } from "../../../common/events/GameEvents";
 import { ToggleDetailedInfoPanelEvent } from "../../../common/events/ToggleDetailedInfoPanelEvent";
 import { UpdateDetailedInfoPanelEvent } from "../../../common/events/UpdateDetailedInfoPanelEvent";
 
-interface IButtonWithInfo {
+interface ButtonWithInfoProps {
   onClick: () => void;
+  isVisible: () => boolean;
+  isDisabled: () => boolean;
   title: string;
   infoKey: DetailedInfoKeys;
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class ButtonWithInfo extends React.PureComponent<IButtonWithInfo, {}> {
-  constructor(props: IButtonWithInfo) {
+export class ButtonWithInfo extends React.PureComponent<ButtonWithInfoProps, {}> {
+  constructor(props: ButtonWithInfoProps) {
     super(props);
     this.onClick = this.onClick.bind(this);
     this.selectInfo = this.selectInfo.bind(this);
   }
 
   public render() {
+    const topLevelClasses = `button-with-info ${
+      this.props.isVisible() ? "button-with-info-hidden" : ""
+    }`;
+    const textButtonClasses = `button-with-info-text ${
+      this.props.isDisabled() ? "button-with-info-disabled" : ""
+    }`;
     return (
-      <div className="button-with-info" onClick={this.onClick}>
-        <div className="button-with-info-text">{this.props.title}</div>
+      <div className={topLevelClasses} onClick={this.onClick}>
+        <div className={textButtonClasses}>{this.props.title}</div>
         <div className="button-info-button" onClick={this.selectInfo}>
           i
         </div>
@@ -35,7 +43,7 @@ export class ButtonWithInfo extends React.PureComponent<IButtonWithInfo, {}> {
 
   private selectInfo(e: React.MouseEvent) {
     this.props.sendGameEvents([
-      new UpdateDetailedInfoPanelEvent(DetailedInfoKeys.DEFAULT_INFO),
+      new UpdateDetailedInfoPanelEvent(this.props.infoKey),
       new ToggleDetailedInfoPanelEvent(true)
     ]);
     e.stopPropagation();

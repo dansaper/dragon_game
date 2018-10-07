@@ -24,13 +24,13 @@ describe("Drag Significance", () => {
     [{ x: -2, y: -2 }, "-x, -y at threshold"]
   ];
 
-  notSignificant.forEach(([point, desc]) => {
+  for (const [point, desc] of notSignificant) {
     test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is not significant`, () => {
       const handler = new DragHandler({ x: 1, y: 1 }, dragRate, threshold);
       handler.update(point);
       expect(handler.isSignificantDrag).toBe(false);
     });
-  });
+  }
 
   const significant: Array<[{ x: number; y: number }, string]> = [
     [{ x: 5, y: 1 }, "+x over threshold"],
@@ -44,13 +44,13 @@ describe("Drag Significance", () => {
     [{ x: 15, y: 22 }, "way over threshold"]
   ];
 
-  significant.forEach(([point, desc]) => {
+  for (const [point, desc] of significant) {
     test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is significant`, () => {
       const handler = new DragHandler({ x: 1, y: 1 }, dragRate, threshold);
       handler.update(point);
       expect(handler.isSignificantDrag).toBe(true);
     });
-  });
+  }
 });
 
 describe("Calculation of drag offset (within boundary)", () => {
@@ -94,7 +94,7 @@ describe("Calculation of drag offset (within boundary)", () => {
       }
     ];
 
-    noExternal.forEach(({ begin, end, expected }) => {
+    for (const { begin, end, expected } of noExternal) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
@@ -103,7 +103,7 @@ describe("Calculation of drag offset (within boundary)", () => {
         const result = handler.calculateOffset({ x: 0, y: 0 }, bigBoundaries);
         expect(result).toEqual(expected);
       });
-    });
+    }
   });
 
   describe("with rate change, no external", () => {
@@ -134,7 +134,7 @@ describe("Calculation of drag offset (within boundary)", () => {
       }
     ];
 
-    withRate.forEach(({ begin, end, expected, rate }) => {
+    for (const { begin, end, expected, rate } of withRate) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } with rate ${rate} should be { x: ${expected.x}, y: ${expected.y} }`, () => {
@@ -143,7 +143,7 @@ describe("Calculation of drag offset (within boundary)", () => {
         const result = handler.calculateOffset({ x: 0, y: 0 }, bigBoundaries);
         expect(result).toEqual(expected);
       });
-    });
+    }
   });
 
   describe("with external, no rate change, ", () => {
@@ -156,7 +156,7 @@ describe("Calculation of drag offset (within boundary)", () => {
       }
     ];
 
-    withExternal.forEach(({ begin, end, expected, external }) => {
+    for (const { begin, end, expected, external } of withExternal) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } with external offset { x: ${external.x}, y: ${external.y} } should be { x: ${
@@ -167,11 +167,11 @@ describe("Calculation of drag offset (within boundary)", () => {
         const result = handler.calculateOffset(external, bigBoundaries);
         expect(result).toEqual(expected);
       });
-    });
+    }
   });
 
   describe("with external and rate change, ", () => {
-    const withExternal = [
+    const withExternalAndRate = [
       {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
@@ -181,7 +181,7 @@ describe("Calculation of drag offset (within boundary)", () => {
       }
     ];
 
-    withExternal.forEach(({ begin, end, expected, rate, external }) => {
+    for (const { begin, end, expected, rate, external } of withExternalAndRate) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } with rate ${rate} and external offset { x: ${external.x}, y: ${
@@ -192,7 +192,7 @@ describe("Calculation of drag offset (within boundary)", () => {
         const result = handler.calculateOffset(external, bigBoundaries);
         expect(result).toEqual(expected);
       });
-    });
+    }
   });
 });
 
@@ -221,13 +221,13 @@ describe("Limiting drag offest to boundary", () => {
     [{ x: 10, y: 100 }, "x at max, y at max", { x: 10, y: 100 }]
   ];
 
-  testcases.forEach(([point, desc, expected]) => {
+  for (const [point, desc, expected] of testcases) {
     test(`Limit ${desc} to boudary`, () => {
       const handler = new DragHandler({ x: 0, y: 0 }, 1, 0);
       handler.update(point);
       expect(handler.calculateOffset({ x: 0, y: 0 }, boundaries)).toEqual(expected);
     });
-  });
+  }
 
   test("External should be taken into account", () => {
     const handler = new DragHandler({ x: 0, y: -2 }, 1, 0);

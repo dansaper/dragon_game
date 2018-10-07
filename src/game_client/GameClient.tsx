@@ -47,12 +47,12 @@ export class GameClient {
     }
 
     let current = this.clientState;
-    events.forEach(event => {
+    for (const event of events) {
       const handler = ClientStateModificationHandlers.get(event.eventType);
       if (handler !== undefined) {
         current = handler(current, event);
       }
-    });
+    }
     this.clientState = Object.assign({}, current);
   }
 }

@@ -4,7 +4,7 @@ import { GameState } from "../../../common/GameState";
 import {
   PurchaseButtonDefinitions,
   PurchaseButtonGameElements
-} from "../../PurchaseButtonElements";
+} from "../../client_elements/PurchaseButtonDefinitionLibrary";
 import { ButtonWithInfo } from "./ButtonWithInfo";
 
 export class PurchaseButton extends React.PureComponent<

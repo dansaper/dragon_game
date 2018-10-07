@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GameEvent } from "../../common/events/GameEvents";
 import { GameState } from "../../common/GameState";
-import { PurchaseButtonGameElements } from "../PurchaseButtonElements";
+import { PurchaseButtonGameElements } from "../client_elements/PurchaseButtonDefinitionLibrary";
 import { PurchaseButton } from "./common/PurchaseButton";
 
 interface BaseCampTabProps {

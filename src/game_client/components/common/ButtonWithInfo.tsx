@@ -38,7 +38,9 @@ export class ButtonWithInfo extends React.PureComponent<ButtonWithInfoProps, {}>
   }
 
   private onClick() {
-    this.props.onClick();
+    if (!this.props.isDisabled()) {
+      this.props.onClick();
+    }
   }
 
   private selectInfo(e: React.MouseEvent) {

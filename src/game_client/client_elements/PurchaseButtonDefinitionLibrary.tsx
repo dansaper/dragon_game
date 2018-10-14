@@ -1,9 +1,9 @@
 import * as BaseCampButtons from "./BaseCampButtons";
 import { PurchaseButtonDefinition } from "./GameElementDefinitions";
-import * as Utils from "./LibraryUtils";
 
 export enum PurchaseButtonGameElements {
   HUNT_BABY_WYVERN_BUTTON,
+  CRAFT_BABY_WYVERN_LEATHER_BUTTON,
   HIRE_PLAINS_HUNTER_BUTTON
 }
 
@@ -14,9 +14,13 @@ export const PurchaseButtonDefinitions: Map<
 
 PurchaseButtonDefinitions.set(
   PurchaseButtonGameElements.HUNT_BABY_WYVERN_BUTTON,
-  Utils.bindFunctions(BaseCampButtons.HuntBabyWyverns)
+  BaseCampButtons.HuntBabyWyverns
+);
+PurchaseButtonDefinitions.set(
+  PurchaseButtonGameElements.CRAFT_BABY_WYVERN_LEATHER_BUTTON,
+  BaseCampButtons.CraftBabyWyvernLeather
 );
 PurchaseButtonDefinitions.set(
   PurchaseButtonGameElements.HIRE_PLAINS_HUNTER_BUTTON,
-  Utils.bindFunctions(BaseCampButtons.HirePlainsHunter)
+  BaseCampButtons.HirePlainsHunter
 );

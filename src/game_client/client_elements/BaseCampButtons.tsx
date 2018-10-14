@@ -1,11 +1,12 @@
 import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
 import { GameState, ResourceTypes } from "../../common/GameState";
+import * as Utils from "./LibraryUtils";
 
 const HuntBabyWyverns = {
   isVisible: () => true,
   isEnabled: () => true,
-  title: "Hunt for a baby Wyverns",
+  title: "Hunt for a baby Wyvern",
   infoKey: DetailedInfoKeys.NO_INFO,
   purchase: () => {
     return [
@@ -15,17 +16,41 @@ const HuntBabyWyverns = {
   }
 };
 
-const HirePlainsHunter = {
+const CraftBabyWyvernLeather = {
   isVisible: () => true,
   isEnabled(state: GameState) {
-    const gold = state.resources.get(ResourceTypes.GOLD);
+    const hide = state.resources.get(ResourceTypes.BABY_WYVERN_HIDE);
     const cost = this.calculateCost();
-    if (gold === undefined || gold < cost) {
+    if (hide === undefined || hide < cost) {
       return false;
     }
     return true;
   },
-  title: `Hire a ${ResourceTypes.PLAINS_HUNTER}`,
+  title: `Craft baby wyvern leather`,
+  infoKey: DetailedInfoKeys.NO_INFO,
+  baseCost: 5,
+  calculateCost() {
+    return this.baseCost;
+  },
+  purchase() {
+    return [
+      new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_HIDE, -this.calculateCost()),
+      new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_LEATHER, 1)
+    ];
+  }
+};
+
+const HirePlainsHunter = {
+  isVisible: () => true,
+  isEnabled(state: GameState) {
+    const leather = state.resources.get(ResourceTypes.BABY_WYVERN_LEATHER);
+    const cost = this.calculateCost();
+    if (leather === undefined || leather < cost) {
+      return false;
+    }
+    return true;
+  },
+  title: `Hire a Plains Hunter`,
   infoKey: DetailedInfoKeys.NO_INFO,
   baseCost: 5,
   calculateCost() {
@@ -33,10 +58,13 @@ const HirePlainsHunter = {
   },
   purchase() {
     return [
-      new ResourceModificationEvent(ResourceTypes.GOLD, -this.calculateCost()),
+      new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_LEATHER, -this.calculateCost()),
       new ResourceModificationEvent(ResourceTypes.PLAINS_HUNTER, 1)
     ];
   }
 };
 
-export { HuntBabyWyverns, HirePlainsHunter };
+Utils.bindFunctions(HuntBabyWyverns);
+Utils.bindFunctions(CraftBabyWyvernLeather);
+Utils.bindFunctions(HirePlainsHunter);
+export { HuntBabyWyverns, CraftBabyWyvernLeather, HirePlainsHunter };

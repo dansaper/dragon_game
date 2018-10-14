@@ -1,7 +1,7 @@
 export enum ResourceTypes {
-  GOLD = "Gold",
   BABY_WYVERN_BONE = "Baby Wyvern Bone",
   BABY_WYVERN_HIDE = "Baby Wyvern Hide",
+  BABY_WYVERN_LEATHER = "Baby Wyvern Leather",
   PLAINS_HUNTER = "Plains Hunter",
   WYVERN_BONE = "Wyvern Bone",
   WYVERN_HIDE = "Wyvern Hide"

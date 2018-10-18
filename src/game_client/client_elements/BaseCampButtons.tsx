@@ -1,6 +1,6 @@
 import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
-import { GameState, ResourceTypes } from "../../common/GameState";
+import { GameProgressionFlags, GameState, ResourceTypes } from "../../common/GameState";
 import * as Utils from "./LibraryUtils";
 
 const HuntBabyWyverns = {
@@ -17,7 +17,9 @@ const HuntBabyWyverns = {
 };
 
 const CraftBabyWyvernLeather = {
-  isVisible: () => true,
+  isVisible(state: GameState) {
+    return state.flags.has(GameProgressionFlags.BABY_WYVERN_LEATHER_UNLOCKED);
+  },
   isEnabled(state: GameState) {
     const hide = state.resources.get(ResourceTypes.BABY_WYVERN_HIDE);
     const cost = this.calculateCost();
@@ -41,7 +43,9 @@ const CraftBabyWyvernLeather = {
 };
 
 const HirePlainsHunter = {
-  isVisible: () => true,
+  isVisible(state: GameState) {
+    return state.flags.has(GameProgressionFlags.PLAINS_HUNTER_UNLOCKED);
+  },
   isEnabled(state: GameState) {
     const leather = state.resources.get(ResourceTypes.BABY_WYVERN_LEATHER);
     const cost = this.calculateCost();

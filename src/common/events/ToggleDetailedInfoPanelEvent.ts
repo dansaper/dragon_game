@@ -12,3 +12,7 @@ export const ToggleDetailedInfoPanelEventHandlers: ClientStateModificationHandle
     return state;
   }
 };
+
+export function IsToggleDetailedInfoPanelEvent(e: GameEvent): e is ToggleDetailedInfoPanelEvent {
+  return e.eventType === GameEventTypes.TOGGLE_INFO_PANEL;
+}

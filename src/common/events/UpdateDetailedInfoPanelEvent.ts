@@ -14,3 +14,7 @@ export const UpdateDetailedInfoPanelEventHandlers: ClientStateModificationHandle
     return state;
   }
 };
+
+export function IsUpdateDetailedInfoPanelEvent(e: GameEvent): e is UpdateDetailedInfoPanelEvent {
+  return e.eventType === GameEventTypes.UPDATE_INFO_PANEL;
+}

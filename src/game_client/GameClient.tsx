@@ -6,8 +6,10 @@ import {
   GameEvent,
   GameEventTypes
 } from "../common/events/GameEvents";
+import { SetProgressionFlagEvent } from "../common/events/SetProgressionFlagEvent";
 import { GameState } from "../common/GameState";
 import { GamePane } from "./components/GamePane";
+import { resolveNeededProgressionFlags } from "./ProgressionFlagResolver";
 
 export class GameClient {
   public clientState: ClientState;
@@ -21,6 +23,7 @@ export class GameClient {
   }
 
   public sendGameEvents(events: GameEvent[]) {
+    events = this.addProgressionFlagEvents(events);
     this.handleGameEvents(events);
     this.worker.postMessage(events);
 
@@ -38,6 +41,11 @@ export class GameClient {
       />,
       document.getElementById("game")
     );
+  }
+
+  private addProgressionFlagEvents(events: GameEvent[]): GameEvent[] {
+    const neededFlags = resolveNeededProgressionFlags(events, this.gameState.flags);
+    return [...events, ...[...neededFlags].map(f => new SetProgressionFlagEvent(f))];
   }
 
   private handleGameEvents(events: GameEvent[]) {

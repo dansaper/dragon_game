@@ -1,25 +1,22 @@
 import { ClientState } from "../ClientState";
 import { GameState } from "../GameState";
 import { ResourceModificationEventHandlers } from "./ResourceModificationEvent";
+import { SetProgressionFlagEventHandlers } from "./SetProgressionFlagEvent";
 import { ToggleDetailedInfoPanelEventHandlers } from "./ToggleDetailedInfoPanelEvent";
 import { UpdateDetailedInfoPanelEventHandlers } from "./UpdateDetailedInfoPanelEvent";
 
 export enum GameEventTypes {
-  TOGGLE_PAUSE,
-  MODIFY_RESOURCE,
+  TOGGLE_PAUSE = "toggle_pause",
+  MODIFY_RESOURCE = "modify_resource",
+  SET_PROGRESSION_FLAG = "set_progression_flag",
 
   // CLIENT ONLY
-  TOGGLE_INFO_PANEL,
-  UPDATE_INFO_PANEL
+  TOGGLE_INFO_PANEL = "toggle_info_panel",
+  UPDATE_INFO_PANEL = "update_info_panel"
 }
 
 export interface GameEvent {
   eventType: GameEventTypes;
-}
-export function GameEvent(event: GameEventTypes): GameEvent {
-  return {
-    eventType: event
-  };
 }
 
 type GameStateModificationHandlerSignature = (state: GameState, event: any) => GameState;
@@ -35,6 +32,10 @@ export interface ClientStateModificationHandler {
 
 const gameStateHandlers: Map<GameEventTypes, GameStateModificationHandlerSignature> = new Map();
 gameStateHandlers.set(GameEventTypes.MODIFY_RESOURCE, ResourceModificationEventHandlers.gameState);
+gameStateHandlers.set(
+  GameEventTypes.SET_PROGRESSION_FLAG,
+  SetProgressionFlagEventHandlers.gameState
+);
 
 const clientStateHandlers: Map<GameEventTypes, ClientStateModificationHandlerSignature> = new Map();
 clientStateHandlers.set(

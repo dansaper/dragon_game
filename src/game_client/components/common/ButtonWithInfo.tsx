@@ -22,7 +22,7 @@ export class ButtonWithInfo extends React.PureComponent<ButtonWithInfoProps, {}>
 
   public render() {
     const topLevelClasses = `button-with-info ${
-      this.props.isVisible() ? "button-with-info-hidden" : ""
+      !this.props.isVisible() ? "button-with-info-hidden" : ""
     }`;
     const textButtonClasses = `button-with-info-text ${
       this.props.isDisabled() ? "button-with-info-disabled" : ""

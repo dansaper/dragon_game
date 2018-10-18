@@ -17,3 +17,7 @@ export const ResourceModificationEventHandlers: GameStateModificationHandler = {
     return state;
   }
 };
+
+export function IsResourceModificationEvent(e: GameEvent): e is ResourceModificationEvent {
+  return e.eventType === GameEventTypes.MODIFY_RESOURCE;
+}

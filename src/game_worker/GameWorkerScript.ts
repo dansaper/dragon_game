@@ -1,17 +1,18 @@
 import { GameEvent, GameEventTypes } from "../common/events/GameEvents";
-import { ResourceTypes } from "../common/GameState";
+import { GameState, ResourceTypes } from "../common/GameState";
 import { GameWorker } from "./GameWorker";
-import { WorkerGameState } from "./WorkerGameState";
 
 // We're actually running from a web worker, not a window
 const ctx: Worker = self as any;
 
 const worker = new GameWorker();
 
-let currentState: WorkerGameState;
-currentState = new WorkerGameState(
-  new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]])
-);
+// Temporarily use a state with some stuff in it to start us out
+let currentState: GameState;
+currentState = {
+  resources: new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]]),
+  flags: new Set()
+};
 
 let paused = false;
 

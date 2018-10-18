@@ -10,10 +10,17 @@ export enum ResourceTypes {
 export type Resource = number;
 export type Resources = Map<ResourceTypes, Resource>;
 
-export interface GameState {
-  resources: Resources;
+export enum GameProgressionFlags {
+  BABY_WYVERN_LEATHER_UNLOCKED,
+  PLAINS_HUNTER_UNLOCKED
 }
 
-export const EmptyModel = {
-  resources: new Map<ResourceTypes, Resource>()
+export interface GameState {
+  resources: Resources;
+  flags: Set<GameProgressionFlags>;
+}
+
+export const EmptyModel: GameState = {
+  resources: new Map(),
+  flags: new Set()
 };

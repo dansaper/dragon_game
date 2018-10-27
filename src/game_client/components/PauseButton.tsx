@@ -6,7 +6,7 @@ interface PauseButtonProps {
   unpause: () => void;
 }
 
-export class PauseButton extends React.PureComponent<PauseButtonProps, {}> {
+export class PauseButton extends React.Component<PauseButtonProps, {}> {
   constructor(props: PauseButtonProps) {
     super(props);
     this.handleClick = this.handleClick.bind(this);

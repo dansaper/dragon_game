@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Resources } from "../../common/GameState";
+import { ResourceTypes } from "../../common/Resources";
 import { ResourceLine } from "./ResourceLine";
 
-export interface ResouceListProps {
-  resources: Resources;
+interface ResouceListProps {
+  resources: Map<ResourceTypes, number>;
 }
 
-export class ResourceList extends React.PureComponent<ResouceListProps, {}> {
+export class ResourceList extends React.Component<ResouceListProps, {}> {
   public render() {
     return (
-      <ul className="resource_lines">
+      <ul className="resource_list">
         {Array.from(this.props.resources.entries())
           .sort()
           .map(([resourceType, resource]) => {

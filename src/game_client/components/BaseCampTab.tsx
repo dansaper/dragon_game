@@ -9,7 +9,7 @@ interface BaseCampTabProps {
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class BaseCampTab extends React.PureComponent<BaseCampTabProps, {}> {
+export class BaseCampTab extends React.Component<BaseCampTabProps, {}> {
   constructor(props: BaseCampTabProps) {
     super(props);
   }

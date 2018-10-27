@@ -12,7 +12,7 @@ interface GamePaneProps {
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class GamePane extends React.PureComponent<GamePaneProps, {}> {
+export class GamePane extends React.Component<GamePaneProps, {}> {
   constructor(props: GameClient) {
     super(props);
     this.pauseHandler = this.pauseHandler.bind(this);
@@ -20,7 +20,7 @@ export class GamePane extends React.PureComponent<GamePaneProps, {}> {
 
   public render() {
     return (
-      <>
+      <React.StrictMode>
         <GameMenu
           isPaused={this.props.clientState.isPaused}
           onPause={this.pauseHandler}
@@ -31,7 +31,7 @@ export class GamePane extends React.PureComponent<GamePaneProps, {}> {
           gameState={this.props.gameState}
           sendGameEvents={this.props.sendGameEvents}
         />
-      </>
+      </React.StrictMode>
     );
   }
 

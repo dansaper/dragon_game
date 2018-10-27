@@ -8,7 +8,7 @@ interface GameMapTabProps {
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class GameMapTab extends React.PureComponent<GameMapTabProps, {}> {
+export class GameMapTab extends React.Component<GameMapTabProps, {}> {
   public render() {
     return (
       <div>

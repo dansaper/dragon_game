@@ -7,7 +7,7 @@ interface GameMenuProps {
   isPaused: boolean;
 }
 
-export class GameMenu extends React.PureComponent<GameMenuProps, {}> {
+export class GameMenu extends React.Component<GameMenuProps, {}> {
   public render() {
     return (
       <div className="game_menu">

@@ -47,7 +47,7 @@ interface GameMapState {
   persistentOffset: GameMapOffset;
 }
 
-export class GameMap extends React.PureComponent<GameMapProps, GameMapState> {
+export class GameMap extends React.Component<GameMapProps, GameMapState> {
   private canvasRef: React.RefObject<HTMLCanvasElement>;
   private get drawingContext(): CanvasRenderingContext2D {
     // this.canvasRef.current must be set by React before the context is accessed

@@ -1,6 +1,7 @@
 @import "base";
 @import "infopane";
 @import "mainContentPane";
+@import "resourcePane";
 
 html,
 body {
@@ -50,19 +51,6 @@ body {
 
   display: flex;
   flex-direction: row;
-}
-
-.resource_pane {
-  border-right: $main-border;
-  width: 200px;
-}
-.resource_lines {
-  padding: 30px 15px;
-  margin: 0px;
-}
-.resource_line {
-  display: flex;
-  justify-content: space-around;
 }
 
 .main-content-pane {

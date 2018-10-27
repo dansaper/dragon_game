@@ -1,4 +1,5 @@
-import { GameState, ResourceTypes } from "../GameState";
+import { GameState } from "../GameState";
+import { ResourceTypes } from "../Resources";
 import { GameEvent, GameEventTypes, GameStateModificationHandler } from "./GameEvents";
 
 export class ResourceModificationEvent implements GameEvent {

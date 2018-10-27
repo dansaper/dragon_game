@@ -1,6 +1,7 @@
 import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
-import { GameProgressionFlags, GameState, ResourceTypes } from "../../common/GameState";
+import { GameProgressionFlags, GameState } from "../../common/GameState";
+import { ResourceTypes } from "../../common/Resources";
 import * as Utils from "./LibraryUtils";
 
 const HuntBabyWyverns = {

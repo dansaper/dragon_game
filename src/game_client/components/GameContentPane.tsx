@@ -5,7 +5,7 @@ import { ToggleDetailedInfoPanelEvent } from "../../common/events/ToggleDetailed
 import { GameState } from "../../common/GameState";
 import { DetailedInfoPanelWrapper } from "./DetailedInfoPanelWrapper";
 import { MainContentPane } from "./MainContentPane";
-import { ResourceList } from "./ResourceList";
+import { ResourcePane } from "./ResourcePane";
 
 interface GameContentPaneProps {
   clientState: ClientState;
@@ -13,7 +13,7 @@ interface GameContentPaneProps {
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class GameContentPane extends React.PureComponent<GameContentPaneProps, {}> {
+export class GameContentPane extends React.Component<GameContentPaneProps, {}> {
   constructor(props: GameContentPaneProps) {
     super(props);
     this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
@@ -22,9 +22,7 @@ export class GameContentPane extends React.PureComponent<GameContentPaneProps, {
   public render() {
     return (
       <div className="game_content_pane">
-        <div className="resource_pane">
-          <ResourceList resources={this.props.gameState.resources} />
-        </div>
+        <ResourcePane resources={this.props.gameState.resources} />
         <MainContentPane
           clientState={this.props.clientState}
           gameState={this.props.gameState}

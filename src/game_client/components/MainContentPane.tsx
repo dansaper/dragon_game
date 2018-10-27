@@ -23,7 +23,7 @@ interface TabDescriptor {
   index: number;
 }
 
-export class MainContentPane extends React.PureComponent<
+export class MainContentPane extends React.Component<
   MainContentPaneProps,
   { selectedTab: ContentTabs }
 > {

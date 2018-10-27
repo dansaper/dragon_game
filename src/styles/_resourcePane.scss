@@ -1,0 +1,47 @@
+.resource_pane {
+  border-right: $main-border;
+  width: 225px;
+  padding: 15px;
+  overflow-y: scroll;
+}
+
+.resource_pane_title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding-bottom: 15px;
+}
+
+.resource_pane_categories {
+  padding-left: 10px;
+}
+
+.resource_category_section {
+  padding: 5px 0px;
+
+  + .resource_category_section {
+    border-top: 1px solid darkgray;
+  }
+}
+.resource_category_section_title {
+  font-weight: bold;
+}
+.resource_category_section_list {
+  padding: 5px;
+}
+
+.resource_list {
+  list-style-type: none;
+  padding: 0px;
+  margin: 5px;
+}
+.resource_line {
+  display: flex;
+}
+.resource_line_entry_name {
+  flex: 1 1 auto;
+  justify-self: flex-start;
+}
+.resource_line_count {
+  justify-self: flex-end;
+}

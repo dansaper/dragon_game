@@ -1,6 +1,7 @@
 import { GameEvent } from "../common/events/GameEvents";
 import { IsResourceModificationEvent } from "../common/events/ResourceModificationEvent";
-import { GameProgressionFlags, ResourceTypes } from "../common/GameState";
+import { GameProgressionFlags } from "../common/GameState";
+import { ResourceTypes } from "../common/Resources";
 
 const resourceGainedFlags: Map<ResourceTypes, GameProgressionFlags> = new Map();
 resourceGainedFlags.set(

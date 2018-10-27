@@ -1,5 +1,6 @@
 import { GameEvent, GameEventTypes } from "../common/events/GameEvents";
-import { GameState, ResourceTypes } from "../common/GameState";
+import { GameState } from "../common/GameState";
+import { ResourceTypes } from "../common/Resources";
 import { GameWorker } from "./GameWorker";
 
 // We're actually running from a web worker, not a window

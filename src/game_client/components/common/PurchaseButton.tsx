@@ -7,7 +7,7 @@ import {
 } from "../../client_elements/PurchaseButtonDefinitionLibrary";
 import { ButtonWithInfo } from "./ButtonWithInfo";
 
-export class PurchaseButton extends React.PureComponent<
+export class PurchaseButton extends React.Component<
   {
     button: PurchaseButtonGameElements;
     gameState: GameState;

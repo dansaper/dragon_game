@@ -5,10 +5,7 @@ interface DetailedInfoPanelContentProps {
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelContent extends React.PureComponent<
-  DetailedInfoPanelContentProps,
-  {}
-> {
+export class DetailedInfoPanelContent extends React.Component<DetailedInfoPanelContentProps, {}> {
   public render() {
     let content: JSX.Element;
     if (this.props.info !== undefined) {

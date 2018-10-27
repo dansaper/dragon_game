@@ -8,10 +8,7 @@ interface DetailedInfoPanelWrapperProps {
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelWrapper extends React.PureComponent<
-  DetailedInfoPanelWrapperProps,
-  {}
-> {
+export class DetailedInfoPanelWrapper extends React.Component<DetailedInfoPanelWrapperProps, {}> {
   public constructor(props: DetailedInfoPanelWrapperProps) {
     super(props);
   }

@@ -13,7 +13,7 @@ interface ButtonWithInfoProps {
   sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class ButtonWithInfo extends React.PureComponent<ButtonWithInfoProps, {}> {
+export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
   constructor(props: ButtonWithInfoProps) {
     super(props);
     this.onClick = this.onClick.bind(this);

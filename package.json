@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Slay dragons - get loot",
   "scripts": {
-    "test": "jest",
+    "test": "jest --verbose",
     "tslint": "./node_modules/.bin/tslint --project '.'",
     "prettier": "./node_modules/.bin/prettier -l \"src/**\" \"test/**\"",
     "lint": "npm run tslint && npm run prettier",
@@ -28,7 +28,9 @@
     "awesome-typescript-loader": "^5.2.1",
     "http-server": "^0.11.1",
     "jest": "^23.6.0",
+    "jest-dom": "^2.1.0",
     "prettier": "^1.14.3",
+    "react-testing-library": "^5.2.3",
     "sass": "^1.14.3",
     "source-map-loader": "^0.2.4",
     "ts-jest": "^23.10.4",
@@ -45,6 +47,7 @@
     "testMatch": [
       "**/test/**/*"
     ],
+    "setupTestFrameworkScriptFile": "./setupTests.ts",
     "moduleFileExtensions": [
       "ts",
       "tsx",

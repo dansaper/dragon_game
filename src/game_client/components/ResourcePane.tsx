@@ -26,7 +26,7 @@ export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
               <div className="resource_category_section" key={category}>
                 <div className="resource_category_section_title">{category}</div>
                 <div className="resource_category_section_list">
-                  <ResourceList resources={categoryResources} />
+                  <ResourceList resources={categoryResources} category={category} />
                 </div>
               </div>
             );

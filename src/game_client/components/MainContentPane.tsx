@@ -1,9 +1,10 @@
 import * as React from "react";
 import { ClientState } from "../../common/ClientState";
 import { GameEvent } from "../../common/events/GameEvents";
-import { GameState } from "../../common/GameState";
+import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { BaseCampTab } from "./BaseCampTab";
-import { GameMapTab } from "./GameMapTab";
+import { HuntersTab } from "./hunters/HuntersTab";
+import { GameMapTab } from "./map/GameMapTab";
 
 interface MainContentPaneProps {
   clientState: ClientState;
@@ -12,8 +13,9 @@ interface MainContentPaneProps {
 }
 
 enum ContentTabs {
-  BASE_CAMP,
-  GAME_MAP
+  BASE_CAMP = "BASE_CAMP",
+  GAME_MAP = "GAME_MAP",
+  HUNTERS = "HUNTERS"
 }
 interface TabDescriptor {
   name: string;
@@ -121,6 +123,19 @@ export class MainContentPane extends React.Component<
         );
       },
       index: 1
+    });
+    tabs.set(ContentTabs.HUNTERS, {
+      name: "Hunters",
+      selector: this.selectTab.bind(this, ContentTabs.HUNTERS),
+      isVisible: () => {
+        return this.props.gameState.flags.has(GameProgressionFlags.PLAINS_HUNTER_UNLOCKED);
+      },
+      getContent: () => {
+        return (
+          <HuntersTab gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
+        );
+      },
+      index: 2
     });
 
     return tabs;

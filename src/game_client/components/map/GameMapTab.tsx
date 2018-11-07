@@ -1,7 +1,7 @@
 import * as React from "react";
-import { GameEvent } from "../../common/events/GameEvents";
-import { GameState } from "../../common/GameState";
-import { GameMap } from "./map/GameMap";
+import { GameEvent } from "../../../common/events/GameEvents";
+import { GameState } from "../../../common/GameState";
+import { GameMap } from "./GameMap";
 
 interface GameMapTabProps {
   gameState: GameState;

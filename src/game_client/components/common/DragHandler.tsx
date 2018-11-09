@@ -1,30 +1,32 @@
-interface Point {
+interface DragPoint {
   x: number;
   y: number;
 }
 
-interface DragOffset {
+export interface DragOffset {
   x: number;
   y: number;
 }
 
-interface Boundary {
+interface DragBoundary {
   min: number;
   max: number;
 }
 
-interface DragBoundries {
-  x: Boundary;
-  y: Boundary;
+interface DragBoundaries {
+  x: DragBoundary;
+  y: DragBoundary;
 }
 
 export class DragHandler {
   public isSignificantDrag: boolean = false;
-  private dragRate: number;
-  private dragThreshold: number;
 
-  private readonly startLocation: Point;
-  private currentLocation: Point;
+  private readonly dragRate: number;
+  private readonly dragThreshold: number;
+  private readonly startLocation: DragPoint;
+  private readonly dragBoundaries: DragBoundaries;
+
+  private currentLocation: DragPoint;
   private get currentOffset(): DragOffset {
     return {
       x: Math.trunc(this.dragRate * (this.currentLocation.x - this.startLocation.x)),
@@ -32,13 +34,19 @@ export class DragHandler {
     };
   }
 
-  constructor(startLocation: Point, dragRate = 1, dragThreshold = 5) {
+  constructor(
+    startLocation: DragPoint,
+    dragBoundries: DragBoundaries,
+    dragRate = 1,
+    dragThreshold = 5
+  ) {
     this.startLocation = this.currentLocation = startLocation;
+    this.dragBoundaries = dragBoundries;
     this.dragRate = dragRate;
     this.dragThreshold = dragThreshold;
   }
 
-  public update(draggedTo: Point) {
+  public update(draggedTo: DragPoint) {
     this.currentLocation = draggedTo;
 
     const offset = this.currentOffset;
@@ -50,7 +58,7 @@ export class DragHandler {
     }
   }
 
-  public calculateOffset(externalOffset: DragOffset, boundaries: DragBoundries): DragOffset {
+  public calculateOffset(externalOffset: DragOffset): DragOffset {
     if (!this.isSignificantDrag) {
       return externalOffset;
     }
@@ -61,13 +69,13 @@ export class DragHandler {
       y: externalOffset.y + offset.y
     };
 
-    return this.limitDragOffsetToBoundaries(combinedOffset, boundaries);
+    return this.limitDragOffsetToBoundaries(combinedOffset);
   }
 
-  private limitDragOffsetToBoundaries(offset: DragOffset, boundaries: DragBoundries) {
+  private limitDragOffsetToBoundaries(offset: DragOffset) {
     return {
-      x: Math.min(Math.max(offset.x, boundaries.x.min), boundaries.x.max),
-      y: Math.min(Math.max(offset.y, boundaries.y.min), boundaries.y.max)
+      x: Math.min(Math.max(offset.x, this.dragBoundaries.x.min), this.dragBoundaries.x.max),
+      y: Math.min(Math.max(offset.y, this.dragBoundaries.y.min), this.dragBoundaries.y.max)
     };
   }
 }

@@ -1,16 +1,27 @@
-import { DragHandler } from "../../../../src/game_client/components/map/DragHandler";
+import { DragHandler } from "../../../../src/game_client/components/common/DragHandler";
+
+const bigBoundaries = {
+  x: {
+    min: -1000,
+    max: 1000
+  },
+  y: {
+    min: -1000,
+    max: 1000
+  }
+};
 
 describe("Drag Significance", () => {
   const dragRate = 2;
   const threshold = 3;
 
   test("No updates is not significant", () => {
-    const handler = new DragHandler({ x: 1, y: 1 }, dragRate, threshold);
+    const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, threshold);
     expect(handler.isSignificantDrag).toBe(false);
   });
 
   test("Threshold of 0 is significant after any update that moves", () => {
-    const handler = new DragHandler({ x: 1, y: 1 }, dragRate, 0);
+    const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, 0);
     handler.update({ x: 2, y: 1 });
     expect(handler.isSignificantDrag).toBe(true);
   });
@@ -26,7 +37,7 @@ describe("Drag Significance", () => {
 
   for (const [point, desc] of notSignificant) {
     test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is not significant`, () => {
-      const handler = new DragHandler({ x: 1, y: 1 }, dragRate, threshold);
+      const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, threshold);
       handler.update(point);
       expect(handler.isSignificantDrag).toBe(false);
     });
@@ -46,7 +57,7 @@ describe("Drag Significance", () => {
 
   for (const [point, desc] of significant) {
     test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is significant`, () => {
-      const handler = new DragHandler({ x: 1, y: 1 }, dragRate, threshold);
+      const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, threshold);
       handler.update(point);
       expect(handler.isSignificantDrag).toBe(true);
     });
@@ -54,17 +65,6 @@ describe("Drag Significance", () => {
 });
 
 describe("Calculation of drag offset (within boundary)", () => {
-  const bigBoundaries = {
-    x: {
-      min: -1000,
-      max: 1000
-    },
-    y: {
-      min: -1000,
-      max: 1000
-    }
-  };
-
   describe("No rate change, no external", () => {
     const noExternal = [
       {
@@ -98,9 +98,9 @@ describe("Calculation of drag offset (within boundary)", () => {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, 1, 0);
+        const handler = new DragHandler(begin, bigBoundaries, 1, 0);
         handler.update(end);
-        const result = handler.calculateOffset({ x: 0, y: 0 }, bigBoundaries);
+        const result = handler.calculateOffset({ x: 0, y: 0 });
         expect(result).toEqual(expected);
       });
     }
@@ -138,9 +138,9 @@ describe("Calculation of drag offset (within boundary)", () => {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } with rate ${rate} should be { x: ${expected.x}, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, rate, 0);
+        const handler = new DragHandler(begin, bigBoundaries, rate, 0);
         handler.update(end);
-        const result = handler.calculateOffset({ x: 0, y: 0 }, bigBoundaries);
+        const result = handler.calculateOffset({ x: 0, y: 0 });
         expect(result).toEqual(expected);
       });
     }
@@ -162,9 +162,9 @@ describe("Calculation of drag offset (within boundary)", () => {
       } } with external offset { x: ${external.x}, y: ${external.y} } should be { x: ${
         expected.x
       }, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, 1, 0);
+        const handler = new DragHandler(begin, bigBoundaries, 1, 0);
         handler.update(end);
-        const result = handler.calculateOffset(external, bigBoundaries);
+        const result = handler.calculateOffset(external);
         expect(result).toEqual(expected);
       });
     }
@@ -187,9 +187,9 @@ describe("Calculation of drag offset (within boundary)", () => {
       } } with rate ${rate} and external offset { x: ${external.x}, y: ${
         external.y
       } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, rate, 0);
+        const handler = new DragHandler(begin, bigBoundaries, rate, 0);
         handler.update(end);
-        const result = handler.calculateOffset(external, bigBoundaries);
+        const result = handler.calculateOffset(external);
         expect(result).toEqual(expected);
       });
     }
@@ -223,16 +223,16 @@ describe("Limiting drag offest to boundary", () => {
 
   for (const [point, desc, expected] of testcases) {
     test(`Limit ${desc} to boudary`, () => {
-      const handler = new DragHandler({ x: 0, y: 0 }, 1, 0);
+      const handler = new DragHandler({ x: 0, y: 0 }, boundaries, 1, 0);
       handler.update(point);
-      expect(handler.calculateOffset({ x: 0, y: 0 }, boundaries)).toEqual(expected);
+      expect(handler.calculateOffset({ x: 0, y: 0 })).toEqual(expected);
     });
   }
 
   test("External should be taken into account", () => {
-    const handler = new DragHandler({ x: 0, y: -2 }, 1, 0);
+    const handler = new DragHandler({ x: 0, y: -2 }, boundaries, 1, 0);
     handler.update({ x: 1, y: -4 });
-    expect(handler.calculateOffset({ x: 10, y: 51 }, boundaries)).toEqual({ x: 10, y: 50 });
+    expect(handler.calculateOffset({ x: 10, y: 51 })).toEqual({ x: 10, y: 50 });
   });
 });
 
@@ -248,10 +248,10 @@ test("Drag integration", () => {
     }
   };
 
-  const handler = new DragHandler({ x: 4, y: 4 }, 3.5, 2);
+  const handler = new DragHandler({ x: 4, y: 4 }, boundaries, 3.5, 2);
   handler.update({ x: 5, y: 100 });
   expect(handler.isSignificantDrag).toBe(true);
-  const result = handler.calculateOffset({ x: 22, y: 100 }, boundaries);
+  const result = handler.calculateOffset({ x: 22, y: 100 });
   expect(result.x).toBe(10);
   expect(result.y).toBe(436);
 });

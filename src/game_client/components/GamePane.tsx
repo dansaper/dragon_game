@@ -25,6 +25,7 @@ export class GamePane extends React.Component<GamePaneProps, {}> {
           isPaused={this.props.clientState.isPaused}
           onPause={this.pauseHandler}
           onUnpause={this.pauseHandler}
+          sendGameEvents={this.props.sendGameEvents}
         />
         <GameContentPane
           clientState={this.props.clientState}

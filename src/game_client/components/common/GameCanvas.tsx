@@ -2,12 +2,19 @@ import * as React from "react";
 import { DragHandler, DragOffset } from "./DragHandler";
 
 interface GameCanvasProps {
+  // Canvas dimensions
   canvasWidth: number;
   canvasHeight: number;
+
+  // Actual content dimensions
   contentWidth: number;
   contentHeight: number;
+
+  // Multiplier to distance covered by drag
   dragRate?: number;
+  // Number of pixels under which a drag does not count as significant
   dragThreshold?: number;
+
   redrawCanvas: (ctx: CanvasRenderingContext2D) => void;
   onPointClicked?: (point: { x: number; y: number }) => void;
 }

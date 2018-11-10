@@ -10,9 +10,7 @@ const GRID_TILE_Y = 60;
 const GRID_SIZE_X = GRID_NUM_TILES_X * GRID_TILE_X;
 const GRID_SIZE_Y = GRID_NUM_TILES_Y * GRID_TILE_Y;
 
-// Multiplier to distance covered by drag
 const DRAG_RATE = 1.5;
-// Number of pixels under which a drag does not count as significant
 const DRAG_THRESHOLD = 5;
 
 export interface GameMapTile {

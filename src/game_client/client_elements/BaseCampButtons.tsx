@@ -2,13 +2,15 @@ import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
 import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
+import { PurchaseButtonDefinition } from "./GameElementDefinitions";
 import * as Utils from "./LibraryUtils";
 
-const HuntBabyWyverns = {
+const HuntBabyWyverns: PurchaseButtonDefinition = {
   isVisible: () => true,
   isEnabled: () => true,
   title: "Hunt for a baby Wyvern",
   infoKey: DetailedInfoKeys.NO_INFO,
+  getCost: () => new Map(),
   purchase: () => {
     return [
       new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_BONE, 1),
@@ -17,53 +19,55 @@ const HuntBabyWyverns = {
   }
 };
 
-const CraftBabyWyvernLeather = {
+interface CraftBabyWyvernLeatherDef extends PurchaseButtonDefinition {
+  calculateHideCost: (state: GameState) => number;
+}
+const CraftBabyWyvernLeather: CraftBabyWyvernLeatherDef = {
   isVisible(state: GameState) {
     return state.flags.has(GameProgressionFlags.BABY_WYVERN_LEATHER_UNLOCKED);
   },
   isEnabled(state: GameState) {
-    const hide = state.resources.get(ResourceTypes.BABY_WYVERN_HIDE);
-    const cost = this.calculateCost();
-    if (hide === undefined || hide < cost) {
-      return false;
-    }
-    return true;
+    return Utils.costCheck(state, this.getCost(state));
   },
   title: `Craft baby wyvern leather`,
   infoKey: DetailedInfoKeys.NO_INFO,
-  baseCost: 5,
-  calculateCost() {
-    return this.baseCost;
+  calculateHideCost() {
+    const baseCost = 5;
+    return baseCost;
   },
-  purchase() {
+  getCost(state: GameState) {
+    return new Map([[ResourceTypes.BABY_WYVERN_HIDE, this.calculateHideCost(state)]]);
+  },
+  purchase(state: GameState) {
     return [
-      new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_HIDE, -this.calculateCost()),
+      ...Utils.costsToEvents(this.getCost(state)),
       new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_LEATHER, 1)
     ];
   }
 };
 
-const HirePlainsHunter = {
+interface HirePlainsHunterDef extends PurchaseButtonDefinition {
+  calculateLeatherCost: (state: GameState) => number;
+}
+const HirePlainsHunter: HirePlainsHunterDef = {
   isVisible(state: GameState) {
     return state.flags.has(GameProgressionFlags.PLAINS_HUNTER_UNLOCKED);
   },
   isEnabled(state: GameState) {
-    const leather = state.resources.get(ResourceTypes.BABY_WYVERN_LEATHER);
-    const cost = this.calculateCost();
-    if (leather === undefined || leather < cost) {
-      return false;
-    }
-    return true;
+    return Utils.costCheck(state, this.getCost(state));
   },
   title: `Hire a Plains Hunter`,
   infoKey: DetailedInfoKeys.NO_INFO,
-  baseCost: 5,
-  calculateCost() {
-    return this.baseCost * 2;
+  calculateLeatherCost() {
+    const baseCost = 2;
+    return baseCost;
   },
-  purchase() {
+  getCost(state: GameState) {
+    return new Map([[ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]]);
+  },
+  purchase(state: GameState) {
     return [
-      new ResourceModificationEvent(ResourceTypes.BABY_WYVERN_LEATHER, -this.calculateCost()),
+      ...Utils.costsToEvents(this.getCost(state)),
       new ResourceModificationEvent(ResourceTypes.PLAINS_HUNTER, 1)
     ];
   }

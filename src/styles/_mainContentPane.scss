@@ -8,7 +8,7 @@ $tab-bar-height: 50px;
   margin: 10px;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .main-content-pane-tabs {
@@ -47,13 +47,20 @@ $tab-bar-height: 50px;
   background-color: lightgray;
 }
 
+// Wrapper to prevent scrollbars from overflowing content
+.main-content-pane-scroll-wrapper {
+  flex: 1 1 auto;
+  padding: 10px;
+  border: $main-border;
+  border-radius: 0px 30px 30px 30px;
+  overflow: hidden;
+  display: flex;
+}
+
 .main-content-pane-content-wrapper {
   flex: 1 1 auto;
 
-  padding: 30px;
-  border: $main-border;
-  border-radius: 0px 30px 30px 30px;
-
+  padding: 20px;
   overflow: scroll;
 }
 

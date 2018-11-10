@@ -58,14 +58,16 @@ export class MainContentPane extends React.Component<
             );
           })}
         </ul>
-        <div className="main-content-pane-content-wrapper">
-          {tabEntries.map(([key, descriptor]) => {
-            return (
-              <div key={key} className={this.getContentClass(key)}>
-                {descriptor.getContent()}
-              </div>
-            );
-          })}
+        <div className="main-content-pane-scroll-wrapper">
+          <div className="main-content-pane-content-wrapper">
+            {tabEntries.map(([key, descriptor]) => {
+              return (
+                <div key={key} className={this.getContentClass(key)}>
+                  {descriptor.getContent()}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );

@@ -29,19 +29,3 @@
 .resource_category_section_list {
   padding: 5px;
 }
-
-.resource_list {
-  list-style-type: none;
-  padding: 0px;
-  margin: 5px;
-}
-.resource_line {
-  display: flex;
-}
-.resource_line_entry_name {
-  flex: 1 1 auto;
-  justify-self: flex-start;
-}
-.resource_line_count {
-  justify-self: flex-end;
-}

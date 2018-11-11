@@ -6,6 +6,7 @@ import {
   PurchaseButtonDefinitions,
   PurchaseButtonGameElements
 } from "../../client_elements/PurchaseButtonDefinitionLibrary";
+import { ResourceList } from "../ResourceList";
 import { ButtonWithInfo } from "./ButtonWithInfo";
 
 interface CachedProperties {
@@ -14,6 +15,7 @@ interface CachedProperties {
   isDisabled: () => boolean;
   title: string;
   infoKey: DetailedInfoKeys;
+  renderContent: () => JSX.Element;
 }
 
 export class PurchaseButton extends React.Component<
@@ -35,7 +37,14 @@ export class PurchaseButton extends React.Component<
         isDisabled: () => !buttonDef.isEnabled(this.props.gameState),
         title: buttonDef.title,
         infoKey: buttonDef.infoKey,
-        onClick: () => this.props.sendGameEvents(buttonDef.purchase(this.props.gameState))
+        onClick: () => this.props.sendGameEvents(buttonDef.purchase(this.props.gameState)),
+        renderContent: () => {
+          return (
+            <div className={"purchase-button-cost"}>
+              <ResourceList resources={buttonDef.getCost(this.props.gameState)} />
+            </div>
+          );
+        }
       };
       this.cachedButtonProperties.set(this.props.button, propsCapturingThis);
       cached = propsCapturingThis;

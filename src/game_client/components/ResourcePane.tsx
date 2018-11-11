@@ -13,7 +13,7 @@ export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
       <div className="resource_pane">
         <div className="resource_pane_title">Resources</div>
         <div className="resource_pane_categories">
-          {Array.from(ResourceCategoriesMap.entries()).map(([category, resourceKeys]) => {
+          {[...ResourceCategoriesMap.entries()].map(([category, resourceKeys]) => {
             const categoryResources = new Map(
               resourceKeys
                 .filter(key => resources.has(key))
@@ -26,7 +26,7 @@ export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
               <div className="resource_category_section" key={category}>
                 <div className="resource_category_section_title">{category}</div>
                 <div className="resource_category_section_list">
-                  <ResourceList resources={categoryResources} category={category} />
+                  <ResourceList resources={categoryResources} />
                 </div>
               </div>
             );

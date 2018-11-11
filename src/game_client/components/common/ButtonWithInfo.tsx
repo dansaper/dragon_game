@@ -11,6 +11,7 @@ interface ButtonWithInfoProps {
   title: string;
   infoKey: DetailedInfoKeys;
   sendGameEvents: (e: GameEvent[]) => void;
+  renderContent?: () => JSX.Element;
 }
 
 export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
@@ -23,13 +24,13 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
   public render() {
     const topLevelClasses = `button-with-info ${
       !this.props.isVisible() ? "button-with-info-hidden" : ""
-    }`;
-    const textButtonClasses = `button-with-info-text ${
-      this.props.isDisabled() ? "button-with-info-disabled" : ""
-    }`;
+    } ${this.props.isDisabled() ? "button-with-info-disabled" : ""}`;
     return (
       <div className={topLevelClasses} onClick={this.onClick}>
-        <div className={textButtonClasses}>{this.props.title}</div>
+        <div className={"button-with-info-text"}>{this.props.title}</div>
+        <div className={"button-with-info-content"}>
+          {this.props.renderContent ? this.props.renderContent() : null}
+        </div>
         <div className="button-info-button" onClick={this.selectInfo}>
           i
         </div>

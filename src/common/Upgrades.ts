@@ -1,0 +1,3 @@
+export enum Upgrades {
+  PLAINS_HUNTER_BOWS_WEAK_BONE = "PLAINS_HUNTER_BOWS_WEAK_BONE"
+}

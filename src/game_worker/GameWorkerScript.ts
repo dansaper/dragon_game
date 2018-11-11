@@ -12,7 +12,8 @@ const worker = new GameWorker();
 let currentState: GameState;
 currentState = {
   resources: new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]]),
-  flags: new Set()
+  flags: new Set(),
+  upgrades: new Set()
 };
 
 let paused = false;

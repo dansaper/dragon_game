@@ -8,9 +8,11 @@ import { UpdateDetailedInfoPanelEventHandlers } from "./UpdateDetailedInfoPanelE
 export enum GameEventTypes {
   TOGGLE_PAUSE = "toggle_pause",
   MODIFY_RESOURCE = "modify_resource",
+  PURCHASE_UPGRADE = "purchase_upgrade",
   SET_PROGRESSION_FLAG = "set_progression_flag",
 
   // CLIENT ONLY
+  // These will be processed even if the game is paused
   TOGGLE_INFO_PANEL = "toggle_info_panel",
   UPDATE_INFO_PANEL = "update_info_panel"
 }

@@ -1,8 +1,14 @@
 import { GameEvent, GameStateModificationHandlers } from "../common/events/GameEvents";
 import { GameState } from "../common/GameState";
+import { ResourceTypes } from "../common/Resources";
 
 export class GameWorker {
   public tick(state: GameState): GameState {
+    // Temporary to make sure rerendering ui works ok
+    state.resources.set(
+      ResourceTypes.WYVERN_BONE,
+      state.resources.get(ResourceTypes.WYVERN_BONE)! + 1
+    );
     return state;
   }
 

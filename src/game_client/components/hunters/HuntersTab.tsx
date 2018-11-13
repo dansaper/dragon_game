@@ -1,8 +1,9 @@
 import * as React from "react";
 import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
+import { UpgradeCategories } from "../../../common/Upgrades";
 import { HunterRow } from "./HunterRow";
-import { HunterUpgradeCanvas } from "./HunterUpgradeCanvas";
+import { HunterUpgradePanel } from "./HunterUpgradePanel";
 
 interface HuntersTabProps {
   gameState: GameState;
@@ -20,12 +21,11 @@ export class HuntersTab extends React.Component<HuntersTabProps, {}> {
         <div className="hunter-rows">
           <HunterRow gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
         </div>
-        <div className="hunter-upgrade-panel">
-          <HunterUpgradeCanvas
-            gameState={this.props.gameState}
-            sendGameEvents={this.props.sendGameEvents}
-          />
-        </div>
+        <HunterUpgradePanel
+          gameState={this.props.gameState}
+          sendGameEvents={this.props.sendGameEvents}
+          category={UpgradeCategories.PLAIN_HUNTER_UPGRADES}
+        />
       </div>
     );
   }

@@ -16,5 +16,4 @@ export interface PurchaseButtonDefinition {
 export interface UpgradeDisplayDefinition extends PurchaseButtonDefinition {
   details: string;
   parents: Upgrades[];
-  children: Upgrades[];
 }

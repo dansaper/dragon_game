@@ -25,12 +25,48 @@ const PlainsHunterWeakBoneBow: PlainsHunterWeakBoneBowProps = {
   purchase(state: GameState) {
     return [
       ...Utils.costsToEvents(this.getCost(state)),
-      new PurchaseUpgradeEvent(Upgrades.PLAINS_HUNTER_BOWS_WEAK_BONE)
+      new PurchaseUpgradeEvent(Upgrades.PLAINS_HUNTER_WEAK_BONE_BOWS)
     ];
   },
-  parents: [],
-  children: []
+  parents: []
+};
+
+interface PlainsHunterWeakLeatherBootsProps extends UpgradeDisplayDefinition {
+  calculateLeatherCost: (state: GameState) => number;
+  calculateBoneCost: (state: GameState) => number;
+}
+const PlainsHunterWeakLeatherBoots: PlainsHunterWeakLeatherBootsProps = {
+  isVisible: () => true,
+  isEnabled(state: GameState) {
+    return this.parents.every(p => state.upgrades.has(p));
+  },
+  title: "Baby wyvern boots",
+  infoKey: DetailedInfoKeys.NO_INFO,
+  details:
+    "Lets Plains Hunters stay out hunting longer without getting blisters, so they can hunt more stuff",
+  calculateBoneCost() {
+    const baseCost = 2;
+    return baseCost;
+  },
+  calculateLeatherCost() {
+    const baseCost = 10;
+    return baseCost;
+  },
+  getCost(state: GameState) {
+    return new Map([
+      [ResourceTypes.BABY_WYVERN_BONE, this.calculateBoneCost(state)],
+      [ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]
+    ]);
+  },
+  purchase(state: GameState) {
+    return [
+      ...Utils.costsToEvents(this.getCost(state)),
+      new PurchaseUpgradeEvent(Upgrades.PLAINS_HUNTER_WEAK_LEATHER_BOOTS)
+    ];
+  },
+  parents: [Upgrades.PLAINS_HUNTER_WEAK_BONE_BOWS]
 };
 
 Utils.bindFunctions(PlainsHunterWeakBoneBow);
-export { PlainsHunterWeakBoneBow };
+Utils.bindFunctions(PlainsHunterWeakLeatherBoots);
+export { PlainsHunterWeakBoneBow, PlainsHunterWeakLeatherBoots };

@@ -33,7 +33,7 @@ export class PurchaseButton extends React.Component<
     if (!this.cachedButtonProperties.has(this.props.button)) {
       const propsCapturingThis = {
         isVisible: () => buttonDef.isVisible(this.props.gameState),
-        isDisabled: () => !buttonDef.isEnabled(this.props.gameState),
+        isDisabled: () => !buttonDef.isPurchaseable(this.props.gameState),
         onClick: () => this.props.sendGameEvents(buttonDef.purchase(this.props.gameState)),
         renderContent: () => {
           return (

@@ -1,5 +1,6 @@
 import { ClientState } from "../ClientState";
 import { GameState } from "../GameState";
+import { PurchaseUpgradeEventHandlers } from "./PurchaseUpgradeEvent";
 import { ResourceModificationEventHandlers } from "./ResourceModificationEvent";
 import { SetProgressionFlagEventHandlers } from "./SetProgressionFlagEvent";
 import { ToggleDetailedInfoPanelEventHandlers } from "./ToggleDetailedInfoPanelEvent";
@@ -38,6 +39,7 @@ gameStateHandlers.set(
   GameEventTypes.SET_PROGRESSION_FLAG,
   SetProgressionFlagEventHandlers.gameState
 );
+gameStateHandlers.set(GameEventTypes.PURCHASE_UPGRADE, PurchaseUpgradeEventHandlers.gameState);
 
 const clientStateHandlers: Map<GameEventTypes, ClientStateModificationHandlerSignature> = new Map();
 clientStateHandlers.set(

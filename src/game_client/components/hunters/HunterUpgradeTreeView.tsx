@@ -16,6 +16,9 @@ const CONTENT_HEIGHT = 1200;
 const DRAG_RATE = 1.5;
 const DRAG_THRESHOLD = 5;
 
+const BUTTON_WIDTH = 100;
+const BUTTON_HEIGHT = 60;
+
 interface HunterUpgradeCanvasProps {
   gameState: GameState;
   sendGameEvents: (e: GameEvent[]) => void;
@@ -66,7 +69,8 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
             >
               <ButtonWithInfo
                 isVisible={() => true}
-                isDisabled={() => !upgradeDefinition.isEnabled(this.props.gameState)}
+                isDisabled={() => !upgradeDefinition.isViewable(this.props.gameState)}
+                disabledInfoButtonOnDisable={true}
                 onClick={() => this.props.onClick(upgrade)}
                 title={upgradeDefinition.title}
                 infoKey={upgradeDefinition.infoKey}
@@ -81,6 +85,22 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
 
   private drawConnectingLines(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
+    for (const upgrade of this.props.upgrades) {
+      const upgradeDefinition = HunterUpgradeDefinitions.get(upgrade)!;
+      const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade)!;
+      for (const parent of upgradeDefinition.parents) {
+        const parentLocation = HunterUpgradeButtonLayout.get(parent)!!;
+        ctx.moveTo(
+          parentLocation.x + Math.trunc(BUTTON_WIDTH / 2),
+          parentLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
+        );
+        ctx.lineTo(
+          upgradeLocation.x + Math.trunc(BUTTON_WIDTH / 2),
+          upgradeLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
+        );
+      }
+    }
+
     ctx.stroke();
   }
 }

@@ -32,8 +32,8 @@ export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPan
     let cached: CachedProperties;
     if (!this.cachedButtonProperties.has(this.props.selectedUpgrade)) {
       const propsCapturingThis = {
-        isVisible: () => upgradeDefinition.isVisible(this.props.gameState),
-        isDisabled: () => !upgradeDefinition.isEnabled(this.props.gameState),
+        isVisible: () => true,
+        isDisabled: () => !upgradeDefinition.isPurchaseable(this.props.gameState),
         onClick: () => this.props.sendGameEvents(upgradeDefinition.purchase(this.props.gameState))
       };
       cached = propsCapturingThis;
@@ -51,7 +51,6 @@ export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPan
         <ButtonWithInfo
           {...cached}
           title={"Purchase upgrade: " + upgradeDefinition.title}
-          infoKey={upgradeDefinition.infoKey}
           sendGameEvents={this.props.sendGameEvents}
         />
       </div>

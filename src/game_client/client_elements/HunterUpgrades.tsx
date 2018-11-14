@@ -11,7 +11,10 @@ interface PlainsHunterWeakBoneBowProps extends UpgradeDisplayDefinition {
 }
 const PlainsHunterWeakBoneBow: PlainsHunterWeakBoneBowProps = {
   isVisible: () => true,
-  isEnabled: () => true,
+  isViewable: () => true,
+  isPurchaseable(state: GameState) {
+    return Utils.costCheck(state, this.getCost(state));
+  },
   title: "Bone Bows",
   infoKey: DetailedInfoKeys.NO_INFO,
   details: "Allows Plains Hunters to use bows made of Baby Wyvern bone",
@@ -37,8 +40,11 @@ interface PlainsHunterWeakLeatherBootsProps extends UpgradeDisplayDefinition {
 }
 const PlainsHunterWeakLeatherBoots: PlainsHunterWeakLeatherBootsProps = {
   isVisible: () => true,
-  isEnabled(state: GameState) {
+  isViewable(state: GameState) {
     return this.parents.every(p => state.upgrades.has(p));
+  },
+  isPurchaseable(state: GameState) {
+    return Utils.costCheck(state, this.getCost(state));
   },
   title: "Baby wyvern boots",
   infoKey: DetailedInfoKeys.NO_INFO,

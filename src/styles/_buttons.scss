@@ -1,0 +1,41 @@
+.button-with-info {
+  width: 100px;
+  height: 60px;
+  padding: 8px;
+  border: 1px solid darkgray;
+  border-radius: 4px;
+  background-color: white;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &.button-with-info-disabled {
+    background-color: lightgray;
+  }
+
+  &.button-with-info-hidden {
+    display: none;
+  }
+}
+
+.button-with-info-text {
+  text-align: center;
+}
+
+.button-with-info-content {
+  width: 100%;
+}
+
+.button-info-button {
+  top: 0;
+  right: 0;
+  position: absolute;
+  border-style: solid;
+  border-color: darkgray;
+  border-width: 0px 0px 1px 1px;
+  width: 15px;
+  text-align: center;
+}

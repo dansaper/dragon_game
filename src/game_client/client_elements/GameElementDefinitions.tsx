@@ -6,7 +6,7 @@ import { Upgrades } from "../../common/Upgrades";
 
 export interface PurchaseButtonDefinition {
   isVisible: (state: GameState) => boolean;
-  isEnabled: (state: GameState) => boolean;
+  isPurchaseable: (state: GameState) => boolean;
   title: string;
   infoKey: DetailedInfoKeys;
   getCost: (state: GameState) => Map<ResourceTypes, number>;
@@ -14,6 +14,7 @@ export interface PurchaseButtonDefinition {
 }
 
 export interface UpgradeDisplayDefinition extends PurchaseButtonDefinition {
+  isViewable: (state: GameState) => boolean;
   details: string;
   parents: Upgrades[];
 }

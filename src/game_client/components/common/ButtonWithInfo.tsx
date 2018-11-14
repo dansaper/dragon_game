@@ -9,9 +9,10 @@ interface ButtonWithInfoProps {
   isVisible: () => boolean;
   isDisabled: () => boolean;
   title: string;
-  infoKey: DetailedInfoKeys;
+  infoKey?: DetailedInfoKeys;
   sendGameEvents: (e: GameEvent[]) => void;
   renderContent?: () => JSX.Element;
+  disabledInfoButtonOnDisable?: boolean;
 }
 
 export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
@@ -31,9 +32,13 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
         <div className={"button-with-info-content"}>
           {this.props.renderContent ? this.props.renderContent() : null}
         </div>
-        <div className="button-info-button" onClick={this.selectInfo}>
-          i
-        </div>
+        {this.props.infoKey === undefined ? (
+          undefined
+        ) : (
+          <div className="button-info-button" onClick={this.selectInfo}>
+            i
+          </div>
+        )}
       </div>
     );
   }
@@ -45,6 +50,17 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
   }
 
   private selectInfo(e: React.MouseEvent) {
+    if (this.props.infoKey === undefined) {
+      return;
+    }
+    if (
+      this.props.disabledInfoButtonOnDisable !== undefined &&
+      this.props.disabledInfoButtonOnDisable &&
+      this.props.isDisabled()
+    ) {
+      return;
+    }
+
     this.props.sendGameEvents([
       new UpdateDetailedInfoPanelEvent(this.props.infoKey),
       new ToggleDetailedInfoPanelEvent(true)

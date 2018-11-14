@@ -7,7 +7,7 @@ import * as Utils from "./LibraryUtils";
 
 const HuntBabyWyverns: PurchaseButtonDefinition = {
   isVisible: () => true,
-  isEnabled: () => true,
+  isPurchaseable: () => true,
   title: "Hunt for a baby Wyvern",
   infoKey: DetailedInfoKeys.NO_INFO,
   getCost: () => new Map(),
@@ -26,7 +26,7 @@ const CraftBabyWyvernLeather: CraftBabyWyvernLeatherDef = {
   isVisible(state: GameState) {
     return state.flags.has(GameProgressionFlags.BABY_WYVERN_LEATHER_UNLOCKED);
   },
-  isEnabled(state: GameState) {
+  isPurchaseable(state: GameState) {
     return Utils.costCheck(state, this.getCost(state));
   },
   title: `Craft baby wyvern leather`,
@@ -53,7 +53,7 @@ const HirePlainsHunter: HirePlainsHunterDef = {
   isVisible(state: GameState) {
     return state.flags.has(GameProgressionFlags.PLAINS_HUNTER_UNLOCKED);
   },
-  isEnabled(state: GameState) {
+  isPurchaseable(state: GameState) {
     return Utils.costCheck(state, this.getCost(state));
   },
   title: `Hire a Plains Hunter`,

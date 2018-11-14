@@ -3,47 +3,6 @@ $main-border-style: solid;
 $main-border-color: black;
 $main-border: $main-border-width $main-border-style $main-border-color;
 
-@mixin button-styling {
-  width: 100px;
-  height: 60px;
-  padding: 8px;
-  border: 1px solid darkgray;
-  border-radius: 4px;
-}
-
-.button-with-info {
-  @include button-styling;
-
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.button-with-info-text {
-  text-align: center;
-}
-
-.button-with-info-content {
-  width: 100%;
-}
-
-.button-info-button {
-  top: 0;
-  right: 0;
-  position: absolute;
-  border-style: solid;
-  border-color: darkgray;
-  border-width: 0px 0px 1px 1px;
-  width: 15px;
-  text-align: center;
-}
-
-.button-with-info-hidden {
-  display: none;
-}
-
 .purchase-button-cost {
   font-size: 0.5em;
 }

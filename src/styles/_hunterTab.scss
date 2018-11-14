@@ -1,0 +1,22 @@
+@import "base";
+
+.hunter-upgrade-tree-view {
+  width: 300px;
+  height: 700px;
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.hunter-upgrade-tree-connections {
+  position: absolute;
+  z-index: 0;
+}
+
+.hunter-upgrade-tree-buttons {
+  position: absolute;
+  z-index: 1;
+}
+
+.hunter-upgrade-tree-button {
+  position: absolute;
+}

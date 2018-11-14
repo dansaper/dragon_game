@@ -2,8 +2,8 @@ import * as React from "react";
 import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { UpgradeCategories, Upgrades, UpgradesMap } from "../../../common/Upgrades";
-import { HunterUpgradeCanvas } from "./HunterUpgradeCanvas";
 import { HunterUpgradeInfoPanel } from "./HunterUpgradeInfoPanel";
+import { HunterUpgradeTreeView } from "./HunterUpgradeTreeView";
 
 interface HunterUpgradePanelProps {
   gameState: GameState;
@@ -29,7 +29,7 @@ export class HunterUpgradePanel extends React.Component<
   public render() {
     return (
       <div className="hunter-upgrade-panel">
-        <HunterUpgradeCanvas
+        <HunterUpgradeTreeView
           gameState={this.props.gameState}
           sendGameEvents={this.props.sendGameEvents}
           onClick={this.selectUpgrade}

@@ -24,9 +24,11 @@ export class DragHandler {
   private readonly dragRate: number;
   private readonly dragThreshold: number;
   private readonly startLocation: DragPoint;
+  private readonly initialOffset: DragOffset;
   private readonly dragBoundaries: DragBoundaries;
 
   private currentLocation: DragPoint;
+
   private get currentOffset(): DragOffset {
     return {
       x: Math.trunc(this.dragRate * (this.currentLocation.x - this.startLocation.x)),
@@ -36,11 +38,13 @@ export class DragHandler {
 
   constructor(
     startLocation: DragPoint,
+    initialOffset: DragOffset,
     dragBoundries: DragBoundaries,
     dragRate = 1,
     dragThreshold = 5
   ) {
     this.startLocation = this.currentLocation = startLocation;
+    this.initialOffset = initialOffset;
     this.dragBoundaries = dragBoundries;
     this.dragRate = dragRate;
     this.dragThreshold = dragThreshold;
@@ -58,15 +62,15 @@ export class DragHandler {
     }
   }
 
-  public calculateOffset(externalOffset: DragOffset): DragOffset {
+  public getTotalOffset(): DragOffset {
     if (!this.isSignificantDrag) {
-      return externalOffset;
+      return this.initialOffset;
     }
 
     const offset = this.currentOffset;
     const combinedOffset = {
-      x: externalOffset.x + offset.x,
-      y: externalOffset.y + offset.y
+      x: this.initialOffset.x + offset.x,
+      y: this.initialOffset.y + offset.y
     };
 
     return this.limitDragOffsetToBoundaries(combinedOffset);
@@ -78,4 +82,30 @@ export class DragHandler {
       y: Math.min(Math.max(offset.y, this.dragBoundaries.y.min), this.dragBoundaries.y.max)
     };
   }
+}
+
+export function computeDragBoundaries(
+  visibleSize: {
+    width: number;
+    height: number;
+  },
+  contentSize: {
+    width: number;
+    height: number;
+  },
+  offsetRatio: number = 2
+): DragBoundaries {
+  const maxOffsetX = Math.trunc(visibleSize.width / offsetRatio);
+  const maxOffsetY = Math.trunc(visibleSize.height / offsetRatio);
+  const dragBoundaries = {
+    x: {
+      min: -(Math.max(visibleSize.width, contentSize.width) - maxOffsetX),
+      max: maxOffsetX
+    },
+    y: {
+      min: -(Math.max(visibleSize.height, contentSize.height) - maxOffsetY),
+      max: maxOffsetY
+    }
+  };
+  return dragBoundaries;
 }

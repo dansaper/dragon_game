@@ -16,12 +16,18 @@ describe("Drag Significance", () => {
   const threshold = 3;
 
   test("No updates is not significant", () => {
-    const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, threshold);
+    const handler = new DragHandler(
+      { x: 1, y: 1 },
+      { x: 0, y: 0 },
+      bigBoundaries,
+      dragRate,
+      threshold
+    );
     expect(handler.isSignificantDrag).toBe(false);
   });
 
   test("Threshold of 0 is significant after any update that moves", () => {
-    const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, 0);
+    const handler = new DragHandler({ x: 1, y: 1 }, { x: 0, y: 0 }, bigBoundaries, dragRate, 0);
     handler.update({ x: 2, y: 1 });
     expect(handler.isSignificantDrag).toBe(true);
   });
@@ -37,7 +43,13 @@ describe("Drag Significance", () => {
 
   for (const [point, desc] of notSignificant) {
     test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is not significant`, () => {
-      const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, threshold);
+      const handler = new DragHandler(
+        { x: 1, y: 1 },
+        { x: 0, y: 0 },
+        bigBoundaries,
+        dragRate,
+        threshold
+      );
       handler.update(point);
       expect(handler.isSignificantDrag).toBe(false);
     });
@@ -57,7 +69,13 @@ describe("Drag Significance", () => {
 
   for (const [point, desc] of significant) {
     test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is significant`, () => {
-      const handler = new DragHandler({ x: 1, y: 1 }, bigBoundaries, dragRate, threshold);
+      const handler = new DragHandler(
+        { x: 1, y: 1 },
+        { x: 0, y: 0 },
+        bigBoundaries,
+        dragRate,
+        threshold
+      );
       handler.update(point);
       expect(handler.isSignificantDrag).toBe(true);
     });
@@ -65,8 +83,8 @@ describe("Drag Significance", () => {
 });
 
 describe("Calculation of drag offset (within boundary)", () => {
-  describe("No rate change, no external", () => {
-    const noExternal = [
+  describe("No rate change, no initial", () => {
+    const noInitial = [
       {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
@@ -94,19 +112,19 @@ describe("Calculation of drag offset (within boundary)", () => {
       }
     ];
 
-    for (const { begin, end, expected } of noExternal) {
+    for (const { begin, end, expected } of noInitial) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, bigBoundaries, 1, 0);
+        const handler = new DragHandler(begin, { x: 0, y: 0 }, bigBoundaries, 1, 0);
         handler.update(end);
-        const result = handler.calculateOffset({ x: 0, y: 0 });
+        const result = handler.getTotalOffset();
         expect(result).toEqual(expected);
       });
     }
   });
 
-  describe("with rate change, no external", () => {
+  describe("with rate change, no initial", () => {
     const withRate = [
       {
         begin: { x: 1, y: 1 },
@@ -138,58 +156,58 @@ describe("Calculation of drag offset (within boundary)", () => {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
       } } with rate ${rate} should be { x: ${expected.x}, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, bigBoundaries, rate, 0);
+        const handler = new DragHandler(begin, { x: 0, y: 0 }, bigBoundaries, rate, 0);
         handler.update(end);
-        const result = handler.calculateOffset({ x: 0, y: 0 });
+        const result = handler.getTotalOffset();
         expect(result).toEqual(expected);
       });
     }
   });
 
-  describe("with external, no rate change, ", () => {
-    const withExternal = [
+  describe("with initial, no rate change, ", () => {
+    const withInitial = [
       {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
-        external: { x: 4, y: -3 },
+        initial: { x: 4, y: -3 },
         expected: { x: 6, y: -1 }
       }
     ];
 
-    for (const { begin, end, expected, external } of withExternal) {
+    for (const { begin, end, expected, initial } of withInitial) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
-      } } with external offset { x: ${external.x}, y: ${external.y} } should be { x: ${
+      } } with initial offset { x: ${initial.x}, y: ${initial.y} } should be { x: ${
         expected.x
       }, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, bigBoundaries, 1, 0);
+        const handler = new DragHandler(begin, initial, bigBoundaries, 1, 0);
         handler.update(end);
-        const result = handler.calculateOffset(external);
+        const result = handler.getTotalOffset();
         expect(result).toEqual(expected);
       });
     }
   });
 
-  describe("with external and rate change, ", () => {
-    const withExternalAndRate = [
+  describe("with initial and rate change, ", () => {
+    const withInitialAndRate = [
       {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
-        external: { x: 4, y: -3 },
+        initial: { x: 4, y: -3 },
         rate: 1.5,
         expected: { x: 7, y: 0 }
       }
     ];
 
-    for (const { begin, end, expected, rate, external } of withExternalAndRate) {
+    for (const { begin, end, expected, rate, initial } of withInitialAndRate) {
       test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
         end.y
-      } } with rate ${rate} and external offset { x: ${external.x}, y: ${
-        external.y
+      } } with rate ${rate} and initial offset { x: ${initial.x}, y: ${
+        initial.y
       } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
-        const handler = new DragHandler(begin, bigBoundaries, rate, 0);
+        const handler = new DragHandler(begin, initial, bigBoundaries, rate, 0);
         handler.update(end);
-        const result = handler.calculateOffset(external);
+        const result = handler.getTotalOffset();
         expect(result).toEqual(expected);
       });
     }
@@ -223,16 +241,16 @@ describe("Limiting drag offest to boundary", () => {
 
   for (const [point, desc, expected] of testcases) {
     test(`Limit ${desc} to boudary`, () => {
-      const handler = new DragHandler({ x: 0, y: 0 }, boundaries, 1, 0);
+      const handler = new DragHandler({ x: 0, y: 0 }, { x: 0, y: 0 }, boundaries, 1, 0);
       handler.update(point);
-      expect(handler.calculateOffset({ x: 0, y: 0 })).toEqual(expected);
+      expect(handler.getTotalOffset()).toEqual(expected);
     });
   }
 
-  test("External should be taken into account", () => {
-    const handler = new DragHandler({ x: 0, y: -2 }, boundaries, 1, 0);
+  test("Initial should be taken into account", () => {
+    const handler = new DragHandler({ x: 0, y: -2 }, { x: 10, y: 51 }, boundaries, 1, 0);
     handler.update({ x: 1, y: -4 });
-    expect(handler.calculateOffset({ x: 10, y: 51 })).toEqual({ x: 10, y: 50 });
+    expect(handler.getTotalOffset()).toEqual({ x: 10, y: 50 });
   });
 });
 
@@ -248,10 +266,10 @@ test("Drag integration", () => {
     }
   };
 
-  const handler = new DragHandler({ x: 4, y: 4 }, boundaries, 3.5, 2);
+  const handler = new DragHandler({ x: 4, y: 4 }, { x: 22, y: 100 }, boundaries, 3.5, 2);
   handler.update({ x: 5, y: 100 });
   expect(handler.isSignificantDrag).toBe(true);
-  const result = handler.calculateOffset({ x: 22, y: 100 });
+  const result = handler.getTotalOffset();
   expect(result.x).toBe(10);
   expect(result.y).toBe(436);
 });

@@ -1,14 +1,16 @@
 import * as React from "react";
+import { Draggable } from "../common/Draggable";
 import { GameCanvas } from "../common/GameCanvas";
 
-const MAP_CANVAS_WIDTH = 500;
-const MAP_CANVAS_HEIGHT = 500;
-const GRID_NUM_TILES_X = 10;
-const GRID_NUM_TILES_Y = 10;
+const MAP_WIDTH = 500;
+const MAP_HEIGHT = 500;
+const GRID_NUM_TILES_X = 15;
+const GRID_NUM_TILES_Y = 15;
 const GRID_TILE_X = 60;
 const GRID_TILE_Y = 60;
-const GRID_SIZE_X = GRID_NUM_TILES_X * GRID_TILE_X;
-const GRID_SIZE_Y = GRID_NUM_TILES_Y * GRID_TILE_Y;
+// Give grid a little room to breathe (so end +0.5 doesn't escape)
+const GRID_SIZE_X = GRID_NUM_TILES_X * GRID_TILE_X + 2;
+const GRID_SIZE_Y = GRID_NUM_TILES_Y * GRID_TILE_Y + 2;
 
 const DRAG_RATE = 1.5;
 const DRAG_THRESHOLD = 5;
@@ -23,24 +25,34 @@ interface GameMapProps {
 }
 
 export class GameMap extends React.Component<GameMapProps, {}> {
+  private isDragging: boolean;
   constructor(props: GameMapProps) {
     super(props);
+    this.isDragging = false;
+
     this.renderMap = this.renderMap.bind(this);
     this.getTileClicked = this.getTileClicked.bind(this);
+    this.setIsDragging = this.setIsDragging.bind(this);
   }
 
   public render() {
     return (
-      <GameCanvas
-        canvasWidth={MAP_CANVAS_WIDTH}
-        canvasHeight={MAP_CANVAS_HEIGHT}
-        contentWidth={GRID_SIZE_X}
-        contentHeight={GRID_SIZE_Y}
-        dragRate={DRAG_RATE}
-        dragThreshold={DRAG_THRESHOLD}
-        redrawCanvas={this.renderMap}
-        onPointClicked={this.getTileClicked}
-      />
+      <div className="game-map">
+        <Draggable
+          visibleDimensions={{ width: MAP_WIDTH, height: MAP_HEIGHT }}
+          contentDimensions={{ width: GRID_SIZE_X, height: GRID_SIZE_Y }}
+          dragRate={DRAG_RATE}
+          dragThreshold={DRAG_THRESHOLD}
+          setIsDragging={this.setIsDragging}
+        >
+          <GameCanvas
+            canvasWidth={GRID_SIZE_X}
+            canvasHeight={GRID_SIZE_Y}
+            redrawCanvas={this.renderMap}
+            onPointClicked={this.getTileClicked}
+          />
+        </Draggable>
+      </div>
     );
   }
 
@@ -60,10 +72,23 @@ export class GameMap extends React.Component<GameMapProps, {}> {
     ctx.restore();
   }
 
+  // @ts-ignore Once we implement this, remove the ignore
+  private handleClick(point: { x: number; y: number }): void {
+    if (this.isDragging) {
+      return;
+    }
+    // const tile = this.getTileClicked(point);
+  }
+
   private getTileClicked(point: { x: number; y: number }): GameMapTile {
-    return {
+    const tile: GameMapTile = {
       x: Math.floor(point.x / GRID_TILE_X),
       y: Math.floor(point.y / GRID_TILE_Y)
     };
+    return tile;
+  }
+
+  private setIsDragging(isDragging: boolean) {
+    this.isDragging = isDragging;
   }
 }

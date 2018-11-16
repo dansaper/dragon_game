@@ -1,10 +1,11 @@
 .button-with-info {
-  width: 100px;
-  height: 60px;
+  width: 118px;
+  height: 78px;
   padding: 8px;
   border: 1px solid darkgray;
   border-radius: 4px;
   background-color: white;
+  box-sizing: border-box;
 
   position: relative;
   display: flex;
@@ -29,7 +30,7 @@
   width: 100%;
 }
 
-.button-info-button {
+.hovering-info-button {
   top: 0;
   right: 0;
   position: absolute;
@@ -38,4 +39,8 @@
   border-width: 0px 0px 1px 1px;
   width: 15px;
   text-align: center;
+}
+
+.purchase-button-cost {
+  font-size: 0.5em;
 }

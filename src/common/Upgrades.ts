@@ -4,7 +4,7 @@ export enum Upgrades {
 }
 
 export enum UpgradeCategories {
-  GENERAL_HUNTER_UPGRADS,
+  GENERAL_HUNTER_UPGRADES,
   PLAIN_HUNTER_UPGRADES
 }
 

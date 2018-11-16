@@ -46,34 +46,6 @@ const CraftBabyWyvernLeather: CraftBabyWyvernLeatherDef = {
   }
 };
 
-interface HirePlainsHunterDef extends PurchaseButtonDefinition {
-  calculateLeatherCost: (state: GameState) => number;
-}
-const HirePlainsHunter: HirePlainsHunterDef = {
-  isVisible(state: GameState) {
-    return state.flags.has(GameProgressionFlags.PLAINS_HUNTER_UNLOCKED);
-  },
-  isPurchaseable(state: GameState) {
-    return Utils.costCheck(state, this.getCost(state));
-  },
-  title: `Hire a Plains Hunter`,
-  infoKey: DetailedInfoKeys.NO_INFO,
-  calculateLeatherCost() {
-    const baseCost = 2;
-    return baseCost;
-  },
-  getCost(state: GameState) {
-    return new Map([[ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]]);
-  },
-  purchase(state: GameState) {
-    return [
-      ...Utils.costsToEvents(this.getCost(state)),
-      new ResourceModificationEvent(ResourceTypes.PLAINS_HUNTER, 1)
-    ];
-  }
-};
-
 Utils.bindFunctions(HuntBabyWyverns);
 Utils.bindFunctions(CraftBabyWyvernLeather);
-Utils.bindFunctions(HirePlainsHunter);
-export { HuntBabyWyverns, CraftBabyWyvernLeather, HirePlainsHunter };
+export { HuntBabyWyverns, CraftBabyWyvernLeather };

@@ -1,5 +1,6 @@
 import * as BaseCampButtons from "./BaseCampButtons";
 import { PurchaseButtonDefinition } from "./GameElementDefinitions";
+import * as HunterPurchaseButtons from "./HunterPurchaseButtons";
 
 export enum PurchaseButtonGameElements {
   HUNT_BABY_WYVERN_BUTTON,
@@ -22,5 +23,5 @@ PurchaseButtonDefinitions.set(
 );
 PurchaseButtonDefinitions.set(
   PurchaseButtonGameElements.HIRE_PLAINS_HUNTER_BUTTON,
-  BaseCampButtons.HirePlainsHunter
+  HunterPurchaseButtons.HirePlainsHunter
 );

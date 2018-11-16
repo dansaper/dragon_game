@@ -1,9 +1,80 @@
 @import "base";
 
+.hunters-tab {
+  display: flex;
+  flex-direction: row;
+}
+
+.hunter-rows {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+}
+
+$hunterRowHeight: 100px;
+
+.hunter-row {
+  height: $hunterRowHeight;
+  display: flex;
+  flex-direction: row;
+
+  border-bottom: 1px solid black;
+}
+
+.hunter-row-content {
+  flex: 1 0 auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hunter-row-purchase-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .button-with-info {
+    height: $hunterRowHeight;
+    width: 160px;
+    padding: 20px;
+    border: none;
+  }
+
+  border-right: 1px solid black;
+  margin-right: 10px;
+}
+
+.hunter-row-title {
+  width: 150px;
+  text-align: center;
+}
+
+.hunter-row-selector {
+  flex: 0 0 auto;
+  border-left: 1px solid black;
+  &::before {
+    content: ">";
+  }
+}
+
+.hunter-upgrade-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.hunter-upgrade-info-panel {
+  flex: 1 0 auto;
+}
+
 .hunter-upgrade-tree-view {
+  flex: 0 0 auto;
   width: 300px;
   height: 700px;
   border: 1px solid black;
+  border-left: none;
   padding: 15px;
 }
 

@@ -1,8 +1,7 @@
 import * as React from "react";
 import { DetailedInfoKeys } from "../../../common/DetailedInfo";
 import { GameEvent } from "../../../common/events/GameEvents";
-import { ToggleDetailedInfoPanelEvent } from "../../../common/events/ToggleDetailedInfoPanelEvent";
-import { UpdateDetailedInfoPanelEvent } from "../../../common/events/UpdateDetailedInfoPanelEvent";
+import { HoveringInfoButton } from "./HoveringInfoButton";
 
 interface ButtonWithInfoProps {
   onClick: () => void;
@@ -19,7 +18,6 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
   constructor(props: ButtonWithInfoProps) {
     super(props);
     this.onClick = this.onClick.bind(this);
-    this.selectInfo = this.selectInfo.bind(this);
   }
 
   public render() {
@@ -35,9 +33,15 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
         {this.props.infoKey === undefined ? (
           undefined
         ) : (
-          <div className="button-info-button" onClick={this.selectInfo}>
-            i
-          </div>
+          <HoveringInfoButton
+            isDisabled={
+              this.props.disabledInfoButtonOnDisable !== undefined &&
+              this.props.disabledInfoButtonOnDisable &&
+              this.props.isDisabled()
+            }
+            sendGameEvents={this.props.sendGameEvents}
+            infoKey={this.props.infoKey}
+          />
         )}
       </div>
     );
@@ -47,24 +51,5 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
     if (!this.props.isDisabled()) {
       this.props.onClick();
     }
-  }
-
-  private selectInfo(e: React.MouseEvent) {
-    if (this.props.infoKey === undefined) {
-      return;
-    }
-    if (
-      this.props.disabledInfoButtonOnDisable !== undefined &&
-      this.props.disabledInfoButtonOnDisable &&
-      this.props.isDisabled()
-    ) {
-      return;
-    }
-
-    this.props.sendGameEvents([
-      new UpdateDetailedInfoPanelEvent(this.props.infoKey),
-      new ToggleDetailedInfoPanelEvent(true)
-    ]);
-    e.stopPropagation();
   }
 }

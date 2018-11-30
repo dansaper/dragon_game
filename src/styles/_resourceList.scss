@@ -1,15 +1,15 @@
-.resource_list {
+.resource-list {
   list-style-type: none;
   padding: 0px;
   margin: 5px;
 }
-.resource_line {
+.resource-line {
   display: flex;
 }
-.resource_line_entry_name {
+.resource-line-entry-name {
   flex: 1 1 auto;
   justify-self: flex-start;
 }
-.resource_line_count {
+.resource-line-count {
   justify-self: flex-end;
 }

@@ -1,4 +1,7 @@
 export enum ResourceTypes {
+  // Sentinal for resources that aren't visible to player
+  UNKNOWN_RESOURCE = "Unknown Resources",
+
   BABY_WYVERN_BONE = "Baby Wyvern Bone",
   BABY_WYVERN_HIDE = "Baby Wyvern Hide",
   BABY_WYVERN_LEATHER = "Baby Wyvern Leather",

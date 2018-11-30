@@ -15,16 +15,16 @@ export class DetailedInfoPanelWrapper extends React.Component<DetailedInfoPanelW
 
   public render() {
     const indicatorClass = this.props.isPanelOpen
-      ? "detailed_info_panel_open_indicator"
-      : "detailed_info_panel_closed_indicator";
+      ? "detailed-info-panel-open-indicator"
+      : "detailed-info-panel-closed-indicator";
 
     return (
       <>
         <div
           onClick={this.props.togglePanel}
-          className={`detailed_info_toggle_bar_toggle ${indicatorClass}`}
+          className={`detailed-info-toggle-bar-toggle ${indicatorClass}`}
         />
-        <div className={`detailed_info_panel ${indicatorClass}`}>
+        <div className={`detailed-info-panel ${indicatorClass}`}>
           <DetailedInfoPanelContent info={this.props.info} />
         </div>
       </>

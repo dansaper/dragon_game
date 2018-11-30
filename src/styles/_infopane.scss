@@ -1,6 +1,6 @@
 @import "base";
 
-.detailed_info_toggle_bar_toggle {
+.detailed-info-toggle-bar-toggle {
   border-left: $main-border;
   width: 10px;
   padding: 3px;
@@ -10,24 +10,24 @@
   &:hover {
     background-color: lightgray;
   }
-  &.detailed_info_panel_open_indicator::before {
+  &.detailed-info-panel-open-indicator::before {
     content: ">";
   }
-  &.detailed_info_panel_closed_indicator::before {
+  &.detailed-info-panel-closed-indicator::before {
     content: "<";
   }
 }
 
 $panel-width: 300px;
 
-.detailed_info_panel {
+.detailed-info-panel {
   overflow: hidden;
   transition: width 0.25s linear;
-  &.detailed_info_panel_open_indicator {
+  &.detailed-info-panel-open-indicator {
     border-left: $main-border;
     width: $panel-width;
   }
-  &.detailed_info_panel_closed_indicator {
+  &.detailed-info-panel-closed-indicator {
     width: 0;
   }
 }

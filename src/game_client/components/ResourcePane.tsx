@@ -10,9 +10,9 @@ export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
   public render() {
     const resources = this.props.resources;
     return (
-      <div className="resource_pane">
-        <div className="resource_pane_title">Resources</div>
-        <div className="resource_pane_categories">
+      <div className="resource-pane">
+        <div className="resource-pane-title">Resources</div>
+        <div className="resource-pane-categories">
           {[...ResourceCategoriesMap.entries()].map(([category, resourceKeys]) => {
             const categoryResources = new Map(
               resourceKeys
@@ -23,9 +23,9 @@ export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
               return null;
             }
             return (
-              <div className="resource_category_section" key={category}>
-                <div className="resource_category_section_title">{category}</div>
-                <div className="resource_category_section_list">
+              <div className="resource-category-section" key={category}>
+                <div className="resource-category-section-title">{category}</div>
+                <div className="resource-category-section-list">
                   <ResourceList resources={categoryResources} />
                 </div>
               </div>

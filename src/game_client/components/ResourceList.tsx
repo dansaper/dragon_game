@@ -11,17 +11,22 @@ export class ResourceList extends React.Component<ResouceListProps, {}> {
     const orderedResources = ([] as ResourceTypes[])
       .concat(...ResourceCategoriesMap.values())
       .filter(resource => this.props.resources.has(resource));
+
+    const resourceLines = orderedResources.map(resourceType => {
+      return (
+        <ResourceLine
+          key={resourceType}
+          name={resourceType}
+          value={this.props.resources.get(resourceType)!}
+        />
+      );
+    });
     return (
-      <ul className="resource_list">
-        {orderedResources.map(resourceType => {
-          return (
-            <ResourceLine
-              key={resourceType}
-              name={resourceType}
-              value={this.props.resources.get(resourceType)!}
-            />
-          );
-        })}
+      <ul className="resource-list">
+        {resourceLines}
+        {this.props.resources.has(ResourceTypes.UNKNOWN_RESOURCE) ? (
+          <ResourceLine key={ResourceTypes.UNKNOWN_RESOURCE} name="????" value="????" />
+        ) : null}
       </ul>
     );
   }

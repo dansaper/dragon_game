@@ -1,31 +1,31 @@
-.resource_pane {
+.resource-pane {
   border-right: $main-border;
   width: 225px;
   padding: 15px;
   overflow-y: scroll;
 }
 
-.resource_pane_title {
+.resource-pane-title {
   text-align: center;
   font-weight: bold;
   font-size: 1.2em;
   padding-bottom: 15px;
 }
 
-.resource_pane_categories {
+.resource-pane-categories {
   padding-left: 10px;
 }
 
-.resource_category_section {
+.resource-category-section {
   padding: 5px 0px;
 
-  + .resource_category_section {
+  + .resource-category-section {
     border-top: 1px solid darkgray;
   }
 }
-.resource_category_section_title {
+.resource-category-section-title {
   font-weight: bold;
 }
-.resource_category_section_list {
+.resource-category-section-list {
   padding: 5px;
 }

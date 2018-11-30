@@ -19,7 +19,7 @@ export class GameMenu extends React.Component<GameMenuProps, {}> {
 
   public render() {
     return (
-      <div className="game_menu">
+      <div className="game-menu">
         <PauseButton
           isPaused={this.props.isPaused}
           pause={this.props.onPause}

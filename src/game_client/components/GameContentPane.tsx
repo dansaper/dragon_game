@@ -21,7 +21,7 @@ export class GameContentPane extends React.Component<GameContentPaneProps, {}> {
 
   public render() {
     return (
-      <div className="game_content_pane">
+      <div className="game-content-pane">
         <ResourcePane resources={this.props.gameState.resources} />
         <MainContentPane
           clientState={this.props.clientState}

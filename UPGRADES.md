@@ -8,9 +8,13 @@
     - Bones...
 - Bow and arrows:
   - Bows!
+    - Cost:
+      - Wyvern Bone
   - **????**
 - Weapon Grip
   - Grip to make weapons slip less
+  - Cost:
+    - Leather of some kind
 - Weak/Basic/Normal/Strong/etc. Armor:
   - Armor for the hunters
   - Cost:

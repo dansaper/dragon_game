@@ -14,6 +14,6 @@ export const PurchaseUpgradeEventHandlers: GameStateModificationHandler = {
   }
 };
 
-export function IsSetProgressionFlagEvent(e: GameEvent): e is PurchaseUpgradeEvent {
+export function isPurchaseUpdateEvent(e: GameEvent): e is PurchaseUpgradeEvent {
   return e.eventType === GameEventTypes.PURCHASE_UPGRADE;
 }

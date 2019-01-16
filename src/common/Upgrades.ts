@@ -4,8 +4,8 @@ export enum Upgrades {
 }
 
 export enum UpgradeCategories {
-  GENERAL_HUNTER_UPGRADES,
-  PLAIN_HUNTER_UPGRADES
+  GENERAL_HUNTER_UPGRADES = "GENERAL_HUNTER_UPGRADES",
+  PLAIN_HUNTER_UPGRADES = "PLAIN_HUNTER_UPGRADES"
 }
 
 const plainsHunterUpgrades = [

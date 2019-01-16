@@ -8,7 +8,7 @@ import { Draggable } from "../common/Draggable";
 import { GameCanvas } from "../common/GameCanvas";
 import { HunterUpgradeButtonLayout } from "./HunterUpgradeButttonLayout";
 
-const VIEWPORT_WIDTH = 300;
+const VIEWPORT_WIDTH = 500;
 const VIEWPORT_HEIGHT = 700;
 const CONTENT_WIDTH = 600;
 const CONTENT_HEIGHT = 1200;

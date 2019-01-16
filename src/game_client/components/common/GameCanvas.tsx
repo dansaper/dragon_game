@@ -43,6 +43,10 @@ export class GameCanvas extends React.Component<GameCanvasProps, {}> {
     this.redrawCanvas();
   }
 
+  public componentDidUpdate() {
+    this.redrawCanvas();
+  }
+
   private redrawCanvas() {
     const ctx = this.drawingContext;
     ctx.setTransform(1, 0, 0, 1, 0, 0);

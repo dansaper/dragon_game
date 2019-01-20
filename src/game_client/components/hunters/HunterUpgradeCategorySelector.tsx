@@ -24,16 +24,27 @@ export class HunterUpgradeCategorySelector extends React.Component<
   }
 
   public render() {
+    const arrowSvg = (rotate: number) => (
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" transform={`rotate(${rotate})`}>
+        <path d="M 0 0 L 50 50 L 0 100" stroke="black" fill="none" stroke-width="10" />
+      </svg>
+    );
     return (
       <div className="hunter-upgrade-category-selector">
-        <div className="prev-hunter-upgrade-category" onClick={this.selectPrevCategory}>
-          &lt;
+        <div
+          className="hunter-category-selector-arrow prev-hunter-upgrade-category"
+          onClick={this.selectPrevCategory}
+        >
+          {arrowSvg(180)}
         </div>
         <div className="current-hunter-upgrade-category">
           {categoryNames.get(this.props.currentCategory)}
         </div>
-        <div className="next-hunter-upgrade-category" onClick={this.selectNextCategory}>
-          &gt;
+        <div
+          className="hunter-category-selector-arrow next-hunter-upgrade-category"
+          onClick={this.selectNextCategory}
+        >
+          {arrowSvg(0)}
         </div>
       </div>
     );

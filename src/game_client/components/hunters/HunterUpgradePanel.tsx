@@ -69,7 +69,8 @@ export class HunterUpgradePanel extends React.Component<
 
   private selectCategory(category: UpgradeCategories) {
     this.setState({
-      selectedCategory: category
+      selectedCategory: category,
+      selectedUpgrade: undefined
     });
   }
 }

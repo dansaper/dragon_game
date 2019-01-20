@@ -8,6 +8,36 @@ $treeButtonsIndex: 1;
   flex-direction: row;
 }
 
+.hunter-upgrade-category-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hunter-category-selector-arrow {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: row;
+
+  &.prev-hunter-upgrade-category svg {
+    margin-right: auto;
+  }
+
+  &.next-hunter-upgrade-category svg {
+    margin-left: auto;
+  }
+
+  svg {
+    height: 20px;
+    width: 50px;
+  }
+}
+
+.current-hunter-upgrade-category {
+  font-size: 1.5em;
+}
+
 .hunter-upgrade-tree-wrapper {
   flex: 0 0 auto;
 }

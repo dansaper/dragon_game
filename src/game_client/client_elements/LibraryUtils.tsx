@@ -1,6 +1,8 @@
+import { PurchaseUpgradeEvent } from "../../common/events/PurchaseUpgradeEvent";
 import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
+import { Upgrades } from "../../common/Upgrades";
 
 export function bindFunctions<T extends { [index: string]: any }>(obj: T) {
   for (const k of Object.keys(obj)) {
@@ -26,4 +28,18 @@ export function costsToEvents(costs: Map<ResourceTypes, number>): ResourceModifi
     events.push(new ResourceModificationEvent(resourceType, -cost));
   }
   return events;
+}
+
+export function outputsToResourceEvents(
+  outputs: Map<ResourceTypes, number>
+): ResourceModificationEvent[] {
+  const events = [];
+  for (const [resourceType, cost] of outputs) {
+    events.push(new ResourceModificationEvent(resourceType, cost));
+  }
+  return events;
+}
+
+export function outputsToUpgradeEvents(outputs: Upgrades[]): PurchaseUpgradeEvent[] {
+  return outputs.map(u => new PurchaseUpgradeEvent(u));
 }

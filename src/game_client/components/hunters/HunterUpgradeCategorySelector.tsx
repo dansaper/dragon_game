@@ -26,7 +26,7 @@ export class HunterUpgradeCategorySelector extends React.Component<
   public render() {
     const arrowSvg = (rotate: number) => (
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" transform={`rotate(${rotate})`}>
-        <path d="M 0 0 L 50 50 L 0 100" stroke="black" fill="none" stroke-width="10" />
+        <path d="M 0 0 L 50 50 L 0 100" stroke="black" fill="none" strokeWidth="10" />
       </svg>
     );
     return (

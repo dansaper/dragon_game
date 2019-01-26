@@ -24,7 +24,13 @@ export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPan
 
   public render() {
     if (this.props.selectedUpgrade === undefined) {
-      return <div className="hunter-upgrade-info-panel" />;
+      return (
+        <div className="hunter-upgrade-info-panel">
+          <div className="hunter-upgrade-title-wrapper">
+            <div className="hunter-upgrade-title">No Upgrade Selected</div>
+          </div>
+        </div>
+      );
     }
 
     const upgradeDefinition = HunterUpgradeDefinitions.get(this.props.selectedUpgrade)!;
@@ -43,16 +49,23 @@ export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPan
 
     return (
       <div className="hunter-upgrade-info-panel">
-        <div className="hunter-upgrade-title">{upgradeDefinition.title}</div>
-        <div className="hunter-upgrade-details">{upgradeDefinition.details}</div>
-        <div className="hunter-upgrade-cost">
-          <ResourceList resources={upgradeDefinition.getCost(this.props.gameState)} />
+        <div className="hunter-upgrade-title-wrapper">
+          <div className="hunter-upgrade-title">{upgradeDefinition.title}</div>
         </div>
-        <ButtonWithInfo
-          {...cached}
-          title={"Purchase upgrade: " + upgradeDefinition.title}
-          sendGameEvents={this.props.sendGameEvents}
-        />
+        <div className="hunter-upgrade-content-wrapper">
+          <div className="hunter-upgrade-content">
+            <div className="hunter-upgrade-details">{upgradeDefinition.details}</div>
+            <ButtonWithInfo
+              {...cached}
+              title={"Purchase upgrade: " + upgradeDefinition.title}
+              sendGameEvents={this.props.sendGameEvents}
+            />
+          </div>
+          <div className="hunter-upgrade-cost">
+            <div className="hunter-upgrade-cost-title">Cost</div>
+            <ResourceList resources={upgradeDefinition.getCost(this.props.gameState)} />
+          </div>
+        </div>
       </div>
     );
   }

@@ -3,9 +3,23 @@
 $treeConnectionsIndex: 0;
 $treeButtonsIndex: 1;
 
+$hunterTreeWidth: 500px;
+$hunterTreeHeight: 700px;
+
+$hunterSectionWidth: $hunterTreeWidth;
+
 .hunter-upgrade-panel {
   display: flex;
   flex-direction: row;
+
+  .hunter-upgrade-tree-wrapper {
+    width: 500px;
+  }
+
+  .hunter-upgrade-info-panel {
+    flex: 1 1 auto;
+    max-width: $hunterSectionWidth;
+  }
 }
 
 .hunter-upgrade-category-selector {
@@ -13,10 +27,13 @@ $treeButtonsIndex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  .hunter-category-selector-arrow {
+    flex: 1 0 auto;
+  }
 }
 
 .hunter-category-selector-arrow {
-  flex: 1 0 auto;
   display: flex;
   flex-direction: row;
 
@@ -38,17 +55,9 @@ $treeButtonsIndex: 1;
   font-size: 1.5em;
 }
 
-.hunter-upgrade-tree-wrapper {
-  flex: 0 0 auto;
-}
-
-.hunter-upgrade-info-panel {
-  flex: 1 0 auto;
-}
-
 .hunter-upgrade-tree-view {
-  width: 500px;
-  height: 700px;
+  width: $hunterTreeWidth;
+  height: $hunterTreeHeight;
   border: 1px solid black;
 }
 
@@ -64,4 +73,71 @@ $treeButtonsIndex: 1;
 
 .hunter-upgrade-tree-button {
   position: absolute;
+}
+
+.hunter-upgrade-info-panel {
+  margin-left: 30px;
+  padding: 0px 10px;
+
+  border: 1px solid black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.hunter-upgrade-title-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .hunter-upgrade-title {
+    font-size: 1.5em;
+    padding: 5px 0px;
+  }
+
+  border-bottom: 1px solid black;
+}
+
+.hunter-upgrade-content-wrapper {
+  margin: 10px 0px;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.hunter-upgrade-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-right: 1px solid black;
+}
+
+.hunter-upgrade-details {
+  padding: 0px 10px 10px 10px;
+}
+
+.hunter-upgrade-cost {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 50%;
+  padding: 10px;
+  box-sizing: border-box;
+
+  .hunter-upgrade-cost-title {
+    font-size: 1.25em;
+  }
+
+  .resource-list {
+    width: 100%;
+
+    border-top: 1px solid black;
+    box-sizing: border-box;
+    padding: 20px;
+  }
 }

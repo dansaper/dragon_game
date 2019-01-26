@@ -3,10 +3,10 @@ import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
-import { ButtonWithInfo } from "../common/ButtonWithInfo";
 import { Draggable } from "../common/Draggable";
 import { GameCanvas } from "../common/GameCanvas";
 import { HunterUpgradeButtonLayout } from "./HunterUpgradeButttonLayout";
+import { HunterUpgradeDisplayButton } from "./HunterUpgradeDisplayButton";
 
 const VIEWPORT_WIDTH = 500;
 const VIEWPORT_HEIGHT = 700;
@@ -59,7 +59,6 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
     return (
       <>
         {this.props.upgrades.map(upgrade => {
-          const upgradeDefinition = HunterUpgradeDefinitions.get(upgrade)!;
           const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade)!;
           return (
             <div
@@ -67,13 +66,10 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
               style={{ left: upgradeLocation.x, top: upgradeLocation.y }}
               className="hunter-upgrade-tree-button"
             >
-              <ButtonWithInfo
-                isVisible={() => true}
-                isDisabled={() => !upgradeDefinition.isViewable(this.props.gameState)}
-                disabledInfoButtonOnDisable={true}
+              <HunterUpgradeDisplayButton
+                upgrade={upgrade}
                 onClick={() => this.props.onClick(upgrade)}
-                title={upgradeDefinition.title}
-                infoKey={upgradeDefinition.infoKey}
+                gameState={this.props.gameState}
                 sendGameEvents={this.props.sendGameEvents}
               />
             </div>
@@ -87,6 +83,10 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
     ctx.beginPath();
     for (const upgrade of this.props.upgrades) {
       const upgradeDefinition = HunterUpgradeDefinitions.get(upgrade)!;
+      if (!upgradeDefinition.isVisible(this.props.gameState)) {
+        continue;
+      }
+
       const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade)!;
       for (const parent of upgradeDefinition.parents) {
         const parentLocation = HunterUpgradeButtonLayout.get(parent)!!;

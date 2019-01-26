@@ -7,6 +7,7 @@ import {
 } from "../../client_elements/PurchaseButtonDefinitionLibrary";
 import { ResourceList } from "../ResourceList";
 import { ButtonWithInfo } from "./ButtonWithInfo";
+import { PropertyCache } from "./PropertyCache";
 
 interface CachedProperties {
   onClick: () => void;
@@ -24,30 +25,27 @@ export class PurchaseButton extends React.Component<
   {}
 > {
   // We cache functions for a given button def so we don't recreate functions every time we render
-  private cachedButtonProperties = new Map<PurchaseButtonGameElements, CachedProperties>();
+  private cachedButtonProperties = new PropertyCache<
+    PurchaseButtonGameElements,
+    CachedProperties
+  >();
 
   public render() {
     const buttonDef = PurchaseButtonDefinitions.get(this.props.button)!;
 
-    let cached: CachedProperties;
-    if (!this.cachedButtonProperties.has(this.props.button)) {
-      const propsCapturingThis = {
-        isVisible: () => buttonDef.isVisible(this.props.gameState),
-        isDisabled: () => !buttonDef.isPurchaseable(this.props.gameState),
-        onClick: () => this.props.sendGameEvents(buttonDef.purchase(this.props.gameState)),
-        renderContent: () => {
-          return (
-            <div className={"purchase-button-cost"}>
-              <ResourceList resources={buttonDef.getCost(this.props.gameState)} />
-            </div>
-          );
-        }
-      };
-      this.cachedButtonProperties.set(this.props.button, propsCapturingThis);
-      cached = propsCapturingThis;
-    } else {
-      cached = this.cachedButtonProperties.get(this.props.button)!;
-    }
+    const propsCapturingThis = {
+      isVisible: () => buttonDef.isVisible(this.props.gameState),
+      isDisabled: () => !buttonDef.isPurchaseable(this.props.gameState),
+      onClick: () => this.props.sendGameEvents(buttonDef.purchase(this.props.gameState)),
+      renderContent: () => {
+        return (
+          <div className="purchase-button-cost">
+            <ResourceList resources={buttonDef.getCost(this.props.gameState)} />
+          </div>
+        );
+      }
+    };
+    const cached = this.cachedButtonProperties.getOrSet(this.props.button, propsCapturingThis);
 
     return (
       <ButtonWithInfo

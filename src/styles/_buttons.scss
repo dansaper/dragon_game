@@ -44,3 +44,13 @@
 .purchase-button-cost {
   font-size: 0.5em;
 }
+
+.upgrade-ownership-indicator {
+  display: flex;
+  justify-content: center;
+}
+
+.owned-upgrade-indicator::before {
+  content: "\2714"; // Checkmark U+2714
+  color: green;
+}

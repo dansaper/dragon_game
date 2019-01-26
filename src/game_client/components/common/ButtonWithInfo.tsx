@@ -28,7 +28,7 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
       <div className={topLevelClasses} onClick={this.onClick}>
         <div className={"button-with-info-text"}>{this.props.title}</div>
         <div className={"button-with-info-content"}>
-          {this.props.renderContent ? this.props.renderContent() : null}
+          {this.props.renderContent ? this.props.renderContent() : undefined}
         </div>
         {this.props.infoKey === undefined ? (
           undefined

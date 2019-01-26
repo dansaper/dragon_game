@@ -1,6 +1,8 @@
 @import "base";
 
 .detailed-info-toggle-bar-toggle {
+  flex: 0 0 auto;
+
   border-left: $main-border;
   width: 10px;
   padding: 3px;
@@ -21,6 +23,8 @@
 $panel-width: 300px;
 
 .detailed-info-panel {
+  flex: 0 0 auto;
+
   overflow: hidden;
   transition: width 0.25s linear;
   &.detailed-info-panel-open-indicator {

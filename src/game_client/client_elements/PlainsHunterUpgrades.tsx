@@ -5,31 +5,12 @@ import { Upgrades } from "../../common/Upgrades";
 import { MakeUpgradeDisplayDef } from "./GameElementDefinitions";
 import * as Utils from "./LibraryUtils";
 
-interface PlainsHunterWeakBoneBowProps {
-  calculateBoneCost: (state: GameState) => number;
-}
-const PlainsHunterWeakBoneBow = MakeUpgradeDisplayDef<PlainsHunterWeakBoneBowProps>({
-  title: "Bone Bows",
-  infoKey: DetailedInfoKeys.NO_INFO,
-  details: "Allows Plains Hunters to use bows made of Baby Wyvern bone",
-  calculateBoneCost() {
-    const baseCost = 5;
-    return baseCost;
-  },
-  getCost(state: GameState) {
-    return new Map([[ResourceTypes.BABY_WYVERN_BONE, this.calculateBoneCost(state)]]);
-  },
-  getOutputs() {
-    return [Upgrades.PLAINS_HUNTER_WEAK_BONE_BOWS];
-  },
-  parents: []
-});
-
 interface PlainsHunterWeakLeatherBootsProps {
   calculateLeatherCost: (state: GameState) => number;
   calculateBoneCost: (state: GameState) => number;
 }
 const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<PlainsHunterWeakLeatherBootsProps>({
+  upgrade: Upgrades.PLAINS_HUNTER_WEAK_LEATHER_BOOTS,
   title: "Baby wyvern boots",
   infoKey: DetailedInfoKeys.NO_INFO,
   details:
@@ -48,12 +29,8 @@ const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<PlainsHunterWeakLeath
       [ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]
     ]);
   },
-  getOutputs() {
-    return [Upgrades.PLAINS_HUNTER_WEAK_LEATHER_BOOTS];
-  },
-  parents: [Upgrades.PLAINS_HUNTER_WEAK_BONE_BOWS]
+  parents: []
 });
 
-Utils.bindFunctions(PlainsHunterWeakBoneBow);
-Utils.bindFunctions(PlainsHunterWeakLeatherBoots);
-export { PlainsHunterWeakBoneBow, PlainsHunterWeakLeatherBoots };
+const upgrades = [Utils.bindFunctions(PlainsHunterWeakLeatherBoots)];
+export { upgrades };

@@ -2,7 +2,7 @@
 
 ## Common Upgrades
 
-- Weak/Basic/Normal/Strong/etc. Bone weapons:
+- Weak/Normal/Strong/etc. Bone weapons:
   - Bone weapons
   - Cost:
     - Bones...
@@ -15,7 +15,7 @@
   - Grip to make weapons slip less
   - Cost:
     - Leather of some kind
-- Weak/Basic/Normal/Strong/etc. Armor:
+- Weak/Normal/Strong/etc. Armor:
   - Armor for the hunters
   - Cost:
     - Leather...

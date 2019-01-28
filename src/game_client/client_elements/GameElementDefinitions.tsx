@@ -1,5 +1,6 @@
 import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { GameEvent } from "../../common/events/GameEvents";
+import { PurchaseUpgradeEvent } from "../../common/events/PurchaseUpgradeEvent";
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { Upgrades } from "../../common/Upgrades";
@@ -38,43 +39,43 @@ export function MakePurchaseButtonDef<T>(
   return Object.assign({}, DefaultPurchaseButton, custom);
 }
 
-export interface UpgradeDisplayDefinition {
+interface OptionalUpgradeDisplayDefinitionProps {
   isVisible: (state: GameState) => boolean;
   isViewable: (state: GameState) => boolean;
   isPurchaseable: (state: GameState) => boolean;
-  title: string;
   infoKey: DetailedInfoKeys;
   getCost: (state: GameState) => Map<ResourceTypes, number>;
-  getOutputs: (state: GameState) => Upgrades[];
   purchase: (state: GameState) => GameEvent[];
   details: string;
+}
+
+interface RequiredUpgradeDisplayDefinitionProps {
+  title: string;
+  upgrade: Upgrades;
   parents: Upgrades[];
 }
 
-const DefaultUpgradeDefinition: UpgradeDisplayDefinition = {
+export type UpgradeDisplayDefinition = OptionalUpgradeDisplayDefinitionProps &
+  RequiredUpgradeDisplayDefinitionProps;
+
+const DefaultUpgradeDefinitionProps: OptionalUpgradeDisplayDefinitionProps = {
   isVisible: () => true,
-  isViewable(state: GameState) {
+  isViewable(this: UpgradeDisplayDefinition, state: GameState) {
     return this.parents.every(p => state.upgrades.has(p));
   },
-  isPurchaseable(state: GameState) {
+  isPurchaseable(this: UpgradeDisplayDefinition, state: GameState) {
     return Utils.costCheck(state, this.getCost(state));
   },
-  title: "No Title",
   infoKey: DetailedInfoKeys.NO_INFO,
   getCost: () => new Map(),
-  getOutputs: () => [],
-  purchase(state: GameState) {
-    return [
-      ...Utils.costsToEvents(this.getCost(state)),
-      ...Utils.outputsToUpgradeEvents(this.getOutputs(state))
-    ];
+  purchase(this: UpgradeDisplayDefinition, state: GameState) {
+    return [...Utils.costsToEvents(this.getCost(state)), new PurchaseUpgradeEvent(this.upgrade)];
   },
-  details: "No Details",
-  parents: []
+  details: "No Details"
 };
 
 export function MakeUpgradeDisplayDef<T>(
-  custom: Partial<UpgradeDisplayDefinition> & T
+  custom: RequiredUpgradeDisplayDefinitionProps & Partial<OptionalUpgradeDisplayDefinitionProps> & T
 ): UpgradeDisplayDefinition & T {
-  return Object.assign({}, DefaultUpgradeDefinition, custom);
+  return Object.assign({}, DefaultUpgradeDefinitionProps, custom);
 }

@@ -59,7 +59,10 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
     return (
       <>
         {this.props.upgrades.map(upgrade => {
-          const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade)!;
+          const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade);
+          if (upgradeLocation === undefined) {
+            return;
+          }
           return (
             <div
               key={upgrade}
@@ -82,12 +85,16 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
   private drawConnectingLines(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
     for (const upgrade of this.props.upgrades) {
+      const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade);
+      if (upgradeLocation === undefined) {
+        continue;
+      }
+
       const upgradeDefinition = HunterUpgradeDefinitions.get(upgrade)!;
       if (!upgradeDefinition.isVisible(this.props.gameState)) {
         continue;
       }
 
-      const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade)!;
       for (const parent of upgradeDefinition.parents) {
         const parentLocation = HunterUpgradeButtonLayout.get(parent)!!;
         ctx.moveTo(

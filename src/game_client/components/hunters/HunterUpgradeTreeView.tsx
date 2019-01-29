@@ -16,8 +16,8 @@ const CONTENT_HEIGHT = 1200;
 const DRAG_RATE = 1.5;
 const DRAG_THRESHOLD = 5;
 
-const BUTTON_WIDTH = 100;
-const BUTTON_HEIGHT = 60;
+const BUTTON_WIDTH = 118;
+const BUTTON_HEIGHT = 78;
 
 interface HunterUpgradeCanvasProps {
   gameState: GameState;

@@ -5,11 +5,10 @@ import { Upgrades } from "../../common/Upgrades";
 import { MakeUpgradeDisplayDef } from "./GameElementDefinitions";
 import * as Utils from "./LibraryUtils";
 
-interface PlainsHunterWeakLeatherBootsProps {
+const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<{
   calculateLeatherCost: (state: GameState) => number;
   calculateBoneCost: (state: GameState) => number;
-}
-const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<PlainsHunterWeakLeatherBootsProps>({
+}>({
   upgrade: Upgrades.PLAINS_HUNTER_WEAK_LEATHER_BOOTS,
   title: "Baby wyvern boots",
   infoKey: DetailedInfoKeys.NO_INFO,
@@ -32,5 +31,5 @@ const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<PlainsHunterWeakLeath
   parents: []
 });
 
-const upgrades = [Utils.bindFunctions(PlainsHunterWeakLeatherBoots)];
+const upgrades = [PlainsHunterWeakLeatherBoots].map(u => Utils.bindFunctions(u));
 export { upgrades };

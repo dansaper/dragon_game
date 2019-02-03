@@ -50,7 +50,7 @@ export class Draggable extends React.Component<DraggableProps, DraggableState> {
         className="draggable-container"
         onMouseDown={this.startDrag}
         onMouseMove={this.handleMouseMove}
-        onMouseOut={this.endDrag}
+        onMouseLeave={this.endDrag}
         onMouseUp={this.endDrag}
       >
         <div

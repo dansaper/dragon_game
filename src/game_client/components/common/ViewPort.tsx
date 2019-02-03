@@ -1,12 +1,12 @@
 import * as React from "react";
-import { computeDragBoundaries, DragHandler } from "./DragHandler";
+import { DragHandler } from "./DragHandler";
 
 interface Dimensions {
   width: number;
   height: number;
 }
 
-interface DraggableProps {
+interface ViewPortProps {
   // Canvas dimensions
   visibleDimensions: Dimensions;
 
@@ -18,8 +18,6 @@ interface DraggableProps {
   // Number of pixels under which a drag does not count as significant
   dragThreshold?: number;
 
-  setIsDragging?: (isDragging: boolean) => void;
-
   children: React.ReactNode;
 }
 
@@ -27,16 +25,47 @@ interface DraggableState {
   offset: { x: number; y: number };
 }
 
-export class Draggable extends React.Component<DraggableProps, DraggableState> {
+interface ZoomableState {
+  zoom: number;
+}
+
+function computeDragBoundaries(
+  visibleSize: {
+    width: number;
+    height: number;
+  },
+  contentSize: {
+    width: number;
+    height: number;
+  },
+  zoom: number
+) {
+  const maxOffsetX = Math.trunc(visibleSize.width / 2);
+  const maxOffsetY = Math.trunc(visibleSize.height / 2);
+  const dragBoundaries = {
+    x: {
+      min: -(Math.max(visibleSize.width, contentSize.width * zoom) - maxOffsetX),
+      max: maxOffsetX
+    },
+    y: {
+      min: -(Math.max(visibleSize.height, contentSize.height * zoom) - maxOffsetY),
+      max: maxOffsetY
+    }
+  };
+  return dragBoundaries;
+}
+
+export class ViewPort extends React.Component<ViewPortProps, DraggableState & ZoomableState> {
   private dragHandler?: DragHandler;
-  constructor(props: DraggableProps) {
+  constructor(props: ViewPortProps) {
     super(props);
 
     this.state = {
       offset: {
         x: 0,
         y: 0
-      }
+      },
+      zoom: 1
     };
 
     this.startDrag = this.startDrag.bind(this);
@@ -47,15 +76,19 @@ export class Draggable extends React.Component<DraggableProps, DraggableState> {
   public render() {
     return (
       <div
-        className="draggable-container"
+        className="viewport-container"
         onMouseDown={this.startDrag}
         onMouseMove={this.handleMouseMove}
         onMouseLeave={this.endDrag}
-        onMouseUp={this.endDrag}
+        onMouseUpCapture={this.endDrag}
       >
         <div
-          className="draggable-wrapper"
-          style={{ left: this.state.offset.x, top: this.state.offset.y }}
+          className="viewport-wrapper"
+          style={{
+            left: this.state.offset.x,
+            top: this.state.offset.y,
+            transform: `scale(${this.state.zoom})`
+          }}
         >
           {this.props.children}
         </div>
@@ -66,7 +99,8 @@ export class Draggable extends React.Component<DraggableProps, DraggableState> {
   private startDrag(e: React.MouseEvent) {
     const dragBoundaries = computeDragBoundaries(
       this.props.visibleDimensions,
-      this.props.contentDimensions
+      this.props.contentDimensions,
+      this.state.zoom
     );
 
     this.dragHandler = new DragHandler(
@@ -86,9 +120,6 @@ export class Draggable extends React.Component<DraggableProps, DraggableState> {
       return;
     }
     this.dragHandler.update({ x: e.clientX, y: e.clientY });
-    if (this.props.setIsDragging) {
-      this.props.setIsDragging(this.dragHandler.isSignificantDrag);
-    }
     window.requestAnimationFrame(() => {
       if (this.dragHandler === undefined) {
         return;
@@ -99,14 +130,12 @@ export class Draggable extends React.Component<DraggableProps, DraggableState> {
     });
   }
 
-  private endDrag() {
+  private endDrag(e: React.MouseEvent) {
     if (this.dragHandler === undefined) {
       return;
     }
 
-    if (this.props.setIsDragging) {
-      this.props.setIsDragging(false);
-    }
+    e.stopPropagation();
     this.dragHandler = undefined;
   }
 }

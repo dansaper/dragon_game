@@ -83,29 +83,3 @@ export class DragHandler {
     };
   }
 }
-
-export function computeDragBoundaries(
-  visibleSize: {
-    width: number;
-    height: number;
-  },
-  contentSize: {
-    width: number;
-    height: number;
-  },
-  offsetRatio: number = 2
-): DragBoundaries {
-  const maxOffsetX = Math.trunc(visibleSize.width / offsetRatio);
-  const maxOffsetY = Math.trunc(visibleSize.height / offsetRatio);
-  const dragBoundaries = {
-    x: {
-      min: -(Math.max(visibleSize.width, contentSize.width) - maxOffsetX),
-      max: maxOffsetX
-    },
-    y: {
-      min: -(Math.max(visibleSize.height, contentSize.height) - maxOffsetY),
-      max: maxOffsetY
-    }
-  };
-  return dragBoundaries;
-}

@@ -3,7 +3,7 @@ import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
-import { Draggable } from "../common/Draggable";
+import { ViewPort } from "../common/ViewPort";
 import { HunterUpgradeButtonLayout } from "./HunterUpgradeButttonLayout";
 import { HunterUpgradeDisplayButton } from "./HunterUpgradeDisplayButton";
 
@@ -34,7 +34,7 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
     const lines = this.generateLines();
     return (
       <div className="hunter-upgrade-tree-view">
-        <Draggable
+        <ViewPort
           visibleDimensions={{ width: VIEWPORT_WIDTH, height: VIEWPORT_HEIGHT }}
           contentDimensions={{ width: CONTENT_WIDTH, height: CONTENT_HEIGHT }}
           dragRate={DRAG_RATE}
@@ -43,7 +43,7 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
           <div className="hunter-upgrade-tree-content">
             <svg
               className="hunter-upgrade-tree-connections"
-              viewBox={`0 0 ${VIEWPORT_WIDTH} ${VIEWPORT_HEIGHT}`}
+              viewBox={`0 0 ${CONTENT_WIDTH} ${CONTENT_HEIGHT}`}
             >
               {lines.map((l, index) => (
                 <line
@@ -58,7 +58,7 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
             </svg>
             <div className="hunter-upgrade-tree-buttons">{this.getUpgradeButtons()}</div>
           </div>
-        </Draggable>
+        </ViewPort>
       </div>
     );
   }

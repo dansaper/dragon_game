@@ -1,6 +1,22 @@
+$gameMapViewportWidth: 500px;
+$gameMapViewportHeight: 500px;
+$gameMapContentWidth: 1200px;
+$gameMapContentHeight: 1200px;
+
 .game-map {
   border: 1px solid black;
   padding: 15px;
-  width: 500px;
-  height: 500px;
+  width: $gameMapViewportWidth;
+  height: $gameMapViewportHeight;
+}
+
+.game-map-content-wrapper {
+  margin: 10px;
+  width: $gameMapViewportWidth;
+  height: $gameMapViewportHeight;
+}
+
+.game-map-content {
+  width: $gameMapContentWidth;
+  height: $gameMapContentHeight;
 }

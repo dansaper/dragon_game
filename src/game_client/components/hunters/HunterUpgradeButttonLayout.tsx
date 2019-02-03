@@ -19,7 +19,7 @@ buttons.set(Upgrades.HUNTER_WEAK_BONE_BOWS, p(300, 20));
 buttons.set(Upgrades.HUNTER_NORMAL_BONE_BOWS, p(300, 120));
 buttons.set(Upgrades.HUNTER_STRONG_BONE_BOWS, p(300, 220));
 
-buttons.set(Upgrades.HUNTER_BABY_WYVERN_GRIPS, p(360, 320));
+buttons.set(Upgrades.HUNTER_BABY_WYVERN_GRIPS, p(530, 320));
 buttons.set(Upgrades.HUNTER_WYVERN_GRIPS, p(360, 420));
 buttons.set(Upgrades.HUNTER_DRAGON_GRIPS, p(360, 520));
 

@@ -3,10 +3,12 @@
 $treeConnectionsIndex: 0;
 $treeButtonsIndex: 1;
 
-$hunterTreeWidth: 500px;
-$hunterTreeHeight: 700px;
+$hunterTreeViewportWidth: 500px;
+$hunterTreeViewportHeight: 700px;
+$hunterTreeContentWidth: 600px;
+$hunterTreeContentHeight: 1200px;
 
-$hunterSectionWidth: $hunterTreeWidth;
+$hunterSectionWidth: $hunterTreeViewportWidth;
 
 .hunter-upgrade-panel {
   display: flex;
@@ -56,20 +58,24 @@ $hunterSectionWidth: $hunterTreeWidth;
 }
 
 .hunter-upgrade-tree-view {
-  width: $hunterTreeWidth;
-  height: $hunterTreeHeight;
+  width: $hunterTreeViewportWidth;
+  height: $hunterTreeViewportHeight;
   border: 1px solid black;
 }
 
 .hunter-upgrade-tree-content {
   position: absolute;
-  width: $hunterTreeWidth;
-  height: $hunterTreeHeight;
+  width: $hunterTreeViewportWidth;
+  height: $hunterTreeViewportHeight;
 }
 
 .hunter-upgrade-tree-connections {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: $hunterTreeContentWidth;
+  height: $hunterTreeContentHeight;
 
   z-index: $treeConnectionsIndex;
 }

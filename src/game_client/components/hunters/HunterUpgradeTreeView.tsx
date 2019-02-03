@@ -4,7 +4,6 @@ import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
 import { Draggable } from "../common/Draggable";
-import { GameCanvas } from "../common/GameCanvas";
 import { HunterUpgradeButtonLayout } from "./HunterUpgradeButttonLayout";
 import { HunterUpgradeDisplayButton } from "./HunterUpgradeDisplayButton";
 
@@ -29,11 +28,10 @@ interface HunterUpgradeCanvasProps {
 export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasProps, {}> {
   constructor(props: HunterUpgradeCanvasProps) {
     super(props);
-
-    this.drawConnectingLines = this.drawConnectingLines.bind(this);
   }
 
   public render() {
+    const lines = this.generateLines();
     return (
       <div className="hunter-upgrade-tree-view">
         <Draggable
@@ -42,14 +40,24 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
           dragRate={DRAG_RATE}
           dragThreshold={DRAG_THRESHOLD}
         >
-          <div className="hunter-upgrade-tree-connections">
-            <GameCanvas
-              canvasWidth={CONTENT_WIDTH}
-              canvasHeight={CONTENT_HEIGHT}
-              redrawCanvas={this.drawConnectingLines}
-            />
+          <div className="hunter-upgrade-tree-content">
+            <svg
+              className="hunter-upgrade-tree-connections"
+              viewBox={`0 0 ${VIEWPORT_WIDTH} ${VIEWPORT_HEIGHT}`}
+            >
+              {lines.map((l, index) => (
+                <line
+                  key={index}
+                  x1={l.from.x}
+                  y1={l.from.y}
+                  x2={l.to.x}
+                  y2={l.to.y}
+                  stroke="black"
+                />
+              ))}
+            </svg>
+            <div className="hunter-upgrade-tree-buttons">{this.getUpgradeButtons()}</div>
           </div>
-          <div className="hunter-upgrade-tree-buttons">{this.getUpgradeButtons()}</div>
         </Draggable>
       </div>
     );
@@ -82,8 +90,11 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
     );
   }
 
-  private drawConnectingLines(ctx: CanvasRenderingContext2D): void {
-    ctx.beginPath();
+  private generateLines(): ReadonlyArray<{
+    from: { x: number; y: number };
+    to: { x: number; y: number };
+  }> {
+    const lines = [];
     for (const upgrade of this.props.upgrades) {
       const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade);
       if (upgradeLocation === undefined) {
@@ -97,17 +108,19 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
 
       for (const parent of upgradeDefinition.parents) {
         const parentLocation = HunterUpgradeButtonLayout.get(parent)!!;
-        ctx.moveTo(
-          parentLocation.x + Math.trunc(BUTTON_WIDTH / 2),
-          parentLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
-        );
-        ctx.lineTo(
-          upgradeLocation.x + Math.trunc(BUTTON_WIDTH / 2),
-          upgradeLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
-        );
+        lines.push({
+          from: {
+            x: parentLocation.x + Math.trunc(BUTTON_WIDTH / 2),
+            y: parentLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
+          },
+          to: {
+            x: upgradeLocation.x + Math.trunc(BUTTON_WIDTH / 2),
+            y: upgradeLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
+          }
+        });
       }
     }
 
-    ctx.stroke();
+    return lines;
   }
 }

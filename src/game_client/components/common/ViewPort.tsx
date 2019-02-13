@@ -1,6 +1,9 @@
 import * as React from "react";
 import { DragHandler } from "./DragHandler";
 
+const ALLOWED_ZOOMS: ReadonlyArray<number> = [1 / 16, 1 / 8, 1 / 4, 1 / 2, 1, 1.5, 3, 6, 12];
+const BASE_ZOOM_INDEX = 4;
+
 interface Dimensions {
   width: number;
   height: number;
@@ -26,8 +29,10 @@ interface DraggableState {
 }
 
 interface ZoomableState {
-  zoom: number;
+  zoomIndex: number;
 }
+
+type ViewPortState = DraggableState & ZoomableState;
 
 function computeDragBoundaries(
   visibleSize: {
@@ -55,7 +60,30 @@ function computeDragBoundaries(
   return dragBoundaries;
 }
 
-export class ViewPort extends React.Component<ViewPortProps, DraggableState & ZoomableState> {
+function getDragHandler(
+  state: ViewPortState,
+  props: ViewPortProps,
+  startLocation: { x: number; y: number } = { x: 0, y: 0 }
+) {
+  const dragBoundaries = computeDragBoundaries(
+    props.visibleDimensions,
+    props.contentDimensions,
+    ALLOWED_ZOOMS[state.zoomIndex]
+  );
+
+  return new DragHandler(
+    {
+      x: startLocation.x,
+      y: startLocation.y
+    },
+    state.offset,
+    dragBoundaries,
+    props.dragRate,
+    props.dragThreshold
+  );
+}
+
+export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
   private dragHandler?: DragHandler;
   constructor(props: ViewPortProps) {
     super(props);
@@ -65,15 +93,23 @@ export class ViewPort extends React.Component<ViewPortProps, DraggableState & Zo
         x: 0,
         y: 0
       },
-      zoom: 1
+      zoomIndex: BASE_ZOOM_INDEX
     };
 
     this.startDrag = this.startDrag.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.endDrag = this.endDrag.bind(this);
+    this.zoomIn = this.zoomIn.bind(this);
+    this.zoomOut = this.zoomOut.bind(this);
+    this.clearTransforms = this.clearTransforms.bind(this);
   }
 
   public render() {
+    const xTranslate = this.state.offset.x;
+    const yTranslate = this.state.offset.y;
+    const zoom = ALLOWED_ZOOMS[this.state.zoomIndex];
+    const scaleTransform = `scale(${zoom})`;
+    const translateTransform = `translate(${xTranslate}px, ${yTranslate}px)`;
     return (
       <div
         className="viewport-container"
@@ -82,12 +118,19 @@ export class ViewPort extends React.Component<ViewPortProps, DraggableState & Zo
         onMouseLeave={this.endDrag}
         onMouseUpCapture={this.endDrag}
       >
+        <div className="viewport-zoom-control">
+          <div className="viewport-zoom-in viewport-zoom-button" onClick={this.zoomIn} />
+          <div
+            className="viewport-zoom-clear viewport-zoom-button"
+            onClick={this.clearTransforms}
+          />
+          <div className="viewport-zoom-out viewport-zoom-button" onClick={this.zoomOut} />
+        </div>
         <div
           className="viewport-wrapper"
           style={{
-            left: this.state.offset.x,
-            top: this.state.offset.y,
-            transform: `scale(${this.state.zoom})`
+            transform: `${translateTransform} ${scaleTransform}`,
+            transformOrigin: "top left"
           }}
         >
           {this.props.children}
@@ -97,22 +140,7 @@ export class ViewPort extends React.Component<ViewPortProps, DraggableState & Zo
   }
 
   private startDrag(e: React.MouseEvent) {
-    const dragBoundaries = computeDragBoundaries(
-      this.props.visibleDimensions,
-      this.props.contentDimensions,
-      this.state.zoom
-    );
-
-    this.dragHandler = new DragHandler(
-      {
-        x: e.clientX,
-        y: e.clientY
-      },
-      this.state.offset,
-      dragBoundaries,
-      this.props.dragRate,
-      this.props.dragThreshold
-    );
+    this.dragHandler = getDragHandler(this.state, this.props, { x: e.clientX, y: e.clientY });
   }
 
   private handleMouseMove(e: React.MouseEvent) {
@@ -137,5 +165,35 @@ export class ViewPort extends React.Component<ViewPortProps, DraggableState & Zo
 
     e.stopPropagation();
     this.dragHandler = undefined;
+  }
+
+  private zoomIn() {
+    this.setState((state, props) => {
+      const newIndex = Math.min(ALLOWED_ZOOMS.length - 1, state.zoomIndex + 1);
+      return {
+        zoomIndex: newIndex,
+        offset: getDragHandler({ ...state, zoomIndex: newIndex }, props).getTotalOffset()
+      };
+    });
+  }
+
+  private zoomOut() {
+    this.setState((state, props) => {
+      const newIndex = Math.max(0, state.zoomIndex - 1);
+      return {
+        zoomIndex: newIndex,
+        offset: getDragHandler({ ...state, zoomIndex: newIndex }, props).getTotalOffset()
+      };
+    });
+  }
+
+  private clearTransforms() {
+    this.setState({
+      offset: {
+        x: 0,
+        y: 0
+      },
+      zoomIndex: BASE_ZOOM_INDEX
+    });
   }
 }

@@ -12,72 +12,97 @@ const bigBoundaries = {
 };
 
 describe("Drag Significance", () => {
-  const dragRate = 2;
-  const threshold = 3;
+  const bigThreshold = 300;
+  const startPoint = { x: 1, y: 1 };
 
   test("No updates is not significant", () => {
-    const handler = new DragHandler(
-      { x: 1, y: 1 },
-      { x: 0, y: 0 },
-      bigBoundaries,
-      dragRate,
-      threshold
-    );
-    expect(handler.isSignificantDrag).toBe(false);
+    const handler = new DragHandler(startPoint, { x: 0, y: 0 }, bigBoundaries, 1, bigThreshold);
+    expect(handler.getTotalOffset()).toEqual({ x: 0, y: 0 });
   });
 
-  test("Threshold of 0 is significant after any update that moves", () => {
-    const handler = new DragHandler({ x: 1, y: 1 }, { x: 0, y: 0 }, bigBoundaries, dragRate, 0);
-    handler.update({ x: 2, y: 1 });
-    expect(handler.isSignificantDrag).toBe(true);
+  test("Threshold of 0 is significant after any update", () => {
+    const handler = new DragHandler(startPoint, { x: 0, y: 0 }, bigBoundaries, 1, 0);
+    handler.update({ x: startPoint.x + 1, y: startPoint.y });
+    expect(handler.getTotalOffset()).toEqual({ x: 1, y: 0 });
   });
 
-  const notSignificant: Array<[{ x: number; y: number }, string]> = [
-    [{ x: 1, y: 1 }, "same place"],
-    [{ x: 2, y: 2 }, "small"],
-    [{ x: 4, y: 4 }, "+x, +y at threshold"],
-    [{ x: 4, y: -2 }, "+x, -y at threshold"],
-    [{ x: -2, y: 4 }, "-x, +y at threshold"],
-    [{ x: -2, y: -2 }, "-x, -y at threshold"]
+  const notSignificant: Array<[{ x: number; y: number }, string, number?]> = [
+    [{ x: startPoint.x, y: startPoint.y }, "same place"],
+    [{ x: startPoint.x + 2, y: startPoint.y + 2 }, "small"],
+    [{ x: startPoint.x + bigThreshold, y: startPoint.y + bigThreshold }, "+x, +y at threshold"],
+    [{ x: startPoint.x + bigThreshold, y: startPoint.y - bigThreshold }, "+x, -y at threshold"],
+    [{ x: startPoint.x - bigThreshold, y: startPoint.y + bigThreshold }, "-x, +y at threshold"],
+    [{ x: startPoint.x - bigThreshold, y: startPoint.y - bigThreshold }, "-x, -y at threshold"],
+    [
+      { x: startPoint.x + bigThreshold, y: startPoint.y + bigThreshold },
+      "+x, +y at threshold with rate",
+      2
+    ]
   ];
 
-  for (const [point, desc] of notSignificant) {
-    test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is not significant`, () => {
+  for (const [point, desc, dragRate = 1] of notSignificant) {
+    test(`Testing: update { x: ${point.x}, y: ${point.y} } ${
+      dragRate !== 1 ? `with drag rate ${dragRate} ` : ""
+    }(${desc}) is not significant`, () => {
       const handler = new DragHandler(
-        { x: 1, y: 1 },
+        startPoint,
         { x: 0, y: 0 },
         bigBoundaries,
         dragRate,
-        threshold
+        bigThreshold
       );
+      const before = handler.getTotalOffset();
       handler.update(point);
-      expect(handler.isSignificantDrag).toBe(false);
+      expect(handler.getTotalOffset()).toEqual(before);
     });
   }
 
-  const significant: Array<[{ x: number; y: number }, string]> = [
-    [{ x: 5, y: 1 }, "+x over threshold"],
-    [{ x: -3, y: 1 }, "-x over threshold"],
-    [{ x: 1, y: 5 }, "+y over threshold"],
-    [{ x: 1, y: -3 }, "-y over threshold"],
-    [{ x: 5, y: 5 }, "+x, +y over threshold"],
-    [{ x: 5, y: -3 }, "+x, -y over threshold"],
-    [{ x: -3, y: 5 }, "-x, +y over threshold"],
-    [{ x: -3, y: -3 }, "-x, -y over threshold"],
-    [{ x: 15, y: 22 }, "way over threshold"]
+  const significant: Array<[{ x: number; y: number }, string, number?]> = [
+    [{ x: startPoint.x + bigThreshold + 1, y: startPoint.y }, "+x over threshold"],
+    [{ x: startPoint.x - bigThreshold - 1, y: startPoint.y }, "-x over threshold"],
+    [{ x: startPoint.x, y: startPoint.y + bigThreshold + 1 }, "+y over threshold"],
+    [{ x: startPoint.x, y: startPoint.y - bigThreshold - 1 }, "-y over threshold"],
+    [
+      { x: startPoint.x + bigThreshold + 1, y: startPoint.y + bigThreshold + 1 },
+      "+x, +y over threshold"
+    ],
+    [
+      { x: startPoint.x + bigThreshold + 1, y: startPoint.y - bigThreshold - 1 },
+      "+x, -y over threshold"
+    ],
+    [
+      { x: startPoint.x - bigThreshold - 1, y: startPoint.y + bigThreshold + 1 },
+      "-x, +y over threshold"
+    ],
+    [
+      { x: startPoint.x - bigThreshold - 1, y: startPoint.y - bigThreshold - 1 },
+      "-x, -y over threshold"
+    ],
+    [
+      { x: startPoint.x + bigThreshold + 1, y: startPoint.y + 1 },
+      "+x, +y over threshold with rate",
+      2
+    ],
+    [
+      { x: startPoint.x + 5 * bigThreshold, y: startPoint.y + 5 * bigThreshold },
+      "way over threshold"
+    ]
   ];
 
-  for (const [point, desc] of significant) {
-    test(`Testing: update { x: ${point.x}, y: ${point.y} } (${desc}) is significant`, () => {
+  for (const [point, desc, dragRate = 1] of significant) {
+    test(`Testing: update { x: ${point.x}, y: ${point.y} } ${
+      dragRate !== 1 ? `with drag rate ${dragRate} ` : ""
+    }(${desc}) is significant`, () => {
       const handler = new DragHandler(
-        { x: 1, y: 1 },
+        startPoint,
         { x: 0, y: 0 },
         bigBoundaries,
         dragRate,
-        threshold
+        bigThreshold
       );
+      const before = handler.getTotalOffset();
       handler.update(point);
-      expect(handler.isSignificantDrag).toBe(true);
+      expect(handler.getTotalOffset()).not.toEqual(before);
     });
   }
 });
@@ -268,7 +293,6 @@ test("Drag integration", () => {
 
   const handler = new DragHandler({ x: 4, y: 4 }, { x: 22, y: 100 }, boundaries, 3.5, 2);
   handler.update({ x: 5, y: 100 });
-  expect(handler.isSignificantDrag).toBe(true);
   const result = handler.getTotalOffset();
   expect(result.x).toBe(10);
   expect(result.y).toBe(436);

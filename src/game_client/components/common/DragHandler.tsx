@@ -19,7 +19,7 @@ interface DragBoundaries {
 }
 
 export class DragHandler {
-  public isSignificantDrag: boolean = false;
+  private isSignificantDrag: boolean = false;
 
   private readonly dragRate: number;
   private readonly dragThreshold: number;
@@ -64,7 +64,7 @@ export class DragHandler {
 
   public getTotalOffset(): DragOffset {
     if (!this.isSignificantDrag) {
-      return this.initialOffset;
+      return this.limitDragOffsetToBoundaries(this.initialOffset);
     }
 
     const offset = this.currentOffset;

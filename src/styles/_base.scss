@@ -2,14 +2,3 @@ $main-border-width: 1px;
 $main-border-style: solid;
 $main-border-color: black;
 $main-border: $main-border-width $main-border-style $main-border-color;
-
-.viewport-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-.viewport-wrapper {
-  position: absolute;
-}

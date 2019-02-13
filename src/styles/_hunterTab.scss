@@ -65,8 +65,8 @@ $hunterSectionWidth: $hunterTreeViewportWidth;
 
 .hunter-upgrade-tree-content {
   position: absolute;
-  width: $hunterTreeViewportWidth;
-  height: $hunterTreeViewportHeight;
+  width: $hunterTreeContentWidth;
+  height: $hunterTreeContentHeight;
 }
 
 .hunter-upgrade-tree-connections {
@@ -85,6 +85,8 @@ $hunterSectionWidth: $hunterTreeViewportWidth;
   top: 0;
   left: 0;
 
+  width: $hunterTreeContentWidth;
+  height: $hunterTreeContentHeight;
   z-index: $treeButtonsIndex;
 }
 

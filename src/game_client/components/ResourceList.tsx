@@ -6,28 +6,26 @@ interface ResouceListProps {
   resources: Map<ResourceTypes, number>;
 }
 
-export class ResourceList extends React.Component<ResouceListProps, {}> {
-  public render() {
-    const orderedResources = ([] as ResourceTypes[])
-      .concat(...ResourceCategoriesMap.values())
-      .filter(resource => this.props.resources.has(resource));
+export function ResourceList(props: ResouceListProps) {
+  const orderedResources = ([] as ResourceTypes[])
+    .concat(...ResourceCategoriesMap.values())
+    .filter(resource => props.resources.has(resource));
 
-    const resourceLines = orderedResources.map(resourceType => {
-      return (
-        <ResourceLine
-          key={resourceType}
-          name={resourceType}
-          value={this.props.resources.get(resourceType)!}
-        />
-      );
-    });
+  const resourceLines = orderedResources.map(resourceType => {
     return (
-      <ul className="resource-list">
-        {resourceLines}
-        {this.props.resources.has(ResourceTypes.UNKNOWN_RESOURCE) ? (
-          <ResourceLine key={ResourceTypes.UNKNOWN_RESOURCE} name="????" value="????" />
-        ) : null}
-      </ul>
+      <ResourceLine
+        key={resourceType}
+        name={resourceType}
+        value={props.resources.get(resourceType)!}
+      />
     );
-  }
+  });
+  return (
+    <ul className="resource-list">
+      {resourceLines}
+      {props.resources.has(ResourceTypes.UNKNOWN_RESOURCE) ? (
+        <ResourceLine key={ResourceTypes.UNKNOWN_RESOURCE} name="????" value="????" />
+      ) : null}
+    </ul>
+  );
 }

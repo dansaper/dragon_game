@@ -1,5 +1,6 @@
 import * as React from "react";
 import { DragHandler } from "./DragHandler";
+import { ZoomControl } from "./ZoomControl";
 
 const ALLOWED_ZOOMS: ReadonlyArray<number> = [1 / 16, 1 / 8, 1 / 4, 1 / 2, 1, 1.5, 3, 6, 12];
 const BASE_ZOOM_INDEX = 4;
@@ -118,16 +119,10 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
         onMouseLeave={this.endDrag}
         onMouseUpCapture={this.endDrag}
       >
-        <div className="viewport-zoom-control">
-          <div className="viewport-zoom-in viewport-zoom-button" onClick={this.zoomIn} />
-          <div
-            className="viewport-zoom-clear viewport-zoom-button"
-            onClick={this.clearTransforms}
-          />
-          <div className="viewport-zoom-out viewport-zoom-button" onClick={this.zoomOut} />
-        </div>
+        <ZoomControl zoomIn={this.zoomIn} zoomOut={this.zoomOut} clear={this.clearTransforms} />
         <div
           className="viewport-wrapper"
+          data-testid="viewport-contents"
           style={{
             transform: `${translateTransform} ${scaleTransform}`,
             transformOrigin: "top left"

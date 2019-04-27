@@ -31,20 +31,12 @@ module.exports = [
   {
     mode: "development",
     name: "main",
-    entry: "./src/index.tsx",
-    output: {
-      filename: "bundle.js",
-      path: __dirname + "/dist"
+    entry: {
+      main: "./src/index.tsx",
+      worker: "./src/game_worker/GameWorkerScript.ts"
     },
-
-    ...tsArgs
-  },
-  {
-    mode: "development",
-    name: "main_worker",
-    entry: "./src/game_worker/GameWorkerScript.ts",
     output: {
-      filename: "worker_bundle.js",
+      filename: "[name]_bundle.js",
       path: __dirname + "/dist"
     },
 

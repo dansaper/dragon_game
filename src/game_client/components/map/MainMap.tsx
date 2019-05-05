@@ -1,27 +1,35 @@
 import * as React from "react";
 
+function niceHorizontalCurve(height: number, offset: number): string {
+  return `q ${offset / 2},${height} ${offset},0 t ${offset},0`;
+}
+function niceVerticalCurve(width: number, offset: number): string {
+  return `q ${width},${offset / 2} 0,${offset} t 0,${offset}`;
+}
+
+const horizontalSection = `
+  ${niceHorizontalCurve(-10, 20)}
+  ${niceHorizontalCurve(-20, 25)}
+  ${niceHorizontalCurve(-10, 30)}
+  ${niceHorizontalCurve(-10, 20)}
+`;
+
+const verticalSection = `
+  ${niceVerticalCurve(10, 20)}
+  ${niceVerticalCurve(20, 25)}
+  ${niceVerticalCurve(10, 30)}
+  ${niceVerticalCurve(10, 20)}
+`;
+
 const outlinePath = `
-  M 10 10
-  h 10
-  a 20 10 45 0 1 20 0
-  h 1
-  a 20 10 -45 0 1 20 5
-  h 1
-  a 20 10 45 0 1 20 -5
-  h 1
-  a 20 10 -45 0 1 20 0
-  h 1
-  a 20 10 45 0 1 20 5
-  h 1
-  a 20 10 -45 0 1 20 -5
-  h 1
-  a 20 10 45 0 1 20 5
-  h 1
-  a 20 10 -45 0 1 20 -5
-  h 1
-  a 20 10 45 0 1 20 5
-  h 1
-  a 20 10 -45 0 1 20 -5
+  M 50,50
+  ${horizontalSection.repeat(10)}
+  M 50,50
+  ${verticalSection.repeat(10)}
+  M 1950,50
+  ${verticalSection.repeat(10)}
+  M 50,1950
+  ${horizontalSection.repeat(10)}
 `;
 const outline = <path stroke="black" fill="none" d={outlinePath} />;
 

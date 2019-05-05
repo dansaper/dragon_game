@@ -4,13 +4,13 @@ import { MainMap } from "./MainMap";
 
 const VIEWPORT_WIDTH = 500;
 const VIEWPORT_HEIGHT = 500;
-const CONTENT_WIDTH = 1000;
-const CONTENT_HEIGHT = 1000;
+const CONTENT_WIDTH = 2000;
+const CONTENT_HEIGHT = 2000;
 
 const GRID_NUM_TILES_X = 20;
 const GRID_NUM_TILES_Y = 20;
-const GRID_TILE_X = 50;
-const GRID_TILE_Y = 50;
+const GRID_TILE_X = 100;
+const GRID_TILE_Y = 100;
 
 const DRAG_RATE = 1.5;
 const DRAG_THRESHOLD = 5;
@@ -40,8 +40,8 @@ export class GameMap extends React.Component<GameMapProps, {}> {
         >
           <div className="game-map-content-wrapper">
             <svg className="game-map-content" viewBox={`0 0 ${CONTENT_WIDTH} ${CONTENT_HEIGHT}`}>
-              {this.drawMap()}
               {this.buildGrid()}
+              {this.drawMap()}
             </svg>
           </div>
         </ViewPort>

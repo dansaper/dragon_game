@@ -2,7 +2,6 @@ import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { MakePurchaseButtonDef } from "./GameElementDefinitions";
-import * as Utils from "./LibraryUtils";
 
 interface HirePlainsHunterDef {
   calculateLeatherCost: (state: GameState) => number;
@@ -25,5 +24,4 @@ const HirePlainsHunter = MakePurchaseButtonDef<HirePlainsHunterDef>({
   }
 });
 
-Utils.bindFunctions(HirePlainsHunter);
 export { HirePlainsHunter };

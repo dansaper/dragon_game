@@ -1,5 +1,5 @@
+import { fireEvent, render, within } from "@testing-library/react";
 import * as React from "react";
-import { fireEvent, render, within } from "react-testing-library";
 import { ViewPort } from "../../../../src/game_client/components/common/ViewPort";
 
 describe("ViewPort", () => {

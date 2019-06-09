@@ -46,16 +46,45 @@ function computeDragBoundaries(
   },
   zoom: number
 ) {
+  // Calculations:
+  // Typically:
+  //  Wv (width of visible)
+  // |----------|
+  //  Wc (width of content)
+  // |---------------------|
+  // Min:
+  //            |----------|
+  // |---------------| (Offset by -Wc + wv/2)
+  // Max:
+  // |----------|
+  //       |-----------------------| (Offset by wv/2)
+  //
+  // When zoomed far out
+  //  Wv (width of visible)
+  // |----------|
+  //  Wc (width of content)
+  // |-| (Offset by 0)
+  // Min:
+  // |----------|
+  // |-|
+  // Max:
+  // |----------|
+  //          |-| (Offset by wv/2 + (wv/2 - wc))
+  //
+  // Max:
+  //  Move half of visible, and add enough so that there is no whitespace at far edge
   const maxOffsetX = Math.trunc(visibleSize.width / 2);
   const maxOffsetY = Math.trunc(visibleSize.height / 2);
+  const scaledContentWidth = contentSize.width * zoom;
+  const scaledContentHeight = contentSize.height * zoom;
   const dragBoundaries = {
     x: {
-      min: -(Math.max(visibleSize.width, contentSize.width * zoom) - maxOffsetX),
-      max: maxOffsetX
+      min: Math.min(-scaledContentWidth + maxOffsetX, 0),
+      max: maxOffsetX + Math.max(0, maxOffsetX - scaledContentWidth)
     },
     y: {
-      min: -(Math.max(visibleSize.height, contentSize.height * zoom) - maxOffsetY),
-      max: maxOffsetY
+      min: Math.min(-scaledContentHeight + maxOffsetY, 0),
+      max: maxOffsetY + Math.max(0, maxOffsetY - scaledContentHeight)
     }
   };
   return dragBoundaries;

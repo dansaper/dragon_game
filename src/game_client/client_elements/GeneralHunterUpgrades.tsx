@@ -3,7 +3,6 @@ import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { Upgrades } from "../../common/Upgrades";
 import { MakeUpgradeDisplayDef } from "./GameElementDefinitions";
-import * as Utils from "./LibraryUtils";
 
 const HunterWeakBoneBlades = MakeUpgradeDisplayDef<{
   calculateBoneCost: (state: GameState) => number;
@@ -282,5 +281,5 @@ const upgrades = [
   HunterNormalArmor,
   HunterStrongArmor,
   HunterArmorSpikes
-].map(u => Utils.bindFunctions(u));
+];
 export { upgrades };

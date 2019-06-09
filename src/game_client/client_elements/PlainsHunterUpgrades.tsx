@@ -3,7 +3,6 @@ import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { Upgrades } from "../../common/Upgrades";
 import { MakeUpgradeDisplayDef } from "./GameElementDefinitions";
-import * as Utils from "./LibraryUtils";
 
 const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<{
   calculateLeatherCost: (state: GameState) => number;
@@ -31,5 +30,5 @@ const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<{
   parents: []
 });
 
-const upgrades = [PlainsHunterWeakLeatherBoots].map(u => Utils.bindFunctions(u));
+const upgrades = [PlainsHunterWeakLeatherBoots];
 export { upgrades };

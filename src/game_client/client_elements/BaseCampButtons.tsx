@@ -2,7 +2,6 @@ import { DetailedInfoKeys } from "../../common/DetailedInfo";
 import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { MakePurchaseButtonDef, PurchaseButtonDefinition } from "./GameElementDefinitions";
-import * as Utils from "./LibraryUtils";
 
 const HuntBabyWyverns: PurchaseButtonDefinition = MakePurchaseButtonDef<{}>({
   title: "Hunt for a baby Wyvern",
@@ -33,6 +32,4 @@ const CraftBabyWyvernLeather = MakePurchaseButtonDef<CraftBabyWyvernLeatherDef>(
   }
 });
 
-Utils.bindFunctions(HuntBabyWyverns);
-Utils.bindFunctions(CraftBabyWyvernLeather);
 export { HuntBabyWyverns, CraftBabyWyvernLeather };

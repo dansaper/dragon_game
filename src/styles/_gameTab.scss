@@ -10,11 +10,8 @@ $gameMapContentHeight: 2000px;
   height: $gameMapViewportHeight;
 }
 
-.game-map-content-wrapper {
-  margin: 10px;
-}
-
 .game-map-content {
+  display: block;
   width: $gameMapContentWidth;
   height: $gameMapContentHeight;
 }

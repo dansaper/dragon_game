@@ -138,9 +138,7 @@ describe("Calculation of drag offset (within boundary)", () => {
     ];
 
     for (const { begin, end, expected } of noInitial) {
-      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
-        end.y
-      } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
+      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${end.y} } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
         const handler = new DragHandler(begin, { x: 0, y: 0 }, bigBoundaries, 1, 0);
         handler.update(end);
         const result = handler.getTotalOffset();
@@ -178,9 +176,7 @@ describe("Calculation of drag offset (within boundary)", () => {
     ];
 
     for (const { begin, end, expected, rate } of withRate) {
-      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
-        end.y
-      } } with rate ${rate} should be { x: ${expected.x}, y: ${expected.y} }`, () => {
+      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${end.y} } with rate ${rate} should be { x: ${expected.x}, y: ${expected.y} }`, () => {
         const handler = new DragHandler(begin, { x: 0, y: 0 }, bigBoundaries, rate, 0);
         handler.update(end);
         const result = handler.getTotalOffset();
@@ -200,11 +196,7 @@ describe("Calculation of drag offset (within boundary)", () => {
     ];
 
     for (const { begin, end, expected, initial } of withInitial) {
-      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
-        end.y
-      } } with initial offset { x: ${initial.x}, y: ${initial.y} } should be { x: ${
-        expected.x
-      }, y: ${expected.y} }`, () => {
+      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${end.y} } with initial offset { x: ${initial.x}, y: ${initial.y} } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
         const handler = new DragHandler(begin, initial, bigBoundaries, 1, 0);
         handler.update(end);
         const result = handler.getTotalOffset();
@@ -225,11 +217,7 @@ describe("Calculation of drag offset (within boundary)", () => {
     ];
 
     for (const { begin, end, expected, rate, initial } of withInitialAndRate) {
-      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${
-        end.y
-      } } with rate ${rate} and initial offset { x: ${initial.x}, y: ${
-        initial.y
-      } } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
+      test(`Offset from { x: ${begin.x}, y: ${begin.y} } to { x: ${end.x}, y: ${end.y} } with rate ${rate} and initial offset { x: ${initial.x}, y: ${initial.y} } should be { x: ${expected.x}, y: ${expected.y} }`, () => {
         const handler = new DragHandler(begin, initial, bigBoundaries, rate, 0);
         handler.update(end);
         const result = handler.getTotalOffset();

@@ -1,5 +1,5 @@
+import { getByTestId, queryAllByTestId, queryByTestId, render } from "@testing-library/react";
 import * as React from "react";
-import { getByTestId, queryAllByTestId, queryByTestId, render } from "react-testing-library";
 import { ResourceCategories, ResourceTypes } from "../../../src/common/Resources";
 import { ResourcePane } from "../../../src/game_client/components/ResourcePane";
 import * as Utils from "../../TestUtilities";

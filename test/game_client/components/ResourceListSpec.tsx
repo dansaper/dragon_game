@@ -1,5 +1,5 @@
+import { render } from "@testing-library/react";
 import * as React from "react";
-import { render } from "react-testing-library";
 import { ResourceTypes } from "../../../src/common/Resources";
 import { ResourceList } from "../../../src/game_client/components/ResourceList";
 import * as Utils from "../../TestUtilities";

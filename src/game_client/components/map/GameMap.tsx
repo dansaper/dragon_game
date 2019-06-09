@@ -52,7 +52,7 @@ export class GameMap extends React.Component<GameMapProps, {}> {
   private buildGrid() {
     const tiles = [];
     for (let x = 0; x < GRID_NUM_TILES_X; ++x) {
-      for (let y = 0; y <= GRID_NUM_TILES_Y; ++y) {
+      for (let y = 0; y < GRID_NUM_TILES_Y; ++y) {
         tiles.push(
           <rect
             key={`(${x},${y})`}

@@ -2,16 +2,6 @@ import { ResourceModificationEvent } from "../../common/events/ResourceModificat
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 
-export function bindFunctions<T extends { [index: string]: any }>(obj: T) {
-  for (const k of Object.keys(obj)) {
-    if (typeof obj[k] === "function") {
-      obj[k] = obj[k].bind(obj);
-    }
-  }
-
-  return obj;
-}
-
 export function costCheck(state: GameState, costs: Map<ResourceTypes, number>): boolean {
   for (const [resourceType, cost] of costs) {
     const currentAmount = state.resources.get(resourceType);

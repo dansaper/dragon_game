@@ -3,7 +3,7 @@ interface DragPoint {
   y: number;
 }
 
-export interface DragOffset {
+interface DragOffset {
   x: number;
   y: number;
 }
@@ -82,4 +82,57 @@ export class DragHandler {
       y: Math.min(Math.max(offset.y, this.dragBoundaries.y.min), this.dragBoundaries.y.max)
     };
   }
+}
+
+// TODO - ADD TESTS FOR THIS
+export function computeDragBoundaries(
+  visibleSize: {
+    width: number;
+    height: number;
+  },
+  contentSize: {
+    width: number;
+    height: number;
+  }
+): DragBoundaries {
+  // Calculations:
+  // Typically:
+  //  Wv (width of visible)
+  // |----------|
+  //  Wc (width of content)
+  // |---------------------|
+  // Min:
+  //            |----------|
+  // |---------------| (Offset by -Wc + wv/2)
+  // Max:
+  // |----------|
+  //       |-----------------------| (Offset by wv/2)
+  //
+  // When zoomed far out
+  //  Wv (width of visible)
+  // |----------|
+  //  Wc (width of content)
+  // |-| (Offset by 0)
+  // Min:
+  // |----------|
+  // |-|
+  // Max:
+  // |----------|
+  //          |-| (Offset by wv/2 + (wv/2 - wc))
+  //
+  // Max:
+  //  Move half of visible, and add enough so that there is no whitespace at far edge
+  const maxOffsetX = Math.trunc(visibleSize.width / 2);
+  const maxOffsetY = Math.trunc(visibleSize.height / 2);
+  const dragBoundaries = {
+    x: {
+      min: Math.min(-contentSize.width + maxOffsetX, 0),
+      max: maxOffsetX + Math.max(0, maxOffsetX - contentSize.width)
+    },
+    y: {
+      min: Math.min(-contentSize.height + maxOffsetY, 0),
+      max: maxOffsetY + Math.max(0, maxOffsetY - contentSize.height)
+    }
+  };
+  return dragBoundaries;
 }

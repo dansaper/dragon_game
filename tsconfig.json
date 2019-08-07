@@ -15,6 +15,5 @@
         "name": "typescript-tslint-plugin"
       }
     ]
-  },
-  "include": ["./src/**/*", "./test/**/*", "./setupTests.ts"]
+  }
 }

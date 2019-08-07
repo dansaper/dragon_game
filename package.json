@@ -13,7 +13,7 @@
     "build": "npm run lint && npm run sass && npm run pack && npm run test",
     "quick": "npm run sass && npm run pack",
     "cleanBuild": "rm -rf ./dist && npm run build",
-    "startServer": "npx http-server -c-1"
+    "start": "npx http-server -c-1"
   },
   "author": "Daniel Saper",
   "private": true,
@@ -23,42 +23,22 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "@testing-library/react": "^8.0.1",
-    "@types/jest": "^24.0.13",
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^8.0.8",
+    "@types/jest": "^24.0.17",
+    "@types/react": "^16.8.24",
+    "@types/react-dom": "^16.8.5",
     "awesome-typescript-loader": "^5.2.1",
     "http-server": "^0.11.1",
     "jest": "^24.8.0",
-    "jest-dom": "^3.5.0",
     "prettier": "^1.18.2",
-    "sass": "^1.21.0",
+    "sass": "^1.22.9",
     "source-map-loader": "^0.2.4",
     "ts-jest": "^24.0.2",
-    "tslint": "^5.17.0",
+    "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.1",
-    "webpack": "^4.33.0",
-    "webpack-cli": "^3.3.3"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testMatch": [
-      "**/test/**/*",
-      "!**/TestUtilities.tsx"
-    ],
-    "setupFilesAfterEnv": [
-      "./setupTests.ts"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "typescript": "^3.5.3",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6"
   }
 }

@@ -16,4 +16,4 @@ Kill Dragons - Get Loot
 
 ### Running locally
 
-- Run `npm run startServer`, and navigate in the browser to localhost:8080
+- Run `npm run start`, and navigate in the browser to localhost:8080

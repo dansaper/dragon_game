@@ -63,6 +63,15 @@ $tab-bar-height: 50px;
 
   padding: 20px;
   overflow: scroll;
+  position: relative;
+}
+
+.main-content-pane-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .main-content-pane-content-inactive {

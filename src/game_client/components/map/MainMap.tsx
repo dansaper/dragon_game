@@ -33,4 +33,4 @@ const outlinePath = `
 `;
 const outline = <path stroke="black" fill="none" d={outlinePath} />;
 
-export const MainMap = <g>{outline}</g>;
+export const MainMap = <svg viewBox={"0 0 2000 2000"}>{outline}</svg>;

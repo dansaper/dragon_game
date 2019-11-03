@@ -54,14 +54,24 @@ export class GameMap extends React.Component<GameMapProps, {}> {
     for (let x = 0; x < GRID_NUM_TILES_X; ++x) {
       for (let y = 0; y < GRID_NUM_TILES_Y; ++y) {
         tiles.push(
-          <rect
-            key={`(${x},${y})`}
-            fill="white"
-            x={x * GRID_TILE_X}
-            y={y * GRID_TILE_Y}
-            width={GRID_TILE_X}
-            height={GRID_TILE_Y}
-          />
+          <g key={`(${x},${y})`}>
+            <rect
+              fill="white"
+              x={x * GRID_TILE_X}
+              y={y * GRID_TILE_Y}
+              width={GRID_TILE_X}
+              height={GRID_TILE_Y}
+            />
+            <circle
+              cx={(x + 0.5) * GRID_TILE_X}
+              cy={(y + 0.5) * GRID_TILE_Y}
+              r="2"
+              fill="red"
+            ></circle>
+            <text x={(x + 0.75) * GRID_TILE_X} y={(y + 0.75) * GRID_TILE_Y}>
+              {x},{y}
+            </text>
+          </g>
         );
       }
     }

@@ -7,7 +7,10 @@ const HuntBabyWyverns: PurchaseButtonDefinition = MakePurchaseButtonDef<{}>({
   title: "Hunt for a baby Wyvern",
   infoKey: DetailedInfoKeys.NO_INFO,
   getOutputs() {
-    return new Map([[ResourceTypes.BABY_WYVERN_BONE, 1], [ResourceTypes.BABY_WYVERN_HIDE, 1]]);
+    return new Map([
+      [ResourceTypes.BABY_WYVERN_BONE, 1],
+      [ResourceTypes.BABY_WYVERN_HIDE, 1]
+    ]);
   }
 });
 

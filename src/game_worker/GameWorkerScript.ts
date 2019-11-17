@@ -11,7 +11,10 @@ const worker = new GameWorker();
 // Temporarily use a state with some stuff in it to start us out
 let currentState: GameState;
 currentState = {
-  resources: new Map([[ResourceTypes.WYVERN_BONE, 0], [ResourceTypes.WYVERN_HIDE, 3]]),
+  resources: new Map([
+    [ResourceTypes.WYVERN_BONE, 0],
+    [ResourceTypes.WYVERN_HIDE, 3]
+  ]),
   flags: new Set(),
   upgrades: new Set()
 };

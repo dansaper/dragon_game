@@ -1,0 +1,38 @@
+name: CI
+
+on: [push]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: npm install
+        run: npm install
+      - name: Tslint
+        run: npm run tslint
+      - name: Prettier
+        run: npm run prettier
+
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: npm install
+        run: npm install
+      - name: Build Sass
+        run: npm run sass
+      - name: Webpack
+        run: npm run prettier
+      - name: Test
+        run: npm run test

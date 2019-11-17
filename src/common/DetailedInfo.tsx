@@ -29,5 +29,5 @@ export const DetailedInfoKeysMap: Map<DetailedInfoKeys, DetailedInfo> = new Map(
 DetailedInfoKeysMap.set(DetailedInfoKeys.DEFAULT_INFO, DefaultInfo);
 DetailedInfoKeysMap.set(
   DetailedInfoKeys.NO_INFO,
-  new DetailedInfo("Nothing to say about this", <div />)
+  new DetailedInfo("Nothing to say about this", (<div />))
 );

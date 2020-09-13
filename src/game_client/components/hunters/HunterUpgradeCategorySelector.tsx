@@ -9,12 +9,11 @@ interface HunterUpgradeCategorySelectorProps {
 
 const categoryNames: Map<UpgradeCategories, string> = new Map([
   [UpgradeCategories.PLAIN_HUNTER_UPGRADES, "Plains Hunter"],
-  [UpgradeCategories.GENERAL_HUNTER_UPGRADES, "General"]
+  [UpgradeCategories.GENERAL_HUNTER_UPGRADES, "General"],
 ]);
 
 export class HunterUpgradeCategorySelector extends React.Component<
-  HunterUpgradeCategorySelectorProps,
-  {}
+  HunterUpgradeCategorySelectorProps
 > {
   constructor(props: HunterUpgradeCategorySelectorProps) {
     super(props);

@@ -1,4 +1,4 @@
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
+import { DetailedInfoKeys } from "../DetailedInfo";
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { Upgrades } from "../../common/Upgrades";
@@ -24,10 +24,10 @@ const PlainsHunterWeakLeatherBoots = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([
       [ResourceTypes.BABY_WYVERN_BONE, this.calculateBoneCost(state)],
-      [ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]
+      [ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)],
     ]);
   },
-  parents: []
+  parents: [],
 });
 
 const upgrades = [PlainsHunterWeakLeatherBoots];

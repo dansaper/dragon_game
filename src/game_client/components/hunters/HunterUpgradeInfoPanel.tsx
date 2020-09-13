@@ -1,8 +1,8 @@
 import * as React from "react";
-import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
+import { GameClient } from "../../GameClient";
 import { ButtonWithInfo } from "../common/ButtonWithInfo";
 import { PropertyCache } from "../common/PropertyCache";
 import { ResourceList } from "../ResourceList";
@@ -10,7 +10,6 @@ import { ResourceList } from "../ResourceList";
 interface HunterUpgradeInfoPanelProps {
   selectedUpgrade?: Upgrades;
   gameState: GameState;
-  sendGameEvents: (e: GameEvent[]) => void;
 }
 
 interface CachedProperties {
@@ -19,7 +18,7 @@ interface CachedProperties {
   isDisabled: () => boolean;
 }
 
-export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPanelProps, {}> {
+export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPanelProps> {
   // We cache functions for a given button def so we don't recreate functions every time we render
   private cachedButtonProperties = new PropertyCache<Upgrades, CachedProperties>();
 
@@ -34,12 +33,14 @@ export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPan
       );
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const upgradeDefinition = HunterUpgradeDefinitions.get(this.props.selectedUpgrade)!;
 
     const propsCapturingThis = {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       isVisible: () => !this.props.gameState.upgrades.has(this.props.selectedUpgrade!),
       isDisabled: () => !upgradeDefinition.isPurchaseable(this.props.gameState),
-      onClick: () => this.props.sendGameEvents(upgradeDefinition.purchase(this.props.gameState))
+      onClick: () => GameClient.sendGameEvents(upgradeDefinition.purchase(this.props.gameState)),
     };
     const cached = this.cachedButtonProperties.getOrSet(
       this.props.selectedUpgrade,
@@ -54,11 +55,7 @@ export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPan
         <div className="hunter-upgrade-content-wrapper">
           <div className="hunter-upgrade-content">
             <div className="hunter-upgrade-details">{upgradeDefinition.details}</div>
-            <ButtonWithInfo
-              {...cached}
-              title={"Purchase upgrade: " + upgradeDefinition.title}
-              sendGameEvents={this.props.sendGameEvents}
-            />
+            <ButtonWithInfo {...cached} title={"Purchase upgrade: " + upgradeDefinition.title} />
           </div>
           <div className="hunter-upgrade-cost">
             <div className="hunter-upgrade-cost-title">Cost</div>

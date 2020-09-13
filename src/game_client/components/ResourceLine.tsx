@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export class ResourceLine extends React.Component<{ name: string; value: number | string }, {}> {
+export class ResourceLine extends React.Component<{ name: string; value: number | string }> {
   public render() {
     return (
       <li className="resource-line" data-testid="resource-line">

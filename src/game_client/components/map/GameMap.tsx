@@ -24,7 +24,7 @@ interface GameMapProps {
   ownedTiles: boolean[][];
 }
 
-export class GameMap extends React.Component<GameMapProps, {}> {
+export class GameMap extends React.Component<GameMapProps> {
   constructor(props: GameMapProps) {
     super(props);
   }

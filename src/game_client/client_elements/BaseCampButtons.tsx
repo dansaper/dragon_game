@@ -1,17 +1,17 @@
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
+import { DetailedInfoKeys } from "../DetailedInfo";
 import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { MakePurchaseButtonDef, PurchaseButtonDefinition } from "./GameElementDefinitions";
 
-const HuntBabyWyverns: PurchaseButtonDefinition = MakePurchaseButtonDef<{}>({
+const HuntBabyWyverns: PurchaseButtonDefinition = MakePurchaseButtonDef<unknown>({
   title: "Hunt for a baby Wyvern",
   infoKey: DetailedInfoKeys.NO_INFO,
   getOutputs() {
     return new Map([
       [ResourceTypes.BABY_WYVERN_BONE, 1],
-      [ResourceTypes.BABY_WYVERN_HIDE, 1]
+      [ResourceTypes.BABY_WYVERN_HIDE, 1],
     ]);
-  }
+  },
 });
 
 interface CraftBabyWyvernLeatherDef {
@@ -32,7 +32,7 @@ const CraftBabyWyvernLeather = MakePurchaseButtonDef<CraftBabyWyvernLeatherDef>(
   },
   getOutputs() {
     return new Map([[ResourceTypes.BABY_WYVERN_LEATHER, 1]]);
-  }
+  },
 });
 
 export { HuntBabyWyverns, CraftBabyWyvernLeather };

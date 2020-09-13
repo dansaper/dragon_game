@@ -1,6 +1,5 @@
 import * as React from "react";
-import { ClientState } from "../../common/ClientState";
-import { GameEvent } from "../../common/events/GameEvents";
+import { ClientState } from "../ClientState";
 import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { BaseCampTab } from "./BaseCampTab";
 import { HuntersTab } from "./hunters/HuntersTab";
@@ -9,13 +8,12 @@ import { GameMapTab } from "./map/GameMapTab";
 interface MainContentPaneProps {
   clientState: ClientState;
   gameState: GameState;
-  sendGameEvents: (e: GameEvent[]) => void;
 }
 
 enum ContentTabs {
   BASE_CAMP = "BASE_CAMP",
   GAME_MAP = "GAME_MAP",
-  HUNTERS = "HUNTERS"
+  HUNTERS = "HUNTERS",
 }
 interface TabDescriptor {
   name: string;
@@ -34,7 +32,7 @@ export class MainContentPane extends React.Component<
   constructor(props: MainContentPaneProps) {
     super(props);
     this.state = {
-      selectedTab: ContentTabs.BASE_CAMP
+      selectedTab: ContentTabs.BASE_CAMP,
     };
 
     this.tabs = this.initTabs();
@@ -45,7 +43,7 @@ export class MainContentPane extends React.Component<
       .sort((a, b) => {
         return a[1].index - b[1].index;
       })
-      .filter(e => e[1].isVisible(this.props.gameState));
+      .filter((e) => e[1].isVisible(this.props.gameState));
 
     return (
       <div className="main-content-pane">
@@ -104,14 +102,9 @@ export class MainContentPane extends React.Component<
         return true;
       },
       getContent: () => {
-        return (
-          <BaseCampTab
-            gameState={this.props.gameState}
-            sendGameEvents={this.props.sendGameEvents}
-          />
-        );
+        return <BaseCampTab gameState={this.props.gameState} />;
       },
-      index: 0
+      index: 0,
     });
     tabs.set(ContentTabs.GAME_MAP, {
       name: "Map",
@@ -120,11 +113,9 @@ export class MainContentPane extends React.Component<
         return true;
       },
       getContent: () => {
-        return (
-          <GameMapTab gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
-        );
+        return <GameMapTab gameState={this.props.gameState} />;
       },
-      index: 1
+      index: 1,
     });
     tabs.set(ContentTabs.HUNTERS, {
       name: "Hunters",
@@ -133,11 +124,9 @@ export class MainContentPane extends React.Component<
         return this.props.gameState.flags.has(GameProgressionFlags.PLAINS_HUNTER_UNLOCKED);
       },
       getContent: () => {
-        return (
-          <HuntersTab gameState={this.props.gameState} sendGameEvents={this.props.sendGameEvents} />
-        );
+        return <HuntersTab gameState={this.props.gameState} />;
       },
-      index: 2
+      index: 2,
     });
 
     return tabs;
@@ -145,7 +134,7 @@ export class MainContentPane extends React.Component<
 
   private selectTab(tab: ContentTabs) {
     this.setState({
-      selectedTab: tab
+      selectedTab: tab,
     });
   }
 }

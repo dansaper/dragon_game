@@ -1,6 +1,5 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../../../common/DetailedInfo";
-import { GameEvent } from "../../../common/events/GameEvents";
+import { DetailedInfoKeys } from "../../DetailedInfo";
 import { HoveringInfoButton } from "./HoveringInfoButton";
 
 interface ButtonWithInfoProps {
@@ -9,12 +8,11 @@ interface ButtonWithInfoProps {
   isDisabled: () => boolean;
   title: string;
   infoKey?: DetailedInfoKeys;
-  sendGameEvents: (e: GameEvent[]) => void;
   renderContent?: () => JSX.Element;
   disabledInfoButtonOnDisable?: boolean;
 }
 
-export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
+export class ButtonWithInfo extends React.Component<ButtonWithInfoProps> {
   constructor(props: ButtonWithInfoProps) {
     super(props);
     this.onClick = this.onClick.bind(this);
@@ -30,16 +28,13 @@ export class ButtonWithInfo extends React.Component<ButtonWithInfoProps, {}> {
         <div className={"button-with-info-content"}>
           {this.props.renderContent ? this.props.renderContent() : undefined}
         </div>
-        {this.props.infoKey === undefined ? (
-          undefined
-        ) : (
+        {this.props.infoKey === undefined ? undefined : (
           <HoveringInfoButton
             isDisabled={
               this.props.disabledInfoButtonOnDisable !== undefined &&
               this.props.disabledInfoButtonOnDisable &&
               this.props.isDisabled()
             }
-            sendGameEvents={this.props.sendGameEvents}
             infoKey={this.props.infoKey}
           />
         )}

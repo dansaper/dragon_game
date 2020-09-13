@@ -1,5 +1,4 @@
-import { GameEvent } from "../common/events/GameEvents";
-import { IsResourceModificationEvent } from "../common/events/ResourceModificationEvent";
+import { GameEvent, GameEventTypes } from "../common/GameEvents";
 import { GameProgressionFlags } from "../common/GameState";
 import { ResourceTypes } from "../common/Resources";
 
@@ -19,7 +18,7 @@ export function resolveNeededProgressionFlags(
 ): Set<GameProgressionFlags> {
   const newFlags = new Set<GameProgressionFlags>();
   for (const event of events) {
-    if (IsResourceModificationEvent(event) && event.modification > 0) {
+    if (event.eventType === GameEventTypes.MODIFY_RESOURCE && event.modification > 0) {
       const flag = resourceGainedFlags.get(event.resourceType);
       if (flag !== undefined) {
         newFlags.add(flag);
@@ -27,5 +26,5 @@ export function resolveNeededProgressionFlags(
     }
   }
 
-  return new Set([...newFlags].filter(f => !current.has(f)));
+  return new Set([...newFlags].filter((f) => !current.has(f)));
 }

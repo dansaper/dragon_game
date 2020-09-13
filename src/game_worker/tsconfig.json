@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["es6", "WebWorker"],
+    "outDir": "../../tsdist/game_worker",
+    "rootDir": "."
+  },
+  "include": ["./**/*"],
+  "references": [
+    {
+      "path": "../common"
+    }
+  ]
+}

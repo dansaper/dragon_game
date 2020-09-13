@@ -9,9 +9,9 @@ interface ResouceListProps {
 export function ResourceList(props: ResouceListProps) {
   const orderedResources = ([] as ResourceTypes[])
     .concat(...ResourceCategoriesMap.values())
-    .filter(resource => props.resources.has(resource));
+    .filter((resource) => props.resources.has(resource));
 
-  const resourceLines = orderedResources.map(resourceType => {
+  const resourceLines = orderedResources.map((resourceType) => {
     return (
       <ResourceLine
         key={resourceType}

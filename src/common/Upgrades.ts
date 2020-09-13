@@ -23,12 +23,12 @@ export enum Upgrades {
   PLAINS_HUNTER_PIT_TRAPS = "PLAINS_HUNTER_PIT_TRAPS",
   PLAINS_HUNTER_SPIKED_PIT_TRAPS = "PLAINS_HUNTER_SPIKED_PIT_TRAPS",
   PLAINS_HUNTER_WEAK_LEATHER_BOOTS = "PLAINS_HUNTER_WEAK_LEATHER_BOOTS",
-  PLAINS_HUNTER_SPIKED_GLOVES = "PLAINS_HUNTER_SPIKED_GLOVES"
+  PLAINS_HUNTER_SPIKED_GLOVES = "PLAINS_HUNTER_SPIKED_GLOVES",
 }
 
 export enum UpgradeCategories {
   GENERAL_HUNTER_UPGRADES = "GENERAL_HUNTER_UPGRADES",
-  PLAIN_HUNTER_UPGRADES = "PLAIN_HUNTER_UPGRADES"
+  PLAIN_HUNTER_UPGRADES = "PLAIN_HUNTER_UPGRADES",
 }
 
 const generalHunterUpgrades = [
@@ -47,7 +47,7 @@ const generalHunterUpgrades = [
   Upgrades.HUNTER_WEAK_ARMOR,
   Upgrades.HUNTER_NORMAL_ARMOR,
   Upgrades.HUNTER_STRONG_ARMOR,
-  Upgrades.HUNTER_ARMOR_SPIKES
+  Upgrades.HUNTER_ARMOR_SPIKES,
 ];
 const plainsHunterUpgrades = [
   Upgrades.PLAINS_HUNTER_CAMO,
@@ -55,10 +55,10 @@ const plainsHunterUpgrades = [
   Upgrades.PLAINS_HUNTER_PIT_TRAPS,
   Upgrades.PLAINS_HUNTER_SPIKED_PIT_TRAPS,
   Upgrades.PLAINS_HUNTER_WEAK_LEATHER_BOOTS,
-  Upgrades.PLAINS_HUNTER_SPIKED_GLOVES
+  Upgrades.PLAINS_HUNTER_SPIKED_GLOVES,
 ];
 
 export const UpgradesMap: Map<UpgradeCategories, Upgrades[]> = new Map([
   [UpgradeCategories.GENERAL_HUNTER_UPGRADES, generalHunterUpgrades],
-  [UpgradeCategories.PLAIN_HUNTER_UPGRADES, plainsHunterUpgrades]
+  [UpgradeCategories.PLAIN_HUNTER_UPGRADES, plainsHunterUpgrades],
 ]);

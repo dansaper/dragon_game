@@ -15,14 +15,14 @@ export enum ResourceTypes {
   DRAGON_LEATHER = "Dragon Leather",
 
   PLAINS_HUNTER = "Plains Hunter",
-  TANNER = "Tanner"
+  TANNER = "Tanner",
 }
 
 export enum ResourceCategories {
   DRAGON_REMAINS = "Dragon Remains",
   CRAFTED = "Crafted",
   HUNTERS = "Hunters",
-  WORKERS = "Workers"
+  WORKERS = "Workers",
 }
 
 const remainsResources = [
@@ -33,12 +33,12 @@ const remainsResources = [
   ResourceTypes.MINIATURE_WURM_HIDE,
   ResourceTypes.WURM_HIDE,
   ResourceTypes.DRAGON_BONE,
-  ResourceTypes.DRAGON_HIDE
+  ResourceTypes.DRAGON_HIDE,
 ];
 const craftedResources = [
   ResourceTypes.BABY_WYVERN_LEATHER,
   ResourceTypes.WYVERN_LEATHER,
-  ResourceTypes.DRAGON_LEATHER
+  ResourceTypes.DRAGON_LEATHER,
 ];
 const hunterResources = [ResourceTypes.PLAINS_HUNTER];
 const workerResources = [ResourceTypes.TANNER];
@@ -47,5 +47,5 @@ export const ResourceCategoriesMap: Map<ResourceCategories, ResourceTypes[]> = n
   [ResourceCategories.DRAGON_REMAINS, remainsResources],
   [ResourceCategories.CRAFTED, craftedResources],
   [ResourceCategories.HUNTERS, hunterResources],
-  [ResourceCategories.WORKERS, workerResources]
+  [ResourceCategories.WORKERS, workerResources],
 ]);

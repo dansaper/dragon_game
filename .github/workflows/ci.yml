@@ -8,14 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "12.x"
       - name: npm install
         run: npm install
-      - name: Tslint
-        run: npm run tslint
+      - name: Eslint
+        run: npm run eslint
       - name: Prettier
         run: npm run prettier
 
@@ -24,15 +24,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "12.x"
       - name: npm install
         run: npm install
       - name: Build Sass
         run: npm run sass
+      - name: Build Typescript
+        run: npm run compile
       - name: Webpack
-        run: npm run prettier
+        run: npm run pack
       - name: Test
         run: npm run test

@@ -5,7 +5,7 @@ import * as HunterPurchaseButtons from "./HunterPurchaseButtons";
 export enum PurchaseButtonGameElements {
   HUNT_BABY_WYVERN_BUTTON,
   CRAFT_BABY_WYVERN_LEATHER_BUTTON,
-  HIRE_PLAINS_HUNTER_BUTTON
+  HIRE_PLAINS_HUNTER_BUTTON,
 }
 
 export const PurchaseButtonDefinitions: Map<

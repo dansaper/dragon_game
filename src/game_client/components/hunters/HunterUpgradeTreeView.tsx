@@ -1,5 +1,4 @@
 import * as React from "react";
-import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
@@ -20,12 +19,11 @@ const BUTTON_HEIGHT = 78;
 
 interface HunterUpgradeCanvasProps {
   gameState: GameState;
-  sendGameEvents: (e: GameEvent[]) => void;
   upgrades: Upgrades[];
   onClick: (upgrade: Upgrades) => void;
 }
 
-export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasProps, {}> {
+export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasProps> {
   constructor(props: HunterUpgradeCanvasProps) {
     super(props);
   }
@@ -66,7 +64,7 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
   private getUpgradeButtons(): React.ReactNode {
     return (
       <>
-        {this.props.upgrades.map(upgrade => {
+        {this.props.upgrades.map((upgrade) => {
           const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade);
           if (upgradeLocation === undefined) {
             return;
@@ -81,7 +79,6 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
                 upgrade={upgrade}
                 onClick={() => this.props.onClick(upgrade)}
                 gameState={this.props.gameState}
-                sendGameEvents={this.props.sendGameEvents}
               />
             </div>
           );
@@ -101,22 +98,24 @@ export class HunterUpgradeTreeView extends React.Component<HunterUpgradeCanvasPr
         continue;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const upgradeDefinition = HunterUpgradeDefinitions.get(upgrade)!;
       if (!upgradeDefinition.isVisible(this.props.gameState)) {
         continue;
       }
 
       for (const parent of upgradeDefinition.parents) {
-        const parentLocation = HunterUpgradeButtonLayout.get(parent)!!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const parentLocation = HunterUpgradeButtonLayout.get(parent)!;
         lines.push({
           from: {
             x: parentLocation.x + Math.trunc(BUTTON_WIDTH / 2),
-            y: parentLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
+            y: parentLocation.y + Math.trunc(BUTTON_HEIGHT / 2),
           },
           to: {
             x: upgradeLocation.x + Math.trunc(BUTTON_WIDTH / 2),
-            y: upgradeLocation.y + Math.trunc(BUTTON_HEIGHT / 2)
-          }
+            y: upgradeLocation.y + Math.trunc(BUTTON_HEIGHT / 2),
+          },
         });
       }
     }

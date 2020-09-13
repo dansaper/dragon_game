@@ -1,5 +1,4 @@
 import * as React from "react";
-import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
@@ -10,7 +9,6 @@ interface HunterUpgradeDisplayButtonProps {
   upgrade: Upgrades;
   onClick: () => void;
   gameState: GameState;
-  sendGameEvents: (e: GameEvent[]) => void;
 }
 
 interface CachedProperties {
@@ -19,13 +17,11 @@ interface CachedProperties {
   renderContent: () => JSX.Element;
 }
 
-export class HunterUpgradeDisplayButton extends React.Component<
-  HunterUpgradeDisplayButtonProps,
-  {}
-> {
+export class HunterUpgradeDisplayButton extends React.Component<HunterUpgradeDisplayButtonProps> {
   private cachedButtonProperties = new PropertyCache<Upgrades, CachedProperties>();
 
   public render() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const upgradeDefinition = HunterUpgradeDefinitions.get(this.props.upgrade)!;
 
     const propsCapturingThis = {
@@ -40,7 +36,7 @@ export class HunterUpgradeDisplayButton extends React.Component<
             />
           </div>
         );
-      }
+      },
     };
     const cached = this.cachedButtonProperties.getOrSet(this.props.upgrade, propsCapturingThis);
 
@@ -51,7 +47,6 @@ export class HunterUpgradeDisplayButton extends React.Component<
         onClick={this.props.onClick}
         title={upgradeDefinition.title}
         infoKey={upgradeDefinition.infoKey}
-        sendGameEvents={this.props.sendGameEvents}
       />
     );
   }

@@ -4,17 +4,18 @@ let tsArgs = {
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".js"],
   },
 
   module: {
     rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
-    ]
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader",
+      },
+    ],
   },
 
   // When importing a module whose path matches one of the following, just
@@ -23,8 +24,8 @@ let tsArgs = {
   // dependencies, which allows browsers to cache those libraries between builds.
   externals: {
     react: "React",
-    "react-dom": "ReactDOM"
-  }
+    "react-dom": "ReactDOM",
+  },
 };
 
 module.exports = [
@@ -32,14 +33,14 @@ module.exports = [
     mode: "development",
     name: "main",
     entry: {
-      main: "./src/index.tsx",
-      worker: "./src/game_worker/GameWorkerScript.ts"
+      main: "./tsdist/game_client/index.js",
+      worker: "./tsdist/game_worker/GameWorkerScript.js",
     },
     output: {
       filename: "[name]_bundle.js",
-      path: __dirname + "/dist"
+      path: __dirname + "/dist",
     },
 
-    ...tsArgs
-  }
+    ...tsArgs,
+  },
 ];

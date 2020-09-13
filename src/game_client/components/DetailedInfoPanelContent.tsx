@@ -1,11 +1,11 @@
 import * as React from "react";
-import { DetailedInfoKeys, DetailedInfoKeysMap } from "../../common/DetailedInfo";
+import { DetailedInfoKeys, DetailedInfoKeysMap } from "../DetailedInfo";
 
 interface DetailedInfoPanelContentProps {
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelContent extends React.Component<DetailedInfoPanelContentProps, {}> {
+export class DetailedInfoPanelContent extends React.Component<DetailedInfoPanelContentProps> {
   public render() {
     let content: JSX.Element;
     if (this.props.info !== undefined) {

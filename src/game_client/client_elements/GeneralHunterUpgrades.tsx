@@ -1,4 +1,4 @@
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
+import { DetailedInfoKeys } from "../DetailedInfo";
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { Upgrades } from "../../common/Upgrades";
@@ -18,7 +18,7 @@ const HunterWeakBoneBlades = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.BABY_WYVERN_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: []
+  parents: [],
 });
 
 const HunterNormalBoneBlades = MakeUpgradeDisplayDef<{
@@ -35,7 +35,7 @@ const HunterNormalBoneBlades = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.WYVERN_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_WEAK_BONE_BLADES]
+  parents: [Upgrades.HUNTER_WEAK_BONE_BLADES],
 });
 
 const HunterStrongBoneBlades = MakeUpgradeDisplayDef<{
@@ -52,7 +52,7 @@ const HunterStrongBoneBlades = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.DRAGON_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_NORMAL_BONE_BLADES]
+  parents: [Upgrades.HUNTER_NORMAL_BONE_BLADES],
 });
 
 const HunterWeakBoneBow = MakeUpgradeDisplayDef<{
@@ -69,7 +69,7 @@ const HunterWeakBoneBow = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.BABY_WYVERN_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: []
+  parents: [],
 });
 
 const HunterNormalBoneBow = MakeUpgradeDisplayDef<{
@@ -86,7 +86,7 @@ const HunterNormalBoneBow = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.WYVERN_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_WEAK_BONE_BOWS]
+  parents: [Upgrades.HUNTER_WEAK_BONE_BOWS],
 });
 
 const HunterStrongBoneBow = MakeUpgradeDisplayDef<{
@@ -103,7 +103,7 @@ const HunterStrongBoneBow = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.DRAGON_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_NORMAL_BONE_BOWS]
+  parents: [Upgrades.HUNTER_NORMAL_BONE_BOWS],
 });
 
 const HunterBabyWyvernGrips = MakeUpgradeDisplayDef<{
@@ -120,7 +120,7 @@ const HunterBabyWyvernGrips = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]]);
   },
-  parents: []
+  parents: [],
 });
 
 const HunterWyvernGrips = MakeUpgradeDisplayDef<{
@@ -137,7 +137,7 @@ const HunterWyvernGrips = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.WYVERN_LEATHER, this.calculateLeatherCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_BABY_WYVERN_GRIPS]
+  parents: [Upgrades.HUNTER_BABY_WYVERN_GRIPS],
 });
 
 const HunterDragonGrips = MakeUpgradeDisplayDef<{
@@ -154,7 +154,7 @@ const HunterDragonGrips = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.WYVERN_LEATHER, this.calculateLeatherCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_WYVERN_GRIPS]
+  parents: [Upgrades.HUNTER_WYVERN_GRIPS],
 });
 
 const HunterWeakArmor = MakeUpgradeDisplayDef<{
@@ -182,10 +182,10 @@ const HunterWeakArmor = MakeUpgradeDisplayDef<{
     return new Map([
       [ResourceTypes.BABY_WYVERN_BONE, this.calculateBoneCost(state)],
       [ResourceTypes.BABY_WYVERN_HIDE, this.calculateHideCost(state)],
-      [ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)]
+      [ResourceTypes.BABY_WYVERN_LEATHER, this.calculateLeatherCost(state)],
     ]);
   },
-  parents: []
+  parents: [],
 });
 
 const HunterNormalArmor = MakeUpgradeDisplayDef<{
@@ -213,10 +213,10 @@ const HunterNormalArmor = MakeUpgradeDisplayDef<{
     return new Map([
       [ResourceTypes.WYVERN_BONE, this.calculateBoneCost(state)],
       [ResourceTypes.WYVERN_HIDE, this.calculateHideCost(state)],
-      [ResourceTypes.WYVERN_LEATHER, this.calculateLeatherCost(state)]
+      [ResourceTypes.WYVERN_LEATHER, this.calculateLeatherCost(state)],
     ]);
   },
-  parents: [Upgrades.HUNTER_WEAK_ARMOR]
+  parents: [Upgrades.HUNTER_WEAK_ARMOR],
 });
 
 const HunterStrongArmor = MakeUpgradeDisplayDef<{
@@ -244,10 +244,10 @@ const HunterStrongArmor = MakeUpgradeDisplayDef<{
     return new Map([
       [ResourceTypes.DRAGON_BONE, this.calculateBoneCost(state)],
       [ResourceTypes.DRAGON_HIDE, this.calculateHideCost(state)],
-      [ResourceTypes.DRAGON_LEATHER, this.calculateLeatherCost(state)]
+      [ResourceTypes.DRAGON_LEATHER, this.calculateLeatherCost(state)],
     ]);
   },
-  parents: [Upgrades.HUNTER_NORMAL_ARMOR]
+  parents: [Upgrades.HUNTER_NORMAL_ARMOR],
 });
 
 const HunterArmorSpikes = MakeUpgradeDisplayDef<{
@@ -264,7 +264,7 @@ const HunterArmorSpikes = MakeUpgradeDisplayDef<{
   getCost(state: GameState) {
     return new Map([[ResourceTypes.WYVERN_BONE, this.calculateBoneCost(state)]]);
   },
-  parents: [Upgrades.HUNTER_NORMAL_ARMOR]
+  parents: [Upgrades.HUNTER_NORMAL_ARMOR],
 });
 
 const upgrades = [
@@ -280,6 +280,6 @@ const upgrades = [
   HunterWeakArmor,
   HunterNormalArmor,
   HunterStrongArmor,
-  HunterArmorSpikes
+  HunterArmorSpikes,
 ];
 export { upgrades };

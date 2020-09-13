@@ -3,7 +3,7 @@ import { Upgrades } from "./Upgrades";
 
 export enum GameProgressionFlags {
   BABY_WYVERN_LEATHER_UNLOCKED = "BABY_WYVERN_LEATHER_UNLOCKED",
-  PLAINS_HUNTER_UNLOCKED = "PLAINS_HUNTER_UNLOCKED"
+  PLAINS_HUNTER_UNLOCKED = "PLAINS_HUNTER_UNLOCKED",
 }
 
 export interface GameState {
@@ -12,8 +12,8 @@ export interface GameState {
   upgrades: Set<Upgrades>;
 }
 
-export const EmptyModel: GameState = {
+export const getEmptyModel: () => GameState = () => ({
   resources: new Map(),
   flags: new Set(),
-  upgrades: new Set()
-};
+  upgrades: new Set(),
+});

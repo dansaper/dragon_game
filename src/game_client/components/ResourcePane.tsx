@@ -6,7 +6,7 @@ interface ResoucePaneProps {
   resources: Map<ResourceTypes, number>;
 }
 
-export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
+export class ResourcePane extends React.Component<ResoucePaneProps> {
   public render() {
     const resources = this.props.resources;
     return (
@@ -18,8 +18,8 @@ export class ResourcePane extends React.Component<ResoucePaneProps, {}> {
           {[...ResourceCategoriesMap.entries()].map(([category, resourceKeys]) => {
             const categoryResources = new Map(
               resourceKeys
-                .filter(key => resources.has(key))
-                .map(key => [key, resources.get(key)!] as [ResourceTypes, number])
+                .filter((key) => resources.has(key))
+                .map((key) => [key, resources.get(key)!] as [ResourceTypes, number])
             );
             if (categoryResources.size === 0) {
               return null;

@@ -1,4 +1,4 @@
-import { ResourceModificationEvent } from "../../common/events/ResourceModificationEvent";
+import { GameEventTypes, ResourceModificationEvent } from "../../common/GameEvents";
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 
@@ -13,9 +13,13 @@ export function costCheck(state: GameState, costs: Map<ResourceTypes, number>): 
 }
 
 export function costsToEvents(costs: Map<ResourceTypes, number>): ResourceModificationEvent[] {
-  const events = [];
+  const events: ResourceModificationEvent[] = [];
   for (const [resourceType, cost] of costs) {
-    events.push(new ResourceModificationEvent(resourceType, -cost));
+    events.push({
+      eventType: GameEventTypes.MODIFY_RESOURCE,
+      resourceType: resourceType,
+      modification: cost * -1,
+    });
   }
   return events;
 }
@@ -23,9 +27,13 @@ export function costsToEvents(costs: Map<ResourceTypes, number>): ResourceModifi
 export function outputsToResourceEvents(
   outputs: Map<ResourceTypes, number>
 ): ResourceModificationEvent[] {
-  const events = [];
+  const events: ResourceModificationEvent[] = [];
   for (const [resourceType, cost] of outputs) {
-    events.push(new ResourceModificationEvent(resourceType, cost));
+    events.push({
+      eventType: GameEventTypes.MODIFY_RESOURCE,
+      resourceType: resourceType,
+      modification: cost,
+    });
   }
   return events;
 }

@@ -1,4 +1,4 @@
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
+import { DetailedInfoKeys } from "../DetailedInfo";
 import { GameProgressionFlags, GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { MakePurchaseButtonDef } from "./GameElementDefinitions";
@@ -21,7 +21,7 @@ const HirePlainsHunter = MakePurchaseButtonDef<HirePlainsHunterDef>({
   },
   getOutputs() {
     return new Map([[ResourceTypes.PLAINS_HUNTER, 1]]);
-  }
+  },
 });
 
 export { HirePlainsHunter };

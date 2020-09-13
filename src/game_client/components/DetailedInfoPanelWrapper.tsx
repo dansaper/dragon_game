@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
+import { DetailedInfoKeys } from "../DetailedInfo";
 import { DetailedInfoPanelContent } from "./DetailedInfoPanelContent";
 
 interface DetailedInfoPanelWrapperProps {
@@ -8,7 +8,7 @@ interface DetailedInfoPanelWrapperProps {
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelWrapper extends React.Component<DetailedInfoPanelWrapperProps, {}> {
+export class DetailedInfoPanelWrapper extends React.Component<DetailedInfoPanelWrapperProps> {
   public constructor(props: DetailedInfoPanelWrapperProps) {
     super(props);
   }

@@ -1,19 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
-    "target": "es6",
-    "jsx": "react",
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin"
-      }
-    ]
-  }
+    "outDir": "./tsdist",
+    "rootDir": "."
+  },
+  "files": [],
+  "references": [{ "path": "./src/game_client" }, { "path": "./src/game_worker" }]
 }

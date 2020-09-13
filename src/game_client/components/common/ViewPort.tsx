@@ -47,7 +47,7 @@ function getDragHandler(
   return new DragHandler(
     {
       x: startLocation.x,
-      y: startLocation.y
+      y: startLocation.y,
     },
     state.offset,
     dragBoundaries,
@@ -65,9 +65,9 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
     this.state = {
       offset: {
         x: 0,
-        y: 0
+        y: 0,
       },
-      zoomIndex: BASE_ZOOM_INDEX
+      zoomIndex: BASE_ZOOM_INDEX,
     };
 
     this.containerRef = React.createRef();
@@ -120,7 +120,7 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
           data-testid="viewport-contents"
           style={{
             transform: `${translateTransform} ${scaleTransform}`,
-            transformOrigin: "top left"
+            transformOrigin: "top left",
           }}
         >
           {this.props.children}
@@ -161,7 +161,7 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
     const zoom = ALLOWED_ZOOMS[this.state.zoomIndex];
     return {
       x: e.clientX * zoom,
-      y: e.clientY * zoom
+      y: e.clientY * zoom,
     };
   }
 
@@ -179,7 +179,7 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
         return;
       }
       this.setState({
-        offset: this.dragHandler.getTotalOffset()
+        offset: this.dragHandler.getTotalOffset(),
       });
     });
   }
@@ -198,7 +198,7 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
       const newIndex = Math.min(ALLOWED_ZOOMS.length - 1, state.zoomIndex + 1);
       return {
         zoomIndex: newIndex,
-        offset: getDragHandler({ ...state, zoomIndex: newIndex }, props).getTotalOffset()
+        offset: getDragHandler({ ...state, zoomIndex: newIndex }, props).getTotalOffset(),
       };
     });
   }
@@ -208,7 +208,7 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
       const newIndex = Math.max(0, state.zoomIndex - 1);
       return {
         zoomIndex: newIndex,
-        offset: getDragHandler({ ...state, zoomIndex: newIndex }, props).getTotalOffset()
+        offset: getDragHandler({ ...state, zoomIndex: newIndex }, props).getTotalOffset(),
       };
     });
   }
@@ -225,9 +225,9 @@ export class ViewPort extends React.Component<ViewPortProps, ViewPortState> {
     this.setState({
       offset: {
         x: 0,
-        y: 0
+        y: 0,
       },
-      zoomIndex: BASE_ZOOM_INDEX
+      zoomIndex: BASE_ZOOM_INDEX,
     });
   }
 }

@@ -1,45 +1,36 @@
-import { GameEvent, GameEventTypes } from "../common/events/GameEvents";
-import { GameState } from "../common/GameState";
+import { getEmptyModel } from "../common/GameState";
 import { ResourceTypes } from "../common/Resources";
-import { GameWorker } from "./GameWorker";
+import { messageFromWorker, messageToWorker } from "../common/WorkerTypes";
+import { GameStateUpdater } from "./GameStateUpdater";
+
+interface GameWorkerThreadInterface extends DedicatedWorkerGlobalScope {
+  postMessage: (ev: messageFromWorker) => void;
+  onmessage: (ev: MessageEvent<messageToWorker>) => void;
+}
 
 // We're actually running from a web worker, not a window
-const ctx: Worker = self as any;
+const ctx = (self as unknown) as GameWorkerThreadInterface;
 
-const worker = new GameWorker();
+const worker = new GameStateUpdater();
 
+let currentState = getEmptyModel();
 // Temporarily use a state with some stuff in it to start us out
-let currentState: GameState;
-currentState = {
-  resources: new Map([
-    [ResourceTypes.WYVERN_BONE, 0],
-    [ResourceTypes.WYVERN_HIDE, 3]
-  ]),
-  flags: new Set(),
-  upgrades: new Set()
-};
+currentState.resources.set(ResourceTypes.WYVERN_BONE, 0);
+currentState.resources.set(ResourceTypes.WYVERN_HIDE, 3);
 
 let paused = false;
 
-ctx.onmessage = (ev: MessageEvent) => {
-  const events = ev.data as GameEvent[];
-  if (events.length === 0) {
+ctx.onmessage = (ev) => {
+  if (ev.data === "toggle_pause") {
+    paused = !paused;
     return;
   }
 
-  // Handle pause and unpause, which affect the worker, not the game worker
   if (paused) {
-    // Nothing can happen while paused except for unpausing
-    if (events[0].eventType === GameEventTypes.TOGGLE_PAUSE) {
-      paused = false;
-    }
     return;
   }
-  if (events[0].eventType === GameEventTypes.TOGGLE_PAUSE) {
-    // We know we aren't paused, so unpause
-    paused = true;
-    return;
-  }
+
+  const events = ev.data;
 
   currentState = worker.handleEvents(currentState, events);
   ctx.postMessage(currentState);

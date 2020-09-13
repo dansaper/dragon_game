@@ -3,12 +3,12 @@ import { DragHandler } from "../../../../src/game_client/components/common/DragH
 const bigBoundaries = {
   x: {
     min: -1000,
-    max: 1000
+    max: 1000,
   },
   y: {
     min: -1000,
-    max: 1000
-  }
+    max: 1000,
+  },
 };
 
 describe("Drag Significance", () => {
@@ -36,8 +36,8 @@ describe("Drag Significance", () => {
     [
       { x: startPoint.x + bigThreshold, y: startPoint.y + bigThreshold },
       "+x, +y at threshold with rate",
-      2
-    ]
+      2,
+    ],
   ];
 
   for (const [point, desc, dragRate = 1] of notSignificant) {
@@ -64,29 +64,29 @@ describe("Drag Significance", () => {
     [{ x: startPoint.x, y: startPoint.y - bigThreshold - 1 }, "-y over threshold"],
     [
       { x: startPoint.x + bigThreshold + 1, y: startPoint.y + bigThreshold + 1 },
-      "+x, +y over threshold"
+      "+x, +y over threshold",
     ],
     [
       { x: startPoint.x + bigThreshold + 1, y: startPoint.y - bigThreshold - 1 },
-      "+x, -y over threshold"
+      "+x, -y over threshold",
     ],
     [
       { x: startPoint.x - bigThreshold - 1, y: startPoint.y + bigThreshold + 1 },
-      "-x, +y over threshold"
+      "-x, +y over threshold",
     ],
     [
       { x: startPoint.x - bigThreshold - 1, y: startPoint.y - bigThreshold - 1 },
-      "-x, -y over threshold"
+      "-x, -y over threshold",
     ],
     [
       { x: startPoint.x + bigThreshold + 1, y: startPoint.y + 1 },
       "+x, +y over threshold with rate",
-      2
+      2,
     ],
     [
       { x: startPoint.x + 5 * bigThreshold, y: startPoint.y + 5 * bigThreshold },
-      "way over threshold"
-    ]
+      "way over threshold",
+    ],
   ];
 
   for (const [point, desc, dragRate = 1] of significant) {
@@ -113,28 +113,28 @@ describe("Calculation of drag offset (within boundary)", () => {
       {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
-        expected: { x: 2, y: 2 }
+        expected: { x: 2, y: 2 },
       },
       {
         begin: { x: -1, y: -1 },
         end: { x: 3, y: 5 },
-        expected: { x: 4, y: 6 }
+        expected: { x: 4, y: 6 },
       },
       {
         begin: { x: 1, y: 1 },
         end: { x: -3, y: 3 },
-        expected: { x: -4, y: 2 }
+        expected: { x: -4, y: 2 },
       },
       {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: -3 },
-        expected: { x: 2, y: -4 }
+        expected: { x: 2, y: -4 },
       },
       {
         begin: { x: 1, y: 1 },
         end: { x: -3, y: -3 },
-        expected: { x: -4, y: -4 }
-      }
+        expected: { x: -4, y: -4 },
+      },
     ];
 
     for (const { begin, end, expected } of noInitial) {
@@ -153,26 +153,26 @@ describe("Calculation of drag offset (within boundary)", () => {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
         expected: { x: 3, y: 3 },
-        rate: 1.5
+        rate: 1.5,
       },
       {
         begin: { x: 1, y: 1 },
         end: { x: 4, y: 4 },
         expected: { x: 4, y: 4 },
-        rate: 1.5
+        rate: 1.5,
       },
       {
         begin: { x: 1, y: 1 },
         end: { x: -5, y: -5 },
         expected: { x: -9, y: -9 },
-        rate: 1.5
+        rate: 1.5,
       },
       {
         begin: { x: 1, y: 1 },
         end: { x: -6, y: -6 },
         expected: { x: -10, y: -10 },
-        rate: 1.5
-      }
+        rate: 1.5,
+      },
     ];
 
     for (const { begin, end, expected, rate } of withRate) {
@@ -191,8 +191,8 @@ describe("Calculation of drag offset (within boundary)", () => {
         begin: { x: 1, y: 1 },
         end: { x: 3, y: 3 },
         initial: { x: 4, y: -3 },
-        expected: { x: 6, y: -1 }
-      }
+        expected: { x: 6, y: -1 },
+      },
     ];
 
     for (const { begin, end, expected, initial } of withInitial) {
@@ -212,8 +212,8 @@ describe("Calculation of drag offset (within boundary)", () => {
         end: { x: 3, y: 3 },
         initial: { x: 4, y: -3 },
         rate: 1.5,
-        expected: { x: 7, y: 0 }
-      }
+        expected: { x: 7, y: 0 },
+      },
     ];
 
     for (const { begin, end, expected, rate, initial } of withInitialAndRate) {
@@ -231,12 +231,12 @@ describe("Limiting drag offest to boundary", () => {
   const boundaries = {
     x: {
       min: -10,
-      max: 10
+      max: 10,
     },
     y: {
       min: 50,
-      max: 100
-    }
+      max: 100,
+    },
   };
 
   const testcases: Array<[{ x: number; y: number }, string, { x: number; y: number }]> = [
@@ -249,7 +249,7 @@ describe("Limiting drag offest to boundary", () => {
     [{ x: 22, y: 55 }, "x above min, y in boundary", { x: 10, y: 55 }],
     [{ x: 22, y: 110 }, "x above min, y above max", { x: 10, y: 100 }],
     [{ x: -10, y: 50 }, "x at min, y at min", { x: -10, y: 50 }],
-    [{ x: 10, y: 100 }, "x at max, y at max", { x: 10, y: 100 }]
+    [{ x: 10, y: 100 }, "x at max, y at max", { x: 10, y: 100 }],
   ];
 
   for (const [point, desc, expected] of testcases) {
@@ -271,12 +271,12 @@ test("Drag integration", () => {
   const boundaries = {
     x: {
       min: -10,
-      max: 10
+      max: 10,
     },
     y: {
       min: -1000,
-      max: 1000
-    }
+      max: 1000,
+    },
   };
 
   const handler = new DragHandler({ x: 4, y: 4 }, { x: 22, y: 100 }, boundaries, 3.5, 2);

@@ -1,6 +1,5 @@
-import { DetailedInfoKeys } from "../../common/DetailedInfo";
-import { GameEvent } from "../../common/events/GameEvents";
-import { PurchaseUpgradeEvent } from "../../common/events/PurchaseUpgradeEvent";
+import { DetailedInfoKeys } from "../DetailedInfo";
+import { GameEvent, GameEventTypes } from "../../common/GameEvents";
 import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
 import { Upgrades } from "../../common/Upgrades";
@@ -28,9 +27,9 @@ const DefaultPurchaseButton: PurchaseButtonDefinition = {
   purchase(state: GameState) {
     return [
       ...Utils.costsToEvents(this.getCost(state)),
-      ...Utils.outputsToResourceEvents(this.getOutputs(state))
+      ...Utils.outputsToResourceEvents(this.getOutputs(state)),
     ];
-  }
+  },
 };
 
 export function MakePurchaseButtonDef<T>(
@@ -39,7 +38,7 @@ export function MakePurchaseButtonDef<T>(
   return Object.assign({}, DefaultPurchaseButton, custom);
 }
 
-interface OptionalUpgradeDisplayDefinitionProps {
+export interface OptionalUpgradeDisplayDefinitionProps {
   isVisible: (state: GameState) => boolean;
   isViewable: (state: GameState) => boolean;
   isPurchaseable: (state: GameState) => boolean;
@@ -49,7 +48,7 @@ interface OptionalUpgradeDisplayDefinitionProps {
   details: string;
 }
 
-interface RequiredUpgradeDisplayDefinitionProps {
+export interface RequiredUpgradeDisplayDefinitionProps {
   title: string;
   upgrade: Upgrades;
   parents: Upgrades[];
@@ -61,7 +60,7 @@ export type UpgradeDisplayDefinition = OptionalUpgradeDisplayDefinitionProps &
 const DefaultUpgradeDefinitionProps: OptionalUpgradeDisplayDefinitionProps = {
   isVisible: () => true,
   isViewable(this: UpgradeDisplayDefinition, state: GameState) {
-    return this.parents.every(p => state.upgrades.has(p));
+    return this.parents.every((p) => state.upgrades.has(p));
   },
   isPurchaseable(this: UpgradeDisplayDefinition, state: GameState) {
     return Utils.costCheck(state, this.getCost(state));
@@ -69,9 +68,15 @@ const DefaultUpgradeDefinitionProps: OptionalUpgradeDisplayDefinitionProps = {
   infoKey: DetailedInfoKeys.NO_INFO,
   getCost: () => new Map(),
   purchase(this: UpgradeDisplayDefinition, state: GameState) {
-    return [...Utils.costsToEvents(this.getCost(state)), new PurchaseUpgradeEvent(this.upgrade)];
+    return [
+      ...Utils.costsToEvents(this.getCost(state)),
+      {
+        eventType: GameEventTypes.PURCHASE_UPGRADE,
+        upgrade: this.upgrade,
+      },
+    ];
   },
-  details: "No Details"
+  details: "No Details",
 };
 
 export function MakeUpgradeDisplayDef<T>(

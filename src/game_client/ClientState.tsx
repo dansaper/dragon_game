@@ -5,3 +5,10 @@ export interface ClientState {
   isDetailedInfoPanelOpen: boolean;
   currentDetailedInfoKey?: DetailedInfoKeys;
 }
+
+export const getEmptyClientState = (): ClientState => {
+  return {
+    isPaused: false,
+    isDetailedInfoPanelOpen: false,
+  };
+};

@@ -19,7 +19,7 @@ interface DragBoundaries {
 }
 
 export class DragHandler {
-  private isSignificantDrag: boolean = false;
+  private isSignificantDrag = false;
 
   private readonly dragRate: number;
   private readonly dragThreshold: number;
@@ -32,7 +32,7 @@ export class DragHandler {
   private get currentOffset(): DragOffset {
     return {
       x: Math.trunc(this.dragRate * (this.currentLocation.x - this.startLocation.x)),
-      y: Math.trunc(this.dragRate * (this.currentLocation.y - this.startLocation.y))
+      y: Math.trunc(this.dragRate * (this.currentLocation.y - this.startLocation.y)),
     };
   }
 
@@ -70,7 +70,7 @@ export class DragHandler {
     const offset = this.currentOffset;
     const combinedOffset = {
       x: this.initialOffset.x + offset.x,
-      y: this.initialOffset.y + offset.y
+      y: this.initialOffset.y + offset.y,
     };
 
     return this.limitDragOffsetToBoundaries(combinedOffset);
@@ -79,7 +79,7 @@ export class DragHandler {
   private limitDragOffsetToBoundaries(offset: DragOffset) {
     return {
       x: Math.min(Math.max(offset.x, this.dragBoundaries.x.min), this.dragBoundaries.x.max),
-      y: Math.min(Math.max(offset.y, this.dragBoundaries.y.min), this.dragBoundaries.y.max)
+      y: Math.min(Math.max(offset.y, this.dragBoundaries.y.min), this.dragBoundaries.y.max),
     };
   }
 }
@@ -127,12 +127,12 @@ export function computeDragBoundaries(
   const dragBoundaries = {
     x: {
       min: Math.min(-contentSize.width + maxOffsetX, 0),
-      max: maxOffsetX + Math.max(0, maxOffsetX - contentSize.width)
+      max: maxOffsetX + Math.max(0, maxOffsetX - contentSize.width),
     },
     y: {
       min: Math.min(-contentSize.height + maxOffsetY, 0),
-      max: maxOffsetY + Math.max(0, maxOffsetY - contentSize.height)
-    }
+      max: maxOffsetY + Math.max(0, maxOffsetY - contentSize.height),
+    },
   };
   return dragBoundaries;
 }

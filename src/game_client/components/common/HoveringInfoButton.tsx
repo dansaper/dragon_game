@@ -1,16 +1,14 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../../../common/DetailedInfo";
-import { GameEvent } from "../../../common/events/GameEvents";
-import { ToggleDetailedInfoPanelEvent } from "../../../common/events/ToggleDetailedInfoPanelEvent";
-import { UpdateDetailedInfoPanelEvent } from "../../../common/events/UpdateDetailedInfoPanelEvent";
+import { ClientEventTypes } from "../../client_events/ClientEvents";
+import { DetailedInfoKeys } from "../../DetailedInfo";
+import { GameClient } from "../../GameClient";
 
 interface HoveringInfoButtonProps {
   isDisabled: boolean;
   infoKey: DetailedInfoKeys;
-  sendGameEvents: (e: GameEvent[]) => void;
 }
 
-export class HoveringInfoButton extends React.Component<HoveringInfoButtonProps, {}> {
+export class HoveringInfoButton extends React.Component<HoveringInfoButtonProps> {
   constructor(props: HoveringInfoButtonProps) {
     super(props);
 
@@ -30,10 +28,13 @@ export class HoveringInfoButton extends React.Component<HoveringInfoButtonProps,
       return;
     }
 
-    this.props.sendGameEvents([
-      new UpdateDetailedInfoPanelEvent(this.props.infoKey),
-      new ToggleDetailedInfoPanelEvent(true)
+    GameClient.sendClientEvents([
+      {
+        eventType: ClientEventTypes.UPDATE_INFO_PANEL,
+        newInfoKey: this.props.infoKey,
+      },
     ]);
+
     e.stopPropagation();
   }
 }

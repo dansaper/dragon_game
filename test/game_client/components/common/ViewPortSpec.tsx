@@ -6,7 +6,7 @@ describe("ViewPort", () => {
   const renderViewport = (
     dimensions = {
       width: 10,
-      height: 10
+      height: 10,
     },
     dragRate?: number
   ) => {

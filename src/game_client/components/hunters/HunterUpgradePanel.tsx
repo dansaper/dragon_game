@@ -1,5 +1,4 @@
 import * as React from "react";
-import { GameEvent } from "../../../common/events/GameEvents";
 import { GameState } from "../../../common/GameState";
 import { UpgradeCategories, Upgrades, UpgradesMap } from "../../../common/Upgrades";
 import { HunterUpgradeCategorySelector } from "./HunterUpgradeCategorySelector";
@@ -8,13 +7,12 @@ import { HunterUpgradeTreeView } from "./HunterUpgradeTreeView";
 
 interface HunterUpgradePanelProps {
   gameState: GameState;
-  sendGameEvents: (e: GameEvent[]) => void;
 }
 
 // TODO: Calculate if these are visible
 const AVAILABLE_CATEGORIES = [
   UpgradeCategories.GENERAL_HUNTER_UPGRADES,
-  UpgradeCategories.PLAIN_HUNTER_UPGRADES
+  UpgradeCategories.PLAIN_HUNTER_UPGRADES,
 ];
 
 interface HunterUpgradePanelState {
@@ -29,7 +27,7 @@ export class HunterUpgradePanel extends React.Component<
   constructor(props: HunterUpgradePanelProps) {
     super(props);
     this.state = {
-      selectedCategory: AVAILABLE_CATEGORIES[0]
+      selectedCategory: AVAILABLE_CATEGORIES[0],
     };
 
     this.selectUpgrade = this.selectUpgrade.bind(this);
@@ -47,14 +45,12 @@ export class HunterUpgradePanel extends React.Component<
           />
           <HunterUpgradeTreeView
             gameState={this.props.gameState}
-            sendGameEvents={this.props.sendGameEvents}
             onClick={this.selectUpgrade}
             upgrades={UpgradesMap.get(this.state.selectedCategory) || []}
           />
         </div>
         <HunterUpgradeInfoPanel
           gameState={this.props.gameState}
-          sendGameEvents={this.props.sendGameEvents}
           selectedUpgrade={this.state.selectedUpgrade}
         />
       </div>
@@ -63,14 +59,14 @@ export class HunterUpgradePanel extends React.Component<
 
   private selectUpgrade(upgrade: Upgrades) {
     this.setState({
-      selectedUpgrade: upgrade
+      selectedUpgrade: upgrade,
     });
   }
 
   private selectCategory(category: UpgradeCategories) {
     this.setState({
       selectedCategory: category,
-      selectedUpgrade: undefined
+      selectedUpgrade: undefined,
     });
   }
 }

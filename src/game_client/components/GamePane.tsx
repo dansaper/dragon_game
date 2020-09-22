@@ -10,26 +10,19 @@ interface GamePaneProps {
   gameState: GameState;
 }
 
-export class GamePane extends React.Component<GamePaneProps> {
-  constructor(props: GamePaneProps) {
-    super(props);
-    this.pauseHandler = this.pauseHandler.bind(this);
-  }
+const pauseHandler = () => {
+  GameClient.toggleGamePause();
+};
 
-  public render() {
-    return (
-      <React.StrictMode>
-        <GameMenu
-          isPaused={this.props.clientState.isPaused}
-          onPause={this.pauseHandler}
-          onUnpause={this.pauseHandler}
-        />
-        <GameContentPane clientState={this.props.clientState} gameState={this.props.gameState} />
-      </React.StrictMode>
-    );
-  }
-
-  private pauseHandler() {
-    GameClient.toggleGamePause();
-  }
-}
+export const GamePane: React.FunctionComponent<GamePaneProps> = (props) => {
+  return (
+    <React.StrictMode>
+      <GameMenu
+        isPaused={props.clientState.isPaused}
+        onPause={pauseHandler}
+        onUnpause={pauseHandler}
+      />
+      <GameContentPane clientState={props.clientState} gameState={props.gameState} />
+    </React.StrictMode>
+  );
+};

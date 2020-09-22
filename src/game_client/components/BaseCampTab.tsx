@@ -7,7 +7,7 @@ interface BaseCampTabProps {
   gameState: GameState;
 }
 
-export function BaseCampTab(props: BaseCampTabProps) {
+export const BaseCampTab: React.FunctionComponent<BaseCampTabProps> = (props) => {
   return (
     <div>
       <PurchaseButton
@@ -24,4 +24,4 @@ export function BaseCampTab(props: BaseCampTabProps) {
       />
     </div>
   );
-}
+};

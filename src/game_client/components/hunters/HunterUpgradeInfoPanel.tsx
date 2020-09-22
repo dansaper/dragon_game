@@ -1,10 +1,10 @@
 import * as React from "react";
 import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
+import { UpgradeDisplayDefinition } from "../../client_elements/GameElementDefinitions";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
 import { GameClient } from "../../GameClient";
 import { ButtonWithInfo } from "../common/ButtonWithInfo";
-import { PropertyCache } from "../common/PropertyCache";
 import { ResourceList } from "../ResourceList";
 
 interface HunterUpgradeInfoPanelProps {
@@ -12,57 +12,56 @@ interface HunterUpgradeInfoPanelProps {
   gameState: GameState;
 }
 
-interface CachedProperties {
-  onClick: () => void;
-  isVisible: () => boolean;
-  isDisabled: () => boolean;
-}
+export const HunterUpgradeInfoPanel: React.FunctionComponent<HunterUpgradeInfoPanelProps> = (
+  props
+) => {
+  let upgradeDefinition: UpgradeDisplayDefinition | undefined;
+  if (props.selectedUpgrade) {
+    upgradeDefinition = HunterUpgradeDefinitions.get(props.selectedUpgrade);
+  }
 
-export class HunterUpgradeInfoPanel extends React.Component<HunterUpgradeInfoPanelProps> {
-  // We cache functions for a given button def so we don't recreate functions every time we render
-  private cachedButtonProperties = new PropertyCache<Upgrades, CachedProperties>();
-
-  public render() {
-    if (this.props.selectedUpgrade === undefined) {
-      return (
-        <div className="hunter-upgrade-info-panel">
-          <div className="hunter-upgrade-title-wrapper">
-            <div className="hunter-upgrade-title">No Upgrade Selected</div>
-          </div>
-        </div>
-      );
+  const cachedButtonProps = React.useMemo(() => {
+    if (!upgradeDefinition) {
+      return;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const upgradeDefinition = HunterUpgradeDefinitions.get(this.props.selectedUpgrade)!;
+    const buttonDef = upgradeDefinition!;
 
-    const propsCapturingThis = {
+    return {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      isVisible: () => !this.props.gameState.upgrades.has(this.props.selectedUpgrade!),
-      isDisabled: () => !upgradeDefinition.isPurchaseable(this.props.gameState),
-      onClick: () => GameClient.sendGameEvents(upgradeDefinition.purchase(this.props.gameState)),
+      isVisible: () => !props.gameState.upgrades.has(props.selectedUpgrade!),
+      isDisabled: () => !buttonDef.isPurchaseable(props.gameState),
+      onClick: () => GameClient.sendGameEvents(buttonDef.purchase(props.gameState)),
+      title: "Purchase upgrade: " + upgradeDefinition.title,
     };
-    const cached = this.cachedButtonProperties.getOrSet(
-      this.props.selectedUpgrade,
-      propsCapturingThis
-    );
+  }, [props.gameState, props.selectedUpgrade, upgradeDefinition]);
 
+  if (!upgradeDefinition || !cachedButtonProps) {
     return (
       <div className="hunter-upgrade-info-panel">
         <div className="hunter-upgrade-title-wrapper">
-          <div className="hunter-upgrade-title">{upgradeDefinition.title}</div>
-        </div>
-        <div className="hunter-upgrade-content-wrapper">
-          <div className="hunter-upgrade-content">
-            <div className="hunter-upgrade-details">{upgradeDefinition.details}</div>
-            <ButtonWithInfo {...cached} title={"Purchase upgrade: " + upgradeDefinition.title} />
-          </div>
-          <div className="hunter-upgrade-cost">
-            <div className="hunter-upgrade-cost-title">Cost</div>
-            <ResourceList resources={upgradeDefinition.getCost(this.props.gameState)} />
-          </div>
+          <div className="hunter-upgrade-title">No Upgrade Selected</div>
         </div>
       </div>
     );
   }
-}
+
+  return (
+    <div className="hunter-upgrade-info-panel">
+      <div className="hunter-upgrade-title-wrapper">
+        <div className="hunter-upgrade-title">{upgradeDefinition.title}</div>
+      </div>
+      <div className="hunter-upgrade-content-wrapper">
+        <div className="hunter-upgrade-content">
+          <div className="hunter-upgrade-details">{upgradeDefinition.details}</div>
+          <ButtonWithInfo {...cachedButtonProps} />
+        </div>
+        <div className="hunter-upgrade-cost">
+          <div className="hunter-upgrade-cost-title">Cost</div>
+          <ResourceList resources={upgradeDefinition.getCost(props.gameState)} />
+        </div>
+      </div>
+    </div>
+  );
+};

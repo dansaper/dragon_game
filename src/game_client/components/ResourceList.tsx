@@ -6,7 +6,7 @@ interface ResouceListProps {
   resources: Map<ResourceTypes, number>;
 }
 
-export function ResourceList(props: ResouceListProps) {
+export const ResourceList: React.FunctionComponent<ResouceListProps> = (props) => {
   const orderedResources = ([] as ResourceTypes[])
     .concat(...ResourceCategoriesMap.values())
     .filter((resource) => props.resources.has(resource));
@@ -16,6 +16,8 @@ export function ResourceList(props: ResouceListProps) {
       <ResourceLine
         key={resourceType}
         name={resourceType}
+        // We filtered above
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         value={props.resources.get(resourceType)!}
       />
     );
@@ -28,4 +30,4 @@ export function ResourceList(props: ResouceListProps) {
       ) : null}
     </ul>
   );
-}
+};

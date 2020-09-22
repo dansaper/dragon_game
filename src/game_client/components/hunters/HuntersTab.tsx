@@ -6,12 +6,10 @@ interface HuntersTabProps {
   gameState: GameState;
 }
 
-export class HuntersTab extends React.Component<HuntersTabProps> {
-  public render() {
-    return (
-      <div className="hunters-tab">
-        <HunterUpgradePanel gameState={this.props.gameState} />
-      </div>
-    );
-  }
-}
+export const HuntersTab: React.FunctionComponent<HuntersTabProps> = (props) => {
+  return (
+    <div className="hunters-tab">
+      <HunterUpgradePanel gameState={props.gameState} />
+    </div>
+  );
+};

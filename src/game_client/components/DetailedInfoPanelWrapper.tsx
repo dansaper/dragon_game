@@ -8,26 +8,22 @@ interface DetailedInfoPanelWrapperProps {
   info?: DetailedInfoKeys;
 }
 
-export class DetailedInfoPanelWrapper extends React.Component<DetailedInfoPanelWrapperProps> {
-  public constructor(props: DetailedInfoPanelWrapperProps) {
-    super(props);
-  }
+export const DetailedInfoPanelWrapper: React.FunctionComponent<DetailedInfoPanelWrapperProps> = (
+  props
+) => {
+  const indicatorClass = props.isPanelOpen
+    ? "detailed-info-panel-open-indicator"
+    : "detailed-info-panel-closed-indicator";
 
-  public render() {
-    const indicatorClass = this.props.isPanelOpen
-      ? "detailed-info-panel-open-indicator"
-      : "detailed-info-panel-closed-indicator";
-
-    return (
-      <>
-        <div
-          onClick={this.props.togglePanel}
-          className={`detailed-info-toggle-bar-toggle ${indicatorClass}`}
-        />
-        <div className={`detailed-info-panel ${indicatorClass}`}>
-          <DetailedInfoPanelContent info={this.props.info} />
-        </div>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <div
+        onClick={props.togglePanel}
+        className={`detailed-info-toggle-bar-toggle ${indicatorClass}`}
+      />
+      <div className={`detailed-info-panel ${indicatorClass}`}>
+        <DetailedInfoPanelContent info={props.info} />
+      </div>
+    </>
+  );
+};

@@ -6,12 +6,10 @@ interface GameMapTabProps {
   gameState: GameState;
 }
 
-export class GameMapTab extends React.Component<GameMapTabProps> {
-  public render() {
-    return (
-      <div>
-        <GameMap ownedTiles={[]} />
-      </div>
-    );
-  }
-}
+export const GameMapTab: React.FunctionComponent<GameMapTabProps> = (_props) => {
+  return (
+    <div>
+      <GameMap ownedTiles={[]} />
+    </div>
+  );
+};

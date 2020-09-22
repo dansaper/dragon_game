@@ -6,7 +6,7 @@ interface ZoomControlProps {
   clear: () => void;
 }
 
-export function ZoomControl(props: ZoomControlProps) {
+export const ZoomControl: React.FunctionComponent<ZoomControlProps> = (props) => {
   return (
     <div className="viewport-zoom-control" data-testid="zoom-control">
       <div
@@ -26,4 +26,4 @@ export function ZoomControl(props: ZoomControlProps) {
       />
     </div>
   );
-}
+};

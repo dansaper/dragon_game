@@ -3,7 +3,6 @@ import { GameState } from "../../../common/GameState";
 import { Upgrades } from "../../../common/Upgrades";
 import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
 import { ButtonWithInfo } from "../common/ButtonWithInfo";
-import { PropertyCache } from "../common/PropertyCache";
 
 interface HunterUpgradeDisplayButtonProps {
   upgrade: Upgrades;
@@ -11,24 +10,18 @@ interface HunterUpgradeDisplayButtonProps {
   gameState: GameState;
 }
 
-interface CachedProperties {
-  isVisible: () => boolean;
-  isDisabled: () => boolean;
-  renderContent: () => JSX.Element;
-}
-
-export class HunterUpgradeDisplayButton extends React.Component<HunterUpgradeDisplayButtonProps> {
-  private cachedButtonProperties = new PropertyCache<Upgrades, CachedProperties>();
-
-  public render() {
+export const HunterUpgradeDisplayButton: React.FunctionComponent<HunterUpgradeDisplayButtonProps> = (
+  props
+) => {
+  const cachedProps = React.useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const upgradeDefinition = HunterUpgradeDefinitions.get(this.props.upgrade)!;
+    const upgradeDefinition = HunterUpgradeDefinitions.get(props.upgrade)!;
 
-    const propsCapturingThis = {
-      isVisible: () => upgradeDefinition.isVisible(this.props.gameState),
-      isDisabled: () => !upgradeDefinition.isViewable(this.props.gameState),
+    return {
+      isVisible: () => upgradeDefinition.isVisible(props.gameState),
+      isDisabled: () => !upgradeDefinition.isViewable(props.gameState),
       renderContent: () => {
-        const ownsUpgrade = this.props.gameState.upgrades.has(this.props.upgrade);
+        const ownsUpgrade = props.gameState.upgrades.has(props.upgrade);
         return (
           <div className="upgrade-ownership-indicator">
             <div
@@ -37,17 +30,12 @@ export class HunterUpgradeDisplayButton extends React.Component<HunterUpgradeDis
           </div>
         );
       },
+      title: upgradeDefinition.title,
+      infoKey: upgradeDefinition.infoKey,
     };
-    const cached = this.cachedButtonProperties.getOrSet(this.props.upgrade, propsCapturingThis);
+  }, [props.gameState, props.upgrade]);
 
-    return (
-      <ButtonWithInfo
-        {...cached}
-        disabledInfoButtonOnDisable={true}
-        onClick={this.props.onClick}
-        title={upgradeDefinition.title}
-        infoKey={upgradeDefinition.infoKey}
-      />
-    );
-  }
-}
+  return (
+    <ButtonWithInfo {...cachedProps} disabledInfoButtonOnDisable={true} onClick={props.onClick} />
+  );
+};

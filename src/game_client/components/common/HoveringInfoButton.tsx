@@ -8,33 +8,25 @@ interface HoveringInfoButtonProps {
   infoKey: DetailedInfoKeys;
 }
 
-export class HoveringInfoButton extends React.Component<HoveringInfoButtonProps> {
-  constructor(props: HoveringInfoButtonProps) {
-    super(props);
-
-    this.selectInfo = this.selectInfo.bind(this);
-  }
-
-  public render() {
-    return (
-      <div className="hovering-info-button" onClick={this.selectInfo}>
-        i
-      </div>
-    );
-  }
-
-  private selectInfo(e: React.MouseEvent) {
-    if (this.props.isDisabled) {
+export const HoveringInfoButton: React.FunctionComponent<HoveringInfoButtonProps> = (props) => {
+  const selectInfo = (e: React.MouseEvent) => {
+    if (props.isDisabled) {
       return;
     }
 
     GameClient.sendClientEvents([
       {
         eventType: ClientEventTypes.UPDATE_INFO_PANEL,
-        newInfoKey: this.props.infoKey,
+        newInfoKey: props.infoKey,
       },
     ]);
 
     e.stopPropagation();
-  }
-}
+  };
+
+  return (
+    <div className="hovering-info-button" onClick={selectInfo}>
+      i
+    </div>
+  );
+};

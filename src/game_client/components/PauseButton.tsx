@@ -6,17 +6,10 @@ interface PauseButtonProps {
   unpause: () => void;
 }
 
-export class PauseButton extends React.Component<PauseButtonProps> {
-  constructor(props: PauseButtonProps) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  public render() {
-    return <button onClick={this.handleClick}>{this.props.isPaused ? "Unpause" : "Pause"}</button>;
-  }
-
-  private handleClick() {
-    this.props.isPaused ? this.props.unpause() : this.props.pause();
-  }
-}
+export const PauseButton: React.FunctionComponent<PauseButtonProps> = (props) => {
+  return (
+    <button onClick={props.isPaused ? props.unpause : props.pause}>
+      {props.isPaused ? "Unpause" : "Pause"}
+    </button>
+  );
+};

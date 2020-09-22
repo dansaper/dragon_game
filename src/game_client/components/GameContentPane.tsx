@@ -12,31 +12,24 @@ interface GameContentPaneProps {
   gameState: GameState;
 }
 
-export class GameContentPane extends React.Component<GameContentPaneProps> {
-  constructor(props: GameContentPaneProps) {
-    super(props);
-    this.toggleInfoPanel = this.toggleInfoPanel.bind(this);
-  }
+const toggleInfoPanel = () => {
+  GameClient.sendClientEvents([
+    {
+      eventType: ClientEventTypes.TOGGLE_INFO_PANEL,
+    },
+  ]);
+};
 
-  public render() {
-    return (
-      <div className="game-content-pane">
-        <ResourcePane resources={this.props.gameState.resources} />
-        <MainContentPane clientState={this.props.clientState} gameState={this.props.gameState} />
-        <DetailedInfoPanelWrapper
-          isPanelOpen={this.props.clientState.isDetailedInfoPanelOpen}
-          togglePanel={this.toggleInfoPanel}
-          info={this.props.clientState.currentDetailedInfoKey}
-        />
-      </div>
-    );
-  }
-
-  private toggleInfoPanel() {
-    GameClient.sendClientEvents([
-      {
-        eventType: ClientEventTypes.TOGGLE_INFO_PANEL,
-      },
-    ]);
-  }
-}
+export const GameContentPane: React.FunctionComponent<GameContentPaneProps> = (props) => {
+  return (
+    <div className="game-content-pane">
+      <ResourcePane resources={props.gameState.resources} />
+      <MainContentPane clientState={props.clientState} gameState={props.gameState} />
+      <DetailedInfoPanelWrapper
+        isPanelOpen={props.clientState.isDetailedInfoPanelOpen}
+        togglePanel={toggleInfoPanel}
+        info={props.clientState.currentDetailedInfoKey}
+      />
+    </div>
+  );
+};

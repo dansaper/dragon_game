@@ -7,43 +7,32 @@ import {
 import { GameClient } from "../../GameClient";
 import { ResourceList } from "../ResourceList";
 import { ButtonWithInfo } from "./ButtonWithInfo";
-import { PropertyCache } from "./PropertyCache";
 
-interface CachedProperties {
-  onClick: () => void;
-  isVisible: () => boolean;
-  isDisabled: () => boolean;
-  renderContent: () => JSX.Element;
-}
-
-export class PurchaseButton extends React.Component<{
+interface PurchaseButtonProps {
   button: PurchaseButtonGameElements;
   gameState: GameState;
-}> {
-  // We cache functions for a given button def so we don't recreate functions every time we render
-  private cachedButtonProperties = new PropertyCache<
-    PurchaseButtonGameElements,
-    CachedProperties
-  >();
+}
 
-  public render() {
+export const PurchaseButton: React.FunctionComponent<PurchaseButtonProps> = (props) => {
+  const cachedProps = React.useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const buttonDef = PurchaseButtonDefinitions.get(this.props.button)!;
+    const buttonDef = PurchaseButtonDefinitions.get(props.button)!;
 
-    const propsCapturingThis = {
-      isVisible: () => buttonDef.isVisible(this.props.gameState),
-      isDisabled: () => !buttonDef.isPurchaseable(this.props.gameState),
-      onClick: () => GameClient.sendGameEvents(buttonDef.purchase(this.props.gameState)),
+    return {
+      isVisible: () => buttonDef.isVisible(props.gameState),
+      isDisabled: () => !buttonDef.isPurchaseable(props.gameState),
+      onClick: () => GameClient.sendGameEvents(buttonDef.purchase(props.gameState)),
       renderContent: () => {
         return (
           <div className="purchase-button-cost">
-            <ResourceList resources={buttonDef.getCost(this.props.gameState)} />
+            <ResourceList resources={buttonDef.getCost(props.gameState)} />
           </div>
         );
       },
+      title: buttonDef.title,
+      infoKey: buttonDef.infoKey,
     };
-    const cached = this.cachedButtonProperties.getOrSet(this.props.button, propsCapturingThis);
+  }, [props.button, props.gameState]);
 
-    return <ButtonWithInfo {...cached} title={buttonDef.title} infoKey={buttonDef.infoKey} />;
-  }
-}
+  return <ButtonWithInfo {...cachedProps}></ButtonWithInfo>;
+};

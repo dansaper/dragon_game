@@ -15,58 +15,37 @@ const AVAILABLE_CATEGORIES = [
   UpgradeCategories.PLAIN_HUNTER_UPGRADES,
 ];
 
-interface HunterUpgradePanelState {
-  selectedCategory: UpgradeCategories;
-  selectedUpgrade?: Upgrades;
-}
+export const HunterUpgradePanel: React.FunctionComponent<HunterUpgradePanelProps> = (props) => {
+  const [selectedCategory, setSelectedCategory] = React.useState<UpgradeCategories>(
+    AVAILABLE_CATEGORIES[0]
+  );
+  const [selectedUpgrade, setSelectedUpgrade] = React.useState<Upgrades | undefined>();
 
-export class HunterUpgradePanel extends React.Component<
-  HunterUpgradePanelProps,
-  HunterUpgradePanelState
-> {
-  constructor(props: HunterUpgradePanelProps) {
-    super(props);
-    this.state = {
-      selectedCategory: AVAILABLE_CATEGORIES[0],
-    };
+  const selectCategory = (category: UpgradeCategories) => {
+    setSelectedCategory(category);
+    setSelectedUpgrade(undefined);
+  };
 
-    this.selectUpgrade = this.selectUpgrade.bind(this);
-    this.selectCategory = this.selectCategory.bind(this);
-  }
+  const selectUpgrade = (upgrade: Upgrades) => {
+    setSelectedUpgrade(upgrade);
+  };
 
-  public render() {
-    return (
-      <div className="hunter-upgrade-panel">
-        <div className="hunter-upgrade-tree-wrapper">
-          <HunterUpgradeCategorySelector
-            categories={AVAILABLE_CATEGORIES}
-            currentCategory={this.state.selectedCategory}
-            selectCategory={this.selectCategory}
-          />
-          <HunterUpgradeTreeView
-            gameState={this.props.gameState}
-            onClick={this.selectUpgrade}
-            upgrades={UpgradesMap.get(this.state.selectedCategory) || []}
-          />
-        </div>
-        <HunterUpgradeInfoPanel
-          gameState={this.props.gameState}
-          selectedUpgrade={this.state.selectedUpgrade}
+  return (
+    <div className="hunter-upgrade-panel">
+      <div className="hunter-upgrade-tree-wrapper">
+        <HunterUpgradeCategorySelector
+          categories={AVAILABLE_CATEGORIES}
+          currentCategory={selectedCategory}
+          selectCategory={selectCategory}
+        />
+        <HunterUpgradeTreeView
+          gameState={props.gameState}
+          onClick={selectUpgrade}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          upgrades={UpgradesMap.get(selectedCategory)!}
         />
       </div>
-    );
-  }
-
-  private selectUpgrade(upgrade: Upgrades) {
-    this.setState({
-      selectedUpgrade: upgrade,
-    });
-  }
-
-  private selectCategory(category: UpgradeCategories) {
-    this.setState({
-      selectedCategory: category,
-      selectedUpgrade: undefined,
-    });
-  }
-}
+      <HunterUpgradeInfoPanel gameState={props.gameState} selectedUpgrade={selectedUpgrade} />
+    </div>
+  );
+};

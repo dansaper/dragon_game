@@ -1,11 +1,11 @@
 import * as React from "react";
 import { GameState } from "../../../common/GameState";
-import { Upgrades } from "../../../common/Upgrades";
-import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
+import { Upgrade } from "../../../common/Upgrades";
+import { ClientUpgradeDefinitionsMap } from "../../client_elements/ClientUpgradeButtonDefinitionsMap";
 import { ButtonWithInfo } from "../common/ButtonWithInfo";
 
 interface HunterUpgradeDisplayButtonProps {
-  upgrade: Upgrades;
+  upgrade: Upgrade;
   onClick: () => void;
   gameState: GameState;
 }
@@ -14,12 +14,15 @@ export const HunterUpgradeDisplayButton: React.FunctionComponent<HunterUpgradeDi
   props
 ) => {
   const cachedProps = React.useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const upgradeDefinition = HunterUpgradeDefinitions.get(props.upgrade)!;
+    const clientDef = ClientUpgradeDefinitionsMap.get(props.upgrade);
+
+    if (!clientDef) {
+      throw new Error(`Unable to load definitions for upgrade button: ${props.upgrade}`);
+    }
 
     return {
-      isVisible: () => upgradeDefinition.isVisible(props.gameState),
-      isDisabled: () => !upgradeDefinition.isViewable(props.gameState),
+      isVisible: () => true,
+      isDisabled: () => false,
       renderContent: () => {
         const ownsUpgrade = props.gameState.upgrades.has(props.upgrade);
         return (
@@ -30,8 +33,8 @@ export const HunterUpgradeDisplayButton: React.FunctionComponent<HunterUpgradeDi
           </div>
         );
       },
-      title: upgradeDefinition.title,
-      infoKey: upgradeDefinition.infoKey,
+      title: clientDef.title,
+      infoKey: clientDef.infoKey,
     };
   }, [props.gameState, props.upgrade]);
 

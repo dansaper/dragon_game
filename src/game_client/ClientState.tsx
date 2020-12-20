@@ -1,9 +1,9 @@
-import { DetailedInfoKeys } from "./DetailedInfo";
+import { DetailedInfoKey } from "./DetailedInfo";
 
 export interface ClientState {
   isPaused: boolean;
   isDetailedInfoPanelOpen: boolean;
-  currentDetailedInfoKey?: DetailedInfoKeys;
+  currentDetailedInfoKey?: DetailedInfoKey;
 }
 
 export const getEmptyClientState = (): ClientState => {

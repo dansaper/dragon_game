@@ -1,11 +1,11 @@
 import { getEmptyModel } from "../common/GameState";
 import { ResourceTypes } from "../common/Resources";
-import { messageFromWorker, messageToWorker } from "../common/WorkerTypes";
+import { MessageFromWorker, MessageToWorker } from "../common/WorkerTypes";
 import { GameStateUpdater } from "./GameStateUpdater";
 
 interface GameWorkerThreadInterface extends DedicatedWorkerGlobalScope {
-  postMessage: (ev: messageFromWorker) => void;
-  onmessage: (ev: MessageEvent<messageToWorker>) => void;
+  postMessage: (ev: MessageFromWorker) => void;
+  onmessage: (ev: MessageEvent<MessageToWorker>) => void;
 }
 
 // We're actually running from a web worker, not a window
@@ -23,6 +23,12 @@ let paused = false;
 ctx.onmessage = (ev) => {
   if (ev.data === "toggle_pause") {
     paused = !paused;
+    return;
+  }
+
+  if (ev.data === "set_debug_state") {
+    // currentState =
+    ctx.postMessage(currentState);
     return;
   }
 

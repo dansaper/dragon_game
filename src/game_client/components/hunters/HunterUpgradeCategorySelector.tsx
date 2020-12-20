@@ -1,13 +1,13 @@
 import * as React from "react";
-import { UpgradeCategories } from "../../../common/Upgrades";
+import { UpgradeCategories, UpgradeCategory } from "../../../common/Upgrades";
 
 interface HunterUpgradeCategorySelectorProps {
-  categories: UpgradeCategories[];
-  currentCategory: UpgradeCategories;
-  selectCategory: (category: UpgradeCategories) => void;
+  categories: UpgradeCategory[];
+  currentCategory: UpgradeCategory;
+  selectCategory: (category: UpgradeCategory) => void;
 }
 
-const categoryNames: Map<UpgradeCategories, string> = new Map([
+const categoryNames: Map<UpgradeCategory, string> = new Map([
   [UpgradeCategories.PLAIN_HUNTER_UPGRADES, "Plains Hunter"],
   [UpgradeCategories.GENERAL_HUNTER_UPGRADES, "General"],
 ]);

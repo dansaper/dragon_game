@@ -1,9 +1,10 @@
 import * as React from "react";
 import { ClientState } from "../ClientState";
-import { GameProgressionFlags, GameState } from "../../common/GameState";
+import { GameState } from "../../common/GameState";
 import { BaseCampTab } from "./BaseCampTab";
 import { HuntersTab } from "./hunters/HuntersTab";
 import { GameMapTab } from "./map/GameMapTab";
+import { GameProgressionFlags } from "../../common/GameProgressionFlags";
 
 interface MainContentPaneProps {
   clientState: ClientState;

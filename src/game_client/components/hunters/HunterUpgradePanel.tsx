@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GameState } from "../../../common/GameState";
-import { UpgradeCategories, Upgrades, UpgradesMap } from "../../../common/Upgrades";
+import { Upgrade, UpgradeCategories, UpgradeCategory } from "../../../common/Upgrades";
 import { HunterUpgradeCategorySelector } from "./HunterUpgradeCategorySelector";
 import { HunterUpgradeInfoPanel } from "./HunterUpgradeInfoPanel";
 import { HunterUpgradeTreeView } from "./HunterUpgradeTreeView";
@@ -16,17 +16,17 @@ const AVAILABLE_CATEGORIES = [
 ];
 
 export const HunterUpgradePanel: React.FunctionComponent<HunterUpgradePanelProps> = (props) => {
-  const [selectedCategory, setSelectedCategory] = React.useState<UpgradeCategories>(
+  const [selectedCategory, setSelectedCategory] = React.useState<UpgradeCategory>(
     AVAILABLE_CATEGORIES[0]
   );
-  const [selectedUpgrade, setSelectedUpgrade] = React.useState<Upgrades | undefined>();
+  const [selectedUpgrade, setSelectedUpgrade] = React.useState<Upgrade | undefined>();
 
-  const selectCategory = (category: UpgradeCategories) => {
+  const selectCategory = (category: UpgradeCategory) => {
     setSelectedCategory(category);
     setSelectedUpgrade(undefined);
   };
 
-  const selectUpgrade = (upgrade: Upgrades) => {
+  const selectUpgrade = (upgrade: Upgrade) => {
     setSelectedUpgrade(upgrade);
   };
 
@@ -41,8 +41,7 @@ export const HunterUpgradePanel: React.FunctionComponent<HunterUpgradePanelProps
         <HunterUpgradeTreeView
           gameState={props.gameState}
           onClick={selectUpgrade}
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          upgrades={UpgradesMap.get(selectedCategory)!}
+          category={selectedCategory}
         />
       </div>
       <HunterUpgradeInfoPanel gameState={props.gameState} selectedUpgrade={selectedUpgrade} />

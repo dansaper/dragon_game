@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GameState } from "../../common/GameState";
-import { PurchaseButtonGameElements } from "../client_elements/PurchaseButtonDefinitionLibrary";
+import { Purchases } from "../../common/Purchases";
 import { PurchaseButton } from "./common/PurchaseButton";
 
 interface BaseCampTabProps {
@@ -10,17 +10,14 @@ interface BaseCampTabProps {
 export const BaseCampTab: React.FunctionComponent<BaseCampTabProps> = (props) => {
   return (
     <div>
+      <PurchaseButton gameState={props.gameState} purchase={Purchases.BASE_CAMP_HUNT_BABY_WYVERN} />
       <PurchaseButton
         gameState={props.gameState}
-        button={PurchaseButtonGameElements.HUNT_BABY_WYVERN_BUTTON}
+        purchase={Purchases.BASE_CAMP_CRAFT_BABY_WYVERN_LEATHER}
       />
       <PurchaseButton
         gameState={props.gameState}
-        button={PurchaseButtonGameElements.CRAFT_BABY_WYVERN_LEATHER_BUTTON}
-      />
-      <PurchaseButton
-        gameState={props.gameState}
-        button={PurchaseButtonGameElements.HIRE_PLAINS_HUNTER_BUTTON}
+        purchase={Purchases.BASE_CAMP_HIRE_PLAINS_HUNTER}
       />
     </div>
   );

@@ -1,8 +1,8 @@
 import * as React from "react";
-import { DetailedInfoKeys, DetailedInfoKeysMap } from "../DetailedInfo";
+import { DetailedInfoKey, DetailedInfoKeysMap } from "../DetailedInfo";
 
 interface DetailedInfoPanelContentProps {
-  info?: DetailedInfoKeys;
+  info?: DetailedInfoKey;
 }
 
 export const DetailedInfoPanelContent: React.FunctionComponent<DetailedInfoPanelContentProps> = (

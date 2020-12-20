@@ -1,4 +1,4 @@
-import { DetailedInfoKeys } from "../DetailedInfo";
+import { DetailedInfoKey } from "../DetailedInfo";
 
 export const ClientEventTypes = {
   TOGGLE_INFO_PANEL: "toggle_info_panel",
@@ -15,7 +15,7 @@ export interface ToggleDetailedInfoPanelEvent extends ClientEventGuard {
 
 export interface UpdateDetailedInfoPanelEvent extends ClientEventGuard {
   readonly eventType: typeof ClientEventTypes.UPDATE_INFO_PANEL;
-  newInfoKey: DetailedInfoKeys;
+  newInfoKey: DetailedInfoKey;
 }
 
 export type ClientEvent = ToggleDetailedInfoPanelEvent | UpdateDetailedInfoPanelEvent;

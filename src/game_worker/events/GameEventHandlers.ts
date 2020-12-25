@@ -4,6 +4,7 @@ import { GameState } from "../../common/GameState";
 import { PurchaseDefinitionsMap } from "../../common/PurchaseDefinitionsMap";
 import { ResourceTypes } from "../../common/Resources";
 import { UpgradeDefinitionsMap } from "../../common/UpgradeDefinitionsMap";
+import { Logger } from "../Logger";
 import { modifyResources, setUpgrade } from "./GameStateModifiers";
 
 type EventHandler<T extends GameEvent> = (state: GameState, event: T) => GameState;
@@ -19,13 +20,15 @@ export const handlePurchaseEvent: EventHandler<PurchaseEvent> = (state, event) =
     const result = checkGameEventPrerequisites(state, eventDefinition.prerequisites);
 
     if (!result.valid) {
+      const errors: string[] = [];
       result.missingUpgrades.forEach((upgrade) => {
-        console.error(`Missing Required Upgrade: ${upgrade} for Purchase Event: ${event.purchase}`);
+        errors.push(`Missing Required Upgrade: ${upgrade} for Purchase Event: ${event.purchase}`);
       });
       result.missingFlags.forEach((flag) => {
-        console.error(`Missing Required Flag: ${flag} for Purchase Event: ${event.purchase}`);
+        errors.push(`Missing Required Flag: ${flag} for Purchase Event: ${event.purchase}`);
       });
 
+      Logger.logErrors(`Worker Validation failed for Purchase Event: ${event.purchase}`, errors);
       throw new Error(`Worker Validation failed for Purchase Event: ${event.purchase}`);
     }
   }
@@ -42,7 +45,13 @@ export const handlePurchaseEvent: EventHandler<PurchaseEvent> = (state, event) =
     modifications.set(resourceType, amount + previous);
   });
 
-  return modifyResources(state, modifications);
+  const result = modifyResources(state, modifications);
+
+  if ([...result.resources].some(([_, number]) => number < 0)) {
+    throw new Error(`Cost exceeded for Purchase Event: ${event.purchase}`);
+  }
+
+  return result;
 };
 
 export const handlePurchaseUpgradeEvent: EventHandler<PurchaseUpgradeEvent> = (state, event) => {
@@ -56,16 +65,33 @@ export const handlePurchaseUpgradeEvent: EventHandler<PurchaseUpgradeEvent> = (s
     const result = checkGameEventPrerequisites(state, eventDefinition.prerequisites);
 
     if (!result.valid) {
+      const errors: string[] = [];
+
       result.missingUpgrades.forEach((upgrade) => {
-        console.error(`Missing Required Upgrade: ${upgrade} for Upgrade Event: ${event.upgrade}`);
+        errors.push(`Missing Required Upgrade: ${upgrade} for Upgrade Event: ${event.upgrade}`);
       });
       result.missingFlags.forEach((flag) => {
-        console.error(`Missing Required Flag: ${flag} for Upgrade Event: ${event.upgrade}`);
+        errors.push(`Missing Required Flag: ${flag} for Upgrade Event: ${event.upgrade}`);
       });
 
+      Logger.logErrors(`Worker Validation failed for Upgrade Event: ${event.upgrade}`, errors);
       throw new Error(`Worker Validation failed for Upgrade Event: ${event.upgrade}`);
     }
   }
 
-  return setUpgrade(state, event.upgrade, true);
+  const cost = eventDefinition.getCost(state);
+  const modifications = new Map<ResourceTypes, number>();
+  cost.forEach((amount, resourceType) => {
+    modifications.set(resourceType, -1 * amount);
+  });
+
+  let result = modifyResources(state, modifications);
+
+  if ([...result.resources].some(([_, number]) => number < 0)) {
+    throw new Error(`Cost exceeded for Purchase Upgrade Event: ${event.upgrade}`);
+  }
+
+  result = setUpgrade(result, event.upgrade, true);
+
+  return result;
 };

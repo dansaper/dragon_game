@@ -1,6 +1,6 @@
 import { checkGameEventPrerequisites } from "../../common/GameEventPrerequisites";
 import { GameState } from "../../common/GameState";
-import { UpgradeDefinition } from "../../common/upgrade_definitions/upgradeDefinition";
+import { UpgradeDefinition } from "../../common/upgrade_definitions/UpgradeDefinition";
 
 export const canBuyUpgrade = (state: GameState, upgradeDefiniton: UpgradeDefinition) => {
   if (upgradeDefiniton.prerequisites) {

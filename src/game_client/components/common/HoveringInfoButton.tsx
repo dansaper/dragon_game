@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ClientEventTypes } from "../../client_events/ClientEvents";
-import { DetailedInfoKeys } from "../../DetailedInfo";
+import { DetailedInfoKey } from "../../DetailedInfo";
 import { GameClient } from "../../GameClient";
 
 interface HoveringInfoButtonProps {
   isDisabled: boolean;
-  infoKey: DetailedInfoKeys;
+  infoKey: DetailedInfoKey;
 }
 
 export const HoveringInfoButton: React.FunctionComponent<HoveringInfoButtonProps> = (props) => {

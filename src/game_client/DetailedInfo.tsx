@@ -20,12 +20,14 @@ const DefaultInfo = new DetailedInfo(
   )
 );
 
-export enum DetailedInfoKeys {
-  DEFAULT_INFO,
-  NO_INFO,
-}
+export const DetailedInfoKeys = {
+  DEFAULT_INFO: "DEFAULT_INFO",
+  NO_INFO: "NO_INFO",
+} as const;
 
-export const DetailedInfoKeysMap: Map<DetailedInfoKeys, DetailedInfo> = new Map();
+export type DetailedInfoKey = keyof typeof DetailedInfoKeys;
+
+export const DetailedInfoKeysMap: Map<DetailedInfoKey, DetailedInfo> = new Map();
 DetailedInfoKeysMap.set(DetailedInfoKeys.DEFAULT_INFO, DefaultInfo);
 DetailedInfoKeysMap.set(
   DetailedInfoKeys.NO_INFO,

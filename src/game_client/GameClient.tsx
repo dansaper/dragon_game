@@ -1,10 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { ClientState, getEmptyClientState } from "./ClientState";
-import { GameEvent, GameEventTypes, SetProgressionFlagEvent } from "../common/GameEvents";
+import { GameEvent } from "../common/GameEvents";
 import { GameState, getEmptyModel } from "../common/GameState";
 import { GamePane } from "./components/GamePane";
-import { resolveNeededProgressionFlags } from "./ProgressionFlagResolver";
 import { ClientEvent } from "./client_events/ClientEvents";
 import { ClientStateUpdater } from "./ClientStateUpdater";
 
@@ -30,9 +29,8 @@ class GameClientClass {
   }
 
   public sendGameEvents(events: GameEvent[]) {
-    const eventsWithProgress = this.addProgressionFlagEvents(this.gameState, events);
     if (this.sendEventsToWorker) {
-      this.sendEventsToWorker(eventsWithProgress);
+      this.sendEventsToWorker(events);
     } else {
       throw new Error("Game Event before initialization");
     }
@@ -63,19 +61,6 @@ class GameClientClass {
       <GamePane gameState={this.gameState} clientState={this.clientState} />,
       document.getElementById("game")
     );
-  }
-
-  private addProgressionFlagEvents(state: GameState, events: GameEvent[]): GameEvent[] {
-    const neededFlags = resolveNeededProgressionFlags(events, state.flags);
-    const newEvents = [...neededFlags].map((flag) => {
-      const newFlag: SetProgressionFlagEvent = {
-        eventType: GameEventTypes.SET_PROGRESSION_FLAG,
-        flag: flag,
-      };
-      return newFlag;
-    });
-
-    return [...events, ...newEvents];
   }
 }
 

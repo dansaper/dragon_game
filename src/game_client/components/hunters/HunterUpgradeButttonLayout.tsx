@@ -1,6 +1,6 @@
-import { Upgrades } from "../../../common/Upgrades";
+import { Upgrade, Upgrades } from "../../../common/Upgrades";
 
-export const HunterUpgradeButtonLayout: Map<Upgrades, { x: number; y: number }> = new Map();
+export const HunterUpgradeButtonLayout: Map<Upgrade, { x: number; y: number }> = new Map();
 const buttons = HunterUpgradeButtonLayout;
 const p = (x: number, y: number) => {
   return { x, y };

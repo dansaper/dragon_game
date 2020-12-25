@@ -1,5 +1,5 @@
 import { GameEvent } from "./GameEvents";
 import { GameState } from "./GameState";
 
-export type messageToWorker = GameEvent[] | "toggle_pause";
-export type messageFromWorker = GameState;
+export type MessageToWorker = GameEvent[] | "toggle_pause" | "set_debug_state";
+export type MessageFromWorker = GameState;

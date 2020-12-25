@@ -1,9 +1,9 @@
-import { messageFromWorker, messageToWorker } from "../common/WorkerTypes";
+import { MessageFromWorker, MessageToWorker } from "../common/WorkerTypes";
 import { GameClient } from "./GameClient";
 
 export interface GameWorkerClientInterface extends Worker {
-  postMessage: (ev: messageToWorker) => void;
-  onmessage: (ev: MessageEvent<messageFromWorker>) => void;
+  postMessage: (ev: MessageToWorker) => void;
+  onmessage: (ev: MessageEvent<MessageFromWorker>) => void;
 }
 
 const worker = new Worker("./dist/worker_bundle.js") as GameWorkerClientInterface;

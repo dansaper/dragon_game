@@ -1,11 +1,11 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../DetailedInfo";
+import { DetailedInfoKey } from "../DetailedInfo";
 import { DetailedInfoPanelContent } from "./DetailedInfoPanelContent";
 
 interface DetailedInfoPanelWrapperProps {
   isPanelOpen: boolean;
   togglePanel: () => void;
-  info?: DetailedInfoKeys;
+  info?: DetailedInfoKey;
 }
 
 export const DetailedInfoPanelWrapper: React.FunctionComponent<DetailedInfoPanelWrapperProps> = (

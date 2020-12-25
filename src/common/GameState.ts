@@ -1,15 +1,11 @@
+import { GameProgressionFlag } from "./GameProgressionFlags";
 import { ResourceTypes } from "./Resources";
-import { Upgrades } from "./Upgrades";
-
-export enum GameProgressionFlags {
-  BABY_WYVERN_LEATHER_UNLOCKED = "BABY_WYVERN_LEATHER_UNLOCKED",
-  PLAINS_HUNTER_UNLOCKED = "PLAINS_HUNTER_UNLOCKED",
-}
+import { Upgrade } from "./Upgrades";
 
 export interface GameState {
   resources: Map<ResourceTypes, number>;
-  flags: Set<GameProgressionFlags>;
-  upgrades: Set<Upgrades>;
+  flags: Set<GameProgressionFlag>;
+  upgrades: Set<Upgrade>;
 }
 
 export const getEmptyModel: () => GameState = () => ({

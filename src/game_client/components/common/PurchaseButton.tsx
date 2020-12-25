@@ -1,38 +1,49 @@
 import * as React from "react";
 import { GameState } from "../../../common/GameState";
-import {
-  PurchaseButtonDefinitions,
-  PurchaseButtonGameElements,
-} from "../../client_elements/PurchaseButtonDefinitionLibrary";
+import { Purchase } from "../../../common/Purchases";
+import { GameEventTypes } from "../../../common/GameEvents";
+import { ClientPurchaseDefinitionsMap } from "../../client_elements/ClientPurchaseButtonDefinitionsMap";
+import { PurchaseDefinitionsMap } from "../../../common/PurchaseDefinitionsMap";
+import { canBuyPurchase } from "../PurchaseUtils";
 import { GameClient } from "../../GameClient";
 import { ResourceList } from "../ResourceList";
 import { ButtonWithInfo } from "./ButtonWithInfo";
 
 interface PurchaseButtonProps {
-  button: PurchaseButtonGameElements;
+  purchase: Purchase;
   gameState: GameState;
 }
 
 export const PurchaseButton: React.FunctionComponent<PurchaseButtonProps> = (props) => {
   const cachedProps = React.useMemo(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const buttonDef = PurchaseButtonDefinitions.get(props.button)!;
+    const purchaseDef = PurchaseDefinitionsMap.get(props.purchase);
+    const clientDef = ClientPurchaseDefinitionsMap.get(props.purchase);
+
+    if (!purchaseDef || !clientDef) {
+      throw new Error(`Unable to load definitions for purchase button: ${props.purchase}`);
+    }
 
     return {
-      isVisible: () => buttonDef.isVisible(props.gameState),
-      isDisabled: () => !buttonDef.isPurchaseable(props.gameState),
-      onClick: () => GameClient.sendGameEvents(buttonDef.purchase(props.gameState)),
+      isVisible: () => clientDef.isVisible(props.gameState),
+      isDisabled: () => !canBuyPurchase(props.gameState, purchaseDef),
+      onClick: () =>
+        GameClient.sendGameEvents([
+          {
+            eventType: GameEventTypes.PURCHASE,
+            purchase: props.purchase,
+          },
+        ]),
       renderContent: () => {
         return (
           <div className="purchase-button-cost">
-            <ResourceList resources={buttonDef.getCost(props.gameState)} />
+            <ResourceList resources={purchaseDef.getCost(props.gameState)} />
           </div>
         );
       },
-      title: buttonDef.title,
-      infoKey: buttonDef.infoKey,
+      title: clientDef.title,
+      infoKey: clientDef.infoKey,
     };
-  }, [props.button, props.gameState]);
+  }, [props.purchase, props.gameState]);
 
   return <ButtonWithInfo {...cachedProps}></ButtonWithInfo>;
 };

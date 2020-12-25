@@ -1,7 +1,9 @@
 import * as React from "react";
+import { checkGameEventPrerequisites } from "../../../common/GameEventPrerequisites";
 import { GameState } from "../../../common/GameState";
-import { Upgrades } from "../../../common/Upgrades";
-import { HunterUpgradeDefinitions } from "../../client_elements/HunterUpgradeLibrary";
+import { UpgradeDefinitionsMap } from "../../../common/UpgradeDefinitionsMap";
+import { Upgrade, UpgradeCategoriesMap, UpgradeCategory } from "../../../common/Upgrades";
+import { UpgradeDefinition } from "../../../common/upgrade_definitions/UpgradeDefinition";
 import { ViewPort } from "../common/ViewPort";
 import { HunterUpgradeButtonLayout } from "./HunterUpgradeButttonLayout";
 import { HunterUpgradeDisplayButton } from "./HunterUpgradeDisplayButton";
@@ -19,31 +21,58 @@ const BUTTON_HEIGHT = 78;
 
 interface HunterUpgradeCanvasProps {
   gameState: GameState;
-  upgrades: Upgrades[];
-  onClick: (upgrade: Upgrades) => void;
+  category: UpgradeCategory;
+  onClick: (upgrade: Upgrade) => void;
 }
 
+interface AugmentedUpgrade {
+  upgrade: Upgrade;
+  definition: UpgradeDefinition;
+  parentUpgrades: Upgrade[];
+}
+
+/**
+ * Preprocessed list of upgrades for each category
+ */
+const UpgradesWithReleventParents = new Map<UpgradeCategory, AugmentedUpgrade[]>();
+UpgradeCategoriesMap.forEach((upgradesInCategory, category) => {
+  const augmentedUpgrades = [...upgradesInCategory]
+    .map((upgrade) => {
+      const upgradeDefinition = UpgradeDefinitionsMap.get(upgrade);
+      if (!upgradeDefinition) {
+        return;
+      }
+
+      const relevantParents =
+        upgradeDefinition.prerequisites?.upgrades?.filter((parent) =>
+          upgradesInCategory.has(parent)
+        ) || [];
+
+      return {
+        upgrade: upgrade,
+        definition: upgradeDefinition,
+        parentUpgrades: relevantParents,
+      };
+    })
+    .filter((augmentedUpgrade) => !!augmentedUpgrade) as AugmentedUpgrade[];
+
+  UpgradesWithReleventParents.set(category, augmentedUpgrades);
+});
+
 const generateLines = (
-  gameState: GameState,
-  upgrades: Upgrades[]
+  upgrades: AugmentedUpgrade[]
 ): ReadonlyArray<{
   from: { x: number; y: number };
   to: { x: number; y: number };
 }> => {
   const lines = [];
-  for (const upgrade of upgrades) {
+  for (const { upgrade, parentUpgrades } of upgrades) {
     const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade);
     if (upgradeLocation === undefined) {
       continue;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const upgradeDefinition = HunterUpgradeDefinitions.get(upgrade)!;
-    if (!upgradeDefinition.isVisible(gameState)) {
-      continue;
-    }
-
-    for (const parent of upgradeDefinition.parents) {
+    for (const parent of parentUpgrades) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const parentLocation = HunterUpgradeButtonLayout.get(parent)!;
       lines.push({
@@ -63,11 +92,21 @@ const generateLines = (
 };
 
 export const HunterUpgradeTreeView: React.FunctionComponent<HunterUpgradeCanvasProps> = (props) => {
-  const lines = React.useMemo(() => {
-    return generateLines(props.gameState, props.upgrades);
-  }, [props.gameState, props.upgrades]);
+  const visibleUpgrades = React.useMemo(() => {
+    return (
+      UpgradesWithReleventParents.get(props.category)?.filter(({ definition }) => {
+        return definition.prerequisites
+          ? checkGameEventPrerequisites(props.gameState, definition.prerequisites).valid
+          : true;
+      }) ?? []
+    );
+  }, [props.gameState, props.category]);
 
-  const getUpgradeButton = (upgrade: Upgrades) => {
+  const lines = React.useMemo(() => {
+    return generateLines(visibleUpgrades);
+  }, [visibleUpgrades]);
+
+  const getUpgradeButton = (upgrade: Upgrade) => {
     const upgradeLocation = HunterUpgradeButtonLayout.get(upgrade);
     if (upgradeLocation === undefined) {
       return null;
@@ -111,7 +150,9 @@ export const HunterUpgradeTreeView: React.FunctionComponent<HunterUpgradeCanvasP
               />
             ))}
           </svg>
-          <div className="hunter-upgrade-tree-buttons">{props.upgrades.map(getUpgradeButton)}</div>
+          <div className="hunter-upgrade-tree-buttons">
+            {visibleUpgrades.map((augmented) => augmented.upgrade).map(getUpgradeButton)}
+          </div>
         </div>
       </ViewPort>
     </div>

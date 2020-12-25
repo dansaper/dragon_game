@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailedInfoKeys } from "../../DetailedInfo";
+import { DetailedInfoKey } from "../../DetailedInfo";
 import { HoveringInfoButton } from "./HoveringInfoButton";
 
 interface ButtonWithInfoProps {
@@ -7,7 +7,7 @@ interface ButtonWithInfoProps {
   isVisible: () => boolean;
   isDisabled: () => boolean;
   title: string;
-  infoKey?: DetailedInfoKeys;
+  infoKey?: DetailedInfoKey;
   renderContent?: () => JSX.Element;
   disabledInfoButtonOnDisable?: boolean;
 }

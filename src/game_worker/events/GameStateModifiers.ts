@@ -1,14 +1,18 @@
-import { GameProgressionFlags, GameState } from "../../common/GameState";
+import { GameProgressionFlag } from "../../common/GameProgressionFlags";
+import { GameState } from "../../common/GameState";
 import { ResourceTypes } from "../../common/Resources";
-import { Upgrades } from "../../common/Upgrades";
+import { Upgrade } from "../../common/Upgrades";
 
-export const setResource = (
+export const modifyResources = (
   state: GameState,
-  resourceTypes: ResourceTypes,
-  amount: number
+  modifications: Map<ResourceTypes, number>
 ): GameState => {
   const newResources = new Map(state.resources);
-  newResources.set(resourceTypes, amount);
+  modifications.forEach((amount, resourceType) => {
+    const previousAmount = newResources.get(resourceType) ?? 0;
+    newResources.set(resourceType, previousAmount + amount);
+  });
+
   return {
     ...state,
     resources: newResources,
@@ -17,7 +21,7 @@ export const setResource = (
 
 export const setProgressionFlag = (
   state: GameState,
-  flag: GameProgressionFlags,
+  flag: GameProgressionFlag,
   value: boolean
 ): GameState => {
   const newFlags = new Set(state.flags);
@@ -32,7 +36,7 @@ export const setProgressionFlag = (
   };
 };
 
-export const setUpgrade = (state: GameState, upgrade: Upgrades, value: boolean): GameState => {
+export const setUpgrade = (state: GameState, upgrade: Upgrade, value: boolean): GameState => {
   const newUpgrades = new Set(state.upgrades);
   if (value) {
     newUpgrades.add(upgrade);

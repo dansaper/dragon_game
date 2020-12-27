@@ -38,7 +38,13 @@ ctx.onmessage = (ev) => {
 
   const events = ev.data;
 
+  performance.mark("WorkerMessageRecieved");
   currentState = worker.handleEvents(currentState, events);
+  performance.mark("WorkerMessagePosting");
+  performance.measure("WorkerMessageTime", "WorkerMessageRecieved", "WorkerMessagePosting");
+  performance.clearMarks("WorkerMessageRecieved");
+  performance.clearMarks("WorkerMessagePosting");
+  performance.clearMeasures("WorkerMessageTime");
   ctx.postMessage(currentState);
 };
 
@@ -51,7 +57,13 @@ function startTicking(time: number) {
       return;
     }
 
+    performance.mark("WorkerTickStarting");
     currentState = worker.tick(currentState);
+    performance.mark("WorkerTickPosting");
+    performance.measure("WorkerTickTime", "WorkerTickStarting", "WorkerTickPosting");
+    performance.clearMarks("WorkerTickStarting");
+    performance.clearMarks("WorkerTickPosting");
+    performance.clearMeasures("WorkerTickTime");
     ctx.postMessage(currentState);
   }, time);
 }
